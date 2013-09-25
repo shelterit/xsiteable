@@ -21,7 +21,7 @@
     xs_Core::$glob->log->add ( 'Included local classes' ) ;
 
     // We also need SimplePie
-    require_once ( 'application/classes/simplepie/autoloader.php' ) ;
+    require_once ( 'lib/simplepie/autoloader.php' ) ;
     
     /*
      *
