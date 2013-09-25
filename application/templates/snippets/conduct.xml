@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+    <div class="ui-widget" style="margin-right:25px;">
+	<div class="ui-state-normal ui-corner-all" style="margin-top: 20px; padding: .4em 1em;background-color:#fec !important;">
+		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .5em;"></span>
+		<strong>Note!</strong> The content you are posting should comply with
+        <a href="{$dir/home}/browse/Policies+and+Procedures/Planning+and+Leadership" style="text-decoration:underline !important;color:#49f;">
+                                    the Code of Conduct and Values
+        </a>.</p>
+	</div>
+    </div>    
+    
+</nut:template>

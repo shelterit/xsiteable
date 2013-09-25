@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template 
+    xmlns:nut="http://schema.shelter.nu/nut"
+    xmlns:form="http://schema.shelter.nu/nut-form"
+    xmlns:f="http://schema.shelter.nu/nut-formy"
+    xmlns:tm="http://schema.shelter.nu/tm"
+>
+
+    <nut:plugins event="XS_GUI_SECTION" />
+
+    <nut:import template="global/breadcrumbs" />
+
+    <div id="columns" class="generic-content">
+
+        <ul id="column0" class="column">
+           <nut:plugins event="XS_GUI_SECTION0" />
+        </ul>
+
+        <ul id="column1" class="column">
+            <li style="margin-left:35px;">
+            <nut:for-each select="xs_news/*">
+
+                <div class="newsitem" style="width:auto;">
+                    <h1><nut:value-of select="$item/label" /></h1>
+
+                    <nut:plugins event="XS_GUI_SECTION_PAGE_FUNCTIONALITY" />
+                    
+                    <div id="dialog-confirm-{$item/id}" title="Delete this item?" style="display:none;">
+                        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>This item will be permanently deleted and cannot be recovered. Are you sure?</p>
+                    </div>
+                    
+                    <p class="pub">
+                        published <nut:date select="{$item/m_p_date}" />
+                        by <nut:import template="snippets/who" />
+                        <nut:if value-of="$item/m_u_who" unlike="">
+                            (last updated by <nut:import template="snippets/whom" /> <nut:date select="{$item/m_u_date}" />)
+                        </nut:if>
+
+                    </p>
+                    <p class="pubshort" style="margin:10px 0;"><nut:copy-of select="$item/pub_short" /></p>
+                    <p class="pubfull" style="margin:20px 0;"><nut:copy-of select="$item/pub_full" /> </p>
+
+                </div>
+                   
+                <nut:import template="snippets/comments" />
+
+                <div style="text-align:left;padding:40px 0;">
+                    <input id="cancel" type="button" value="Back to news" onclick="location.href='{$dir/referer}';" style="padding:5px 13px;" />
+                </div>
+          
+             </nut:for-each>
+             </li>
+
+        </ul>
+
+       <ul id="column2" class="column">
+            <nut:plugins event="XS_GUI_SECTION2" />
+            <nut:for-each select="xs_news/*">
+                <nut:import template="snippets/tags/generic_tag_control" />
+            </nut:for-each>
+        </ul>
+
+        <ul id="column3" class="column">
+           <nut:plugins event="XS_GUI_SECTION3" />
+        </ul>
+
+        <ul id="column4" class="column">
+           <nut:plugins event="XS_GUI_SECTION4" />
+        </ul>
+        
+    </div>
+    
+    <style>
+        #column1 { width:80% !important;
+            min-height: 10px !important; height: auto !important;height:10px;
+        }
+        #column2 { width:19% !important; }
+        #column3 { width:0 !important; }
+    </style>
+
+</nut:template>

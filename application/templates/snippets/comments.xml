@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+    <ul class="comments">
+
+    <div class="ui-widget" style="margin-right:25px;">
+	<div class="ui-state-highlight ui-corner-all" style="padding: .4em 1em;">
+            
+        <h3>Comments</h3>
+
+        <nut:for-each select="xs_comments/*">
+            <li>
+                <a name="comment-{$item/id}"> </a>
+                <div class="comment-left">
+                    <nut:import template="snippets/who" />
+                    <br/> <span><nut:date select="{$item/m_p_date}" /></span>
+                </div>
+                <div class="comment-middle"><nut:copy-of select="$item/value" /></div>
+                <div class="comment-right"><nut:position />.</div>
+            </li>
+        </nut:for-each>
+
+        <nut:if allowed="generic:comments" default="allow">
+           <li style="text-align:left;border-top:dotted 1px #ccc;padding-top:20px;padding-left:50px;margin-top:20px;clear:both;width:auto;">
+
+                <nut:import template="snippets/conduct" />
+
+                <form action="{$dir/home}/_api/module/comments" method="post">
+                    <textarea name="comment" title="Add comment here" style="border:solid 1px #aaa;width:90%;height:80px;"></textarea>
+                    <input type="hidden" name="_redirect" value="{$request/q}" />
+                    <input type="hidden" name="topic" value="{$item/id}" />
+                    <input type="hidden" name="user_id" value="{$user/id}" /> <br />
+                    <input type="submit" value="Add comment" />
+                </form>
+           </li>
+        </nut:if>
+</div>
+</div>
+        
+   </ul>
+
+
+</nut:template>

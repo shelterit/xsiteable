@@ -1,0 +1,575 @@
+/* 
+  style.css contains a reset, font normalization and some base styles.
+  
+  credit is left where credit is due.
+  additionally, much inspiration was taken from these projects:
+    yui.yahooapis.com/2.8.1/build/base/base.css
+    camendesign.com/design/
+    praegnanz.de/weblog/htmlcssjs-kickstart
+*/
+
+/* 
+  html5doctor.com Reset Stylesheet (Eric Meyer's Reset Reloaded + HTML5 baseline)
+  v1.4 2009-07-27 | Authors: Eric Meyer & Richard Clark
+  html5doctor.com/html-5-reset-stylesheet/
+*/
+
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i,
+/*dl, dt, dd, ol, ul, li,*/
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, figure, footer, header, 
+hgroup, menu, nav, section, menu,
+time, mark, audio, video {
+  margin:0;
+  padding:0;
+  border:0;
+  outline:0;
+  font-size:100%;
+  vertical-align:baseline;
+  background:transparent;
+}      
+
+table {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #888;
+	border-collapse: collapse;
+        margin:16px 0;
+}
+table th {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #888;
+	background-color: #dedede;
+}
+table td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #888;
+	background-color: #ffffff;
+}
+
+
+
+.generic-content table
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 0.9em;
+	margin: 15px;
+	border-collapse: collapse;
+	border-top: 7px solid #9baff1;
+	border-bottom: 7px solid #9baff1;
+}
+.generic-content table th
+{
+	font-size: 13px;
+	font-weight: normal;
+	padding: 8px;
+	background: #e8edff;
+	border-right: 1px solid #9baff1;
+	border-left: 1px solid #9baff1;
+	color: #039;
+}
+.generic-content table td
+{
+	padding: 8px;
+	background: #e8edff; 
+	border-right: 1px solid #aabcfe;
+	border-left: 1px solid #aabcfe;
+	border-color: #aabcfe;
+	color: #669;
+}
+
+
+
+
+
+
+
+article, aside, figure, footer, header, 
+hgroup, nav, section { display:block; }
+
+nav ul { list-style:none; }
+
+blockquote, q { quotes:none; }
+
+blockquote:before, blockquote:after,
+q:before, q:after { content:''; content:none; }
+
+a { margin:0; padding:0; font-size:100%; vertical-align:baseline; background:transparent; }
+
+ins { background-color:#ff9; color:#000; text-decoration:none; }
+
+mark { background-color:#ff9; color:#000; font-style:italic; font-weight:bold; }
+
+del { text-decoration: line-through; }
+
+abbr[title], dfn[title] { border-bottom:1px dotted #000; cursor:help; }
+
+
+#frontpage, #frontpage td, #frontpage tr { border-collapse:collapse; border-spacing:0;border:none; }
+
+hr { display:block; height:1px; border:0; border-top:1px solid #ccc; margin:1em 0; padding:0; }
+
+input, select { vertical-align:middle; }
+
+/* END RESET CSS */
+.no-border, .invisible-table { border:0;margin:0;padding:0; }
+
+
+/*
+fonts.css from the YUI Library: developer.yahoo.com/yui/
+          Please refer to developer.yahoo.com/yui/fonts/ for font sizing percentages
+
+There are three custom edits:
+ * remove arial, helvetica from explicit font stack
+ * make the line-height relative and unit-less
+ * remove the pre, code styles
+*/
+body { font:1em sans-serif; *font-size:small; *font:x-small; line-height:1.22; }
+
+table { font-size:inherit; font:100%; }
+
+select, input, textarea { font:99% sans-serif; }
+
+
+/* normalize monospace sizing 
+ * en.wikipedia.org/wiki/MediaWiki_talk:Common.css/Archive_11#Teletype_style_fix_for_Chrome
+ */
+pre, code, kbd, samp { font-family: monospace, sans-serif; }
+ 
+
+
+/* 
+ * minimal base styles 
+ */
+
+
+/* #444 looks better than black: twitter.com/H_FJ/statuses/11800719859 */ 
+body, select, input, textarea { color:#444; }
+
+/* Headers (h1,h2,etc) have no default font-size or margin,
+   you'll want to define those yourself. */ 
+ 
+/* www.aestheticallyloyal.com/public/optimize-legibility/ */ 
+h1,h2,h3,h4,h5,h6 { font-weight: bold; text-rendering: optimizeLegibility; }
+
+/* maxvoltar.com/archive/-webkit-font-smoothing */
+html { -webkit-font-smoothing: antialiased; }
+
+ 
+/* Accessible focus treatment: people.opera.com/patrickl/experiments/keyboard/test */
+a:hover, a:active { outline: none; }
+
+a, a:active, a:visited { color:#607890; }
+a:hover { color:#036; }
+
+
+ul { margin-left:18px; }
+ol { margin-left:18px; }
+
+small { font-size:85%; }
+strong, th { font-weight: bold; }
+
+td, td img { vertical-align:top; } 
+p,h1,h2,h3,h4,h5,h6 { padding:0;margin:0.4em 0;font: 500 18px/24px "freight-sans-pro", Helvetica, Arial, Sans-Serif; }
+
+ul, ol { margin:0.9em 0;margin-left:0.4em; }
+h1,h2,h3,h4,h5,h6 { color:#234;text-transform:capitalize;font-weight:bold;margin-top:0.9em; }
+h1 { font-size:1.5em; }
+h2 { font-size:1.3em;font-weight:bold; }
+h3 { font-size:1.2em;font-weight:bold; }
+h4 { font-size:1.1em;font-weight:bold; }
+h5 { font-size:0.9em;font-weight:bold; }
+h6 { font-size:0.8em;font-weight:bold; }
+
+.xs-content li { margin-left:8px;padding-right:5px; font-size:0.83em; }
+.xs-content ul, .xs-content ol { margin:0; }
+
+sub { vertical-align: sub; font-size: smaller; }
+sup { vertical-align: super; font-size: smaller; }
+
+/* align checkboxes, radios, text inputs with their label
+   by: Thierry Koblentz tjkdesign.com/ez-css/css/base.css  */
+input[type="radio"] { vertical-align: text-bottom; }
+input[type="checkbox"] { vertical-align: bottom; vertical-align: baseline; }
+.ie6 input { vertical-align: text-bottom; }
+
+/* hand cursor on clickable input elements */
+label, input[type=button], input[type=submit], button { cursor: pointer; }
+
+
+/* These selection declarations have to be separate.
+   No text-shadow: twitter.com/miketaylr/status/12228805301 
+   Also: hot pink. */
+::-moz-selection{ background: #FF5E99; color:#fff; text-shadow: none; }
+::selection { background:#FF5E99; color:#fff; text-shadow: none; } 
+
+/*  j.mp/webkit-tap-highlight-color */
+a:link { -webkit-tap-highlight-color: #FF5E99; } 
+
+
+/* always force a scrollbar in non-IE */
+html { overflow-y: scroll; }
+
+/* make buttons play nice in IE:    
+   www.viget.com/inspire/styling-the-button-element-in-internet-explorer/ */
+button {  width: auto; overflow: visible; }
+ 
+/* bicubic resizing for non-native sized IMG: 
+   code.flickr.com/blog/2008/11/12/on-ui-quality-the-little-things-client-side-image-resizing/ */
+.ie7 img { -ms-interpolation-mode: bicubic; }
+
+
+
+/* 
+ * Non-semantic helper classes 
+ */
+
+/* for image replacement */
+.ir { display:block; text-indent:-999em; overflow:hidden; background-repeat: no-repeat; }
+
+/* Hide for both screenreaders and browsers
+   css-discuss.incutio.com/wiki/Screenreader_Visibility */
+.hidden { display:none; visibility:hidden; } 
+
+/* Hide only visually, but have it available for screenreaders 
+   www.webaim.org/techniques/css/invisiblecontent/ 
+   Solution from: j.mp/visuallyhidden - Thanks Jonathan Neal! */
+.visuallyhidden { position:absolute !important;    
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px); }
+
+/* Hide visually and from screenreaders, but maintain layout */
+.invisible { visibility: hidden; }
+
+/* >> The Magnificent CLEARFIX << */
+.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+.clearfix { display: inline-block; }
+* html .clearfix { height: 1%; } /* Hides from IE-mac \*/
+.clearfix { display: block; }
+
+
+
+/* Debugging styles */
+
+#debuglog { background-color:#eef;color:#111;border:solid 1px #999;padding:10px;margin:10px;display:none; }
+.xs-debugger-button { color:red;background-color:#ccc;font-weight:bold;padding:3px 8px; border:solid 2px #999; }
+#debugi { display:none; }
+
+
+
+
+
+/* 
+ * print styles
+ * inlined to avoid required HTTP connection www.phpied.com/delay-loading-your-print-css/ 
+ */
+@media print {
+  * { background: transparent !important; color: #444 !important; text-shadow: none; }
+
+  a, a:visited { color: #444 !important; text-decoration: underline; }
+
+  a:after { content: " (" attr(href) ")"; } 
+
+  abbr:after { content: " (" attr(title) ")"; }
+  
+  .ir a:after { content: ""; }  /* Don't show links for images */
+  
+  pre, blockquote { border: 1px solid #999; page-break-inside: avoid; }
+  
+  img { page-break-inside: avoid; }
+
+  @page { margin: 0.5cm; }
+
+  p, h2, h3 { orphans: 3; widows: 3; }
+
+  h2, h3{ page-break-after: avoid; }
+}
+
+
+  /* Prevent iOS, WinMobile from adjusting font size */
+  html { -webkit-text-size-adjust:none; -ms-text-size-adjust:none; } 
+
+
+
+
+
+
+
+
+/* Reset */
+body,img,p { font-size:0.9em; }
+/* End Reset */
+
+/* body {font-size:0.76em; font-family:Arial,Verdana,Sans-Serif;} */
+
+.colors { height:100px; clear:both;  }
+.color-select { border:solid 4px orange !important; }
+
+/* Colors */
+.color-yellow {background:#f2bc00;}
+.color-red    {background:#dd0000;}
+.color-blue   {background:#5c9ccc;}
+.color-white  {background:#dfdfdf;}
+.color-orange {background:#f66e00;}
+.color-green  {background:#8dc100;}
+.color-grey  {background:gray;}
+.color-burgundy  {background:#9E0508;}
+.color-cyan  {background:cyan;}
+.color-pink {background-color:pink;}
+.color-trans {background-color:#fff !important;border:none;}
+.color-trans .widget-content,
+.color-trans .widget-content div,
+.color-trans .widget-content div div,
+.color-trans .widget-content div div p 
+   { margin:0 !important;padding:0 !important;background-color:#fff !important;border:none; }
+.color-yellow h3,
+.color-white h3,
+.color-green h3
+	{color:#000;}
+.color-red h3,
+.color-burgundy h3,
+.color-blue h3,
+.color-grey h3,
+.color-orange h3
+	{color:#FFF;}
+/* End Colors */
+
+#admin-wrapper { background-color:#f66e00;padding:2px 10px;border-right:solid 1px #222;border-left:solid 1px #222; }
+#admin-wrapper a:link, #admin-wrapper a:visited, #admin-wrapper a:active, #admin-wrapper a:hover {
+    text-decoration:none;color:white;padding:3px 0;margin-right:15px; }
+#admin-wrapper a:hover {
+    text-decoration:underline; }
+
+#admin-page, #admin-widgets, #admin-access { display:none;border:dotted 1px #cde;background-color:white;padding:2px 6px;margin:0;margin-bottom:10px; }
+#admin-accessz { display:block; }
+#admin-page h1, #admin-widgets h1, #admin-access h1 { margin:12px 0 6px 0;border-bottom:solid 1px #ccc; }
+#admin-page p, #admin-widgets p, #admin-access p { margin:6px 0; }
+
+#sortable-widgets { list-style-type:none; margin:0; padding:15px 10px;height:auto; }
+#sortable-widgets .widget-admin { margin:0 3px 5px 3px;padding:4px 6px;font-size:0.76em;width:70px;height:30px;float:left;text-align:center;line-height:0.9em;vertical-align:middle; }
+#sortable-widgets .widget-admin h3 { margin:0;padding:0;font-size:0.76em;line-height:1em; }
+
+.widget-admin-cat { margin:0 3px 5px 3px;padding:4px 6px;font-size:0.7em;float:left;text-align:center;line-height:0.9em;
+                    width:42px;height:24px;color:#555;font-style:bold;background-color:#fff;
+                    vertical-align:middle;text-align:center;border:solid 3px #ddf;
+}
+
+#columns { margin:0 10px;width:inherit;padding:0; }
+
+/* Columns section */
+#columns .column {
+    margin:0;padding:0;float: left;width: 33%;
+    min-height: 100px;height: auto !important;
+    list-style:none;
+}
+#column0, #column4, #columnadmin { width:99.5% !important;clear:both !important;
+    min-height: 10px !important; height: auto !important;height:10px;
+}
+
+/*
+#columns #column1 .widget { margin: 20px 10px 0 25px; }
+#columns #column3 .widget { margin: 20px 25px 0 10px; }
+#columns #column0 .widget, #columns #columnadmin .widget, #columns #column4 .widget { margin: 20px 28px 0 24px; }
+*/
+
+#columns .widget {
+    margin: 10px 10px 21px 10px;
+    padding: 2px;
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+}
+#columns .widget .widget-head {
+    color: #000;
+    overflow: hidden;
+    width: 100%;
+    height: 30px;
+    /* line-height: 30px; */
+}
+#columns .widget .widget-head h3 {
+    padding: 0 5px;margin:0;font-size:0.9em;font-weight:normal;
+    float: left;
+}
+#columns .widget .widget-content {
+    /* background-color: #fff; */
+    padding: 9px 15px;
+    border-radius-bottom-left: 6px;
+    border-radius-bottom-right: 6px;
+    -moz-border-radius-bottom-left: 6px;
+    -moz-border-radius-bottom-right: 6px;
+    -webkit-border-bottom-left-radius: 6px;
+    -webkit-border-bottom-right-radius: 6px;
+    line-height: 1.2em;
+    overflow: hidden;
+}
+
+.widget-content { background-color:#f6f8f9; }
+
+#columns .widget .widget-content p {
+}
+#columns .widget .widget-content img {
+
+}
+#columns .widget .widget-content pre {
+    padding: 0.5em 5px;
+    color: #EEE;
+    font-size: 12px;
+}
+#columns .widget .widget-content ul {
+    padding: 5px 0 5px 20px;
+    list-style: disc;
+}
+#columns .widget .widget-content ul li {padding: 3px 0;}
+#columns .widget .widget-content ul.images {
+    padding: 7px 0 0 0;
+    list-style: none;
+    height: 1%;
+}
+#columns .widget .widget-content ul.images li {
+    display: inline;
+    float: left;
+}
+#columns .widget .widget-content ul.images img {
+    display: inline;
+    float: left;
+    margin: 0 0 7px 7px;
+}
+/* End Columns section */
+
+/* WIDGETS */
+
+ /* JS-Enabled CSS */
+
+.widget-head a.remove  {
+    float: right;
+    display: inline;
+    background: url('../images/win/buttons.gif') no-repeat -24px 0;
+    width: 14px;
+    height: 14px;
+    margin: 8px 4px 8px 0;
+    text-indent: -9999em;
+    outline: none;
+}
+
+.widget-head a.edit, .widget-head a.config, .widget-head a.technical  {
+    float: right;
+    display: inline;
+    font-size:9px !important;
+    text-decoration: none;
+    background-color:black;
+    color:white;
+    margin: 8px 4px;
+    vertical-align: middle;
+    padding:2px 2px 0 2px;
+    height:13px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    
+    /*
+    background: url(../images/win/buttons.gif) no-repeat -121px 0;
+    width: 54px;
+    height: 14px;
+    text-indent: -9999em;
+    margin: 8px 4px 8px 4px;
+    outline: none;
+    border:solid 1px yellow;
+    */
+}
+
+.widget-head a.collapse  {
+    float: left;
+    display: inline;
+    background: url(../images/win/buttons.gif) no-repeat -52px 0;
+    width: 14px;
+    height: 14px;
+    text-indent: -9999em;
+    margin: 8px 0 8px 4px;
+    outline: none;
+}
+
+.widget-settings, .widget-properties, .widget-technical {
+    overflow: hidden;
+    background: #333;
+    margin-bottom: 2px;
+    padding: 5px 3px;
+    display:none;
+    font-size:0.8em;
+}
+.widget-settings ul, .widget-properties ul, .widget-technical ul {
+    margin:0;padding:0;list-style-type:none;
+}
+.widget-properties {
+    background: #057;
+}
+.widget-settings li, .widget-properties li, .widget-technical li {
+    padding-top:4px;
+}
+.widget-settings li.item, .widget-properties li.item, .widget-technical li.item {
+    padding: 0;margin:0;
+    overflow: hidden;
+    float: left;
+    width: 100%;
+    clear: both;
+}
+
+.widget-settings label, .widget-properties label, .widget-technical label {
+    float: left;
+    width: 30%;
+    color: #FFF;
+    padding: 0 0 0 10px;
+}
+
+.widget-settings ul.colors li, .widget-properties ul.colors li, .widget-technical ul.colors li {
+    width: 20px;
+    height: 20px;
+    border: 4px solid #EEE;
+    float: left;
+    display: inline;
+    margin: 3px 8px 0 0;
+    cursor: pointer;
+}
+
+.dragging-guides { border-left:dotted 2px #999;border-bottom:dotted 2px #999;background-color:#ddf;height:100px;padding:10px;margin:20px 0;min-height: 40px !important }
+.widget-placeholder { border: 2px dashed #999;margin:2px;padding:5px;min-height:30px;background-color:#f7f8f9; }
+
+#column0 .widget-placeholder { margin: 30px 25px 25px 25px; }
+#column1 .widget-placeholder { margin: 30px 35px 25px 25px; }
+#column2 .widget-placeholder { margin: 30px 20px 25px 20px; }
+#column3 .widget-placeholder { margin: 30px 25px 25px 35px; }
+#column4 .widget-placeholder { margin: 30px 25px 25px 25px; }
+#column5 .widget-placeholder { margin: 30px 25px 25px 25px; }
+#column6 .widget-placeholder { margin: 30px 25px 25px 25px; }
+#column7 .widget-placeholder { margin: 30px 25px 25px 25px; }
+#column8 .widget-placeholder { margin: 30px 25px 25px 25px; }
+
+.widget-menu {
+    margin:0;padding:0;background-color:#777;color:white;
+}
+.widget-menu li { list-style:none;margin:0;padding:0;display:inline; }
+.widget-menu li a:link { text-decoration:none;padding:2px 5px;color:#ccc; }
+.selected { color:#222 !important; }
+
+.fiddle { margin:0;margin-top:0;padding:0;border-left:solid 1px #ccc;border-top:solid 1px #ccc; }
+.fiddle th { padding:1px 5px; border-right:solid 1px #ccc;border-bottom:solid 1px #ccc;background-color:#bbb;color:#333;font-size:11px; }
+.fiddle td { padding:1px 5px; border-right:solid 1px #ccc;border-bottom:solid 1px #ccc; }
+
+.form-list { margin:0;padding:0; }
+.form-list li { list-style:none;margin:0;margin-left:-20px;margin-top:-20px;padding:0;margin-top:3px; }
+
+#xs-saving { display:none;text-align:center;position:absolute;z-index:999999;width:120px;height:30px;margin:0;padding:10px;top:60px;background-color:yellow;color:black;font-size:1.3em; }
+
+
+

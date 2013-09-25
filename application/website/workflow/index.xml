@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+    <workflow name="add_item">
+
+        <action step="1">
+
+            <page template="generic/item">
+                <submit to="2" />
+                <cancel href="{$page_of_origin}" />
+            </page>
+
+        </action>
+
+        <reaction step="2">
+
+
+
+        </reaction>
+
+    </workflow>
+
+
+</nut:template>

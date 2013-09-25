@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+					
+	<style>
+	  table {
+	    border-spacing:0;
+	  }
+	  th {
+	    font-size:13px;
+	    padding:0;
+	    background:#FFFFFF;
+	    color:#000000;
+	  }
+	  td {
+	    font-size:11px;
+	  }
+	
+	  #login {
+	    margin-top:0;
+	    margin-bottom:50px;
+	    border:1px solid #aaa;
+	    font-size:12px;
+	  }
+	label {
+		width:auto;
+		float:none;
+		text-align:left;
+		margin-right:0;
+		display:inherit;
+	}
+	</style>
+	
+	<div style="text-align:center;padding:20px 90px;">
+	
+	<h3><nut:content name="login_text" default="en:Login to access extended functionality|no:Logg inn for utvidet funksjonalitet" /></h3>
+
+	<nut:switch>
+		<nut:case value-of="$user/authenticated" like="'true'">
+			<p>Hi, <nut:value-of select="$user/name" />. <a href="{$dir/home}/login?forget=true">[logout]</a></p>
+		</nut:case>
+		<nut:else>
+			<form style="margin:0;padding:0;" method="post" action="{$dir/home}/login">
+				
+				<input type="hidden" name="redirect" value="{$dir/home}/admin" />
+				
+				<table id="login" align="center" cellspacing="10" cellpadding="0" style="background: #C0C0C0 url('{$dir/static}/images/gradient.png') repeat-x;">
+				  <tr>
+				    <td rowspan="2">
+				     <img src="{$dir/static}/images/login.gif" alt="Login" /></td>
+				    <td align="right">
+				      <label for="username"><nut:content name="login_text_username" default="en:Username|no:Brukernavn" />:</label>
+				    </td>
+				    <td>
+				      <input name="username" id="username" size="15" maxlength="25" value="" tabindex="1" />
+				    </td>
+				  </tr>
+				  <tr>
+				    <td class="alignright">
+				      <label for="password"><nut:content name="login_text_password" default="en:Password|no:Passord" />:</label>
+				    </td>
+				    <td>
+				      <input name="password" id="password" type="password" size="15" maxlength="30" tabindex="2" />
+				    </td>
+				  </tr>
+				  <tr>
+				    <td colspan="4" class="aligncenter">
+				      <input type="submit" value="Login" tabindex="4" />
+				    </td>
+				  </tr>
+				</table>
+			</form>
+		</nut:else>
+	</nut:switch>
+
+	</div>
+	
+	<script type="text/javascript">			
+		mapSearchClose() ;
+	</script>
+			
+</nut:template>

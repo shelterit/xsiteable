@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:values xmlns:nut="http://schema.shelter.nu/nut-values">
+	
+	<config>xs_config</config>
+	<page>xs_page</page>
+	<file>xs_file</file>
+	<doc>xs_document</doc>
+	<content>xs_content</content>
+	<labels>xs_page_labels</labels>
+	<widgets>xs_widgets</widgets>
+	
+	<assoc>xs_assoc</assoc>
+	<topic>xs_topic</topic>
+        
+	<env>xs_environment</env>
+	<dir>xs_dir</dir>
+	<request>xs_request</request>
+	<rest>xs_breakdown</rest>
+	
+	<user>xs_user</user>
+	<profile>xs_profile</profile>
+	<users>xs_ux_users</users>
+	<persona>xs_ux_persona</persona>
+	
+	<tm>xs_topic_maps_results</tm>
+	<db>xs_db_result</db>
+	<schema>xs_db</schema>
+	<price>xs_db_prices</price>
+        
+        <access>xs_access</access>
+        <functionality>xs_functionality</functionality>
+	
+</nut:values>

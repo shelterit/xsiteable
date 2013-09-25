@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+    <nut:plugins event="XS_GUI_SECTIONS" />
+
+    <div id="columns">
+
+        <ul id="column0" class="column">
+            <nut:import template="../website/_tm/_menu" />
+            <nut:plugins event="XS_GUI_SECTION0" />
+        </ul>
+
+        <ul id="column1" class="column" style="padding:0 8px;">
+            <h3>Topics</h3>
+            <table>
+                <tr>
+                    <td>Find topics of type</td>
+                    <td><form action="{$dir/home}/_tm/_find/t/_type"><input style="width:60px;" name="_type" /><button>Find!</button></form></td>
+                </tr>
+                <tr>
+                    <td>Find topics with name like</td>
+                    <td><form action="{$dir/home}/_tm/_find/t/_name"><input style="width:60px;" name="_name" /><button>Find!</button></form></td>
+                </tr>
+                <tr>
+                    <td>Find topics with parent id</td>
+                    <td><form action="{$dir/home}/_tm/_find/t/_parent"><input style="width:60px;" name="_parent" /><button>Find!</button></form></td>
+                </tr>
+                <tr>
+                    <td>Find topics with property</td>
+                    <td><form action="{$dir/home}/_tm/_find/t/_property_type">
+                        of <b>type</b> <input style="width:60px;" name="_property_type" /><br />
+                        and/or <b>value</b> <input style="width:60px;" name="_property_value" /> <button>Find!</button>
+                    </form></td>
+                </tr>
+                <tr>
+                    <td>Find orphaned properties</td>
+                    <td><form action="{$dir/home}/_tm/_find/p/_0"><button>Find!</button></form></td>
+                </tr>
+                <tr>
+                    <td>List all identified types</td>
+                    <td><form action="{$dir/home}/_tm/_find/_types"><button>Find!</button></form></td>
+                </tr>
+            </table>
+           <nut:plugins event="XS_GUI_SECTION1" />
+        </ul>
+
+       <ul id="column2" class="column" style="padding:0 8px;">
+            <h3>Assocs</h3>
+            <table>
+                <tr>
+                    <td>Find associations with only one member</td>
+                    <td><form action="{$dir/home}/_tm/_find/a/m/_1"><button>Find!</button></form></td>
+                </tr>
+                <tr>
+                    <td>Find associations with no members</td>
+                    <td><form action="{$dir/home}/_tm/_find/a/m/_0"><button>Find!</button></form></td>
+                </tr>
+                <tr>
+                    <td>Find orphaned association members</td>
+                    <td><form action="{$dir/home}/_tm/_find/m/_0"><button>Find!</button></form></td>
+                </tr>
+            </table>
+           <nut:plugins event="XS_GUI_SECTION2" />
+        </ul>
+
+        <ul id="column3" class="column" style="padding:0 8px;">
+            <h3>Generic</h3>
+           <nut:plugins event="XS_GUI_SECTION3" />
+        </ul>
+
+        <ul id="column4" class="column">
+           <nut:plugins event="XS_GUI_SECTION4" />
+        </ul>
+        
+    </div>
+
+</nut:template>
+

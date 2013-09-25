@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+    <div id="login-box">
+        <div id="login-box-inner">
+            <form action="#" method="post">
+                <input name="f:xs-login-username" title="Username" /><br />
+                <input name="f:xs-login-password" title="Password" type="password" /><br />
+                <input name="form__login" type="submit" />
+            </form>
+        </div>
+    </div>
+
+    <div id="xsBarOuter" class="borderish">
+        <div id="xsBarInner">
+
+            <!-- First, chuck stuff (from plugins) into the left side -->
+            <nut:plugins event="XS_GUI_BAR" />
+
+            <!-- ... then the right side -->
+            <nut:plugins event="XS_GUI_BAR_END" />
+
+            <div style="float:right;padding:0;margin:0;margin-left:20px;">
+                <nut:for-each select="xs_users">
+                    <form action="{$dir/home}/{$request/q}">
+                        <input type="hidden" name="_auth" value="false" />
+                        <select name="_user" onchange="this.form.submit()">
+                            <nut:for-each select="*">
+                                <nut:if value-of="$user/username" like="$item/name()">
+                                    <option value="{$item/name()}" selected="selected">{$item/name}</option>
+                                </nut:if>
+                                <nut:if value-of="$user/username" unlike="$item/name()">
+                                    <option value="{$item/name()}">{$item/name}</option>
+                                </nut:if>
+                            </nut:for-each>
+                        </select>
+                    </form>
+                </nut:for-each>
+            </div>
+
+            <!--
+            <span>name[<nut:value-of select="$user/name" />]</span>
+            <span>username[<nut:value-of select="$user/username" />]</span>
+            <span>password[<nut:value-of select="$user/password" />]</span>
+            <span>auth[<nut:value-of select="$user/authenticated" />]</span>
+            -->
+
+            <div style="float:right;width:200px;">
+                <nut:case value-of="$user/authenticated" like="'1'">
+
+                    <span>Hi,
+                        <a href="{$dir/home}/profile"><nut:value-of select="$user/name" /></a>.
+                    </span>
+                    <nut:case value-of="$config/show-logout" like="'1'">
+                        <span><a href="{$dir/_this}?_auth=false">logout</a></span>
+                    </nut:case>
+                </nut:case>
+                <nut:case value-of="$user/authenticated" unlike="'1'">
+
+                    <a href="#" id="adm-ctrl-login">Login >></a>
+
+                </nut:case>
+            </div>
+
+            <nut:import template="global/issue-reporting" />
+
+            <nut:plugins event="XS_GUI_BAR_END" />
+
+        </div>
+
+    </div>
+
+</nut:template>

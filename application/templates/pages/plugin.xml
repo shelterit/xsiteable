@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+   <div class="xsSection borderish">
+      <nut:plugins event="XS_GUI_SECTION" />
+   </div>
+
+</nut:template>

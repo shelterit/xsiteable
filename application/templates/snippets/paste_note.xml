@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+    <div class="xs-msg" style="padding:10px;margin:20px 0 0 130px;border:solid 1px #999;background:#ddd;color:#666;font-style:italic;">
+        <div id="pastenote">
+            <b>Note:</b> if you are pasting in content from an email or document, <a href="#" onclick="$('#pastenotecontent').slideDown('fast');$('#pastenote').slideUp('fast');">read this note!</a>
+        </div>
+        <div id="pastenotecontent" style="display:none;">
+            <b>Note:</b> If you're pasting in content from somewhere else (like an email or document), note that there is
+            a lot of invisible formatting that often comes with the copy and paste process that will possibly prevent your content to be created properly (or at all), so make sure
+            you clean it before pasting it in. The easiest way is to open Notepad, paste your content into
+            it, and then mark and copy the text from Notepad and <b>then</b> copy it in here. This will
+            make sure the content is cleaned up, and from here you can format the text as you will.
+            <p><a href="#" onclick="$('#pastenotecontent').slideUp('fast');$('#pastenote').slideDown('fast');">Close note</a></p>
+        </div>
+    </div>
+</nut:template>

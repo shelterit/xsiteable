@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template 
+    xmlns:nut="http://schema.shelter.nu/nut"
+>
+
+           <nut:import template="global/breadcrumbs" />
+           
+<div class="content">
+
+    <nut:if value-of="$page/total" like="0">
+        <nut:if value-of="$request/searchquery" unlike="''">
+            <h2 style="font-size:25px;margin:25px 10px">No documents found</h2>
+            <p>Your search for <b>"<nut:value-of select="$request/searchquery" />"</b> did not match any documents.</p>
+            <p>Suggestions:
+            <ul id="suggestions">
+                <li>Make sure all words are spelled correctly.</li>
+                <li>Try different keywords.</li>
+                <li>Try more general keywords.</li>
+                <li>Try fewer keywords.</li>
+            </ul>
+            </p>
+            <form action="{$dir/home}/search" method="get">
+                <input maxlength="2048" name="searchquery" value="{$request/searchquery}" class="lst" size="30" style="background:#fff;border:1px solid #ccc;border-bottom-color:#999;border-right-color:#999;color:#000;font:18px arial,sans-serif bold;height:25px;margin:0;padding:5px 8px 0 6px;vertical-align:top" />
+                <input type="submit" value="Search our manuals" style="font:18px arial,sans-serif bold;height:32px;margin:0;padding:5px 8px 0 6px;margin-left:10px;" on.click="xs_search()" />
+            </form>
+        </nut:if>
+        <nut:if value-of="$request/searchquery" like="''">
+            <div style="text-align:center;">
+            <form action="{$dir/home}/search" method="get">
+                <img src="{$dir/static}/images/wc_large.jpg" alt="" width="300" style="padding-bottom:20px;padding-top:10px;" /><br />
+                <input maxlength="2048" name="searchquery" value="{$request/searchquery}" class="lst" size="30" style="background:#fff;border:1px solid #ccc;border-bottom-color:#999;border-right-color:#999;color:#000;font:18px arial,sans-serif bold;height:25px;margin:0;padding:5px 8px 0 6px;vertical-align:top" />
+                <input type="submit" value="Search our manuals" style="font:18px arial,sans-serif bold;height:32px;margin:0;padding:5px 8px 0 6px;margin-left:10px;" on.click="xs_search()" />
+            </form>
+            </div>
+        </nut:if>
+    </nut:if>
+    <nut:if value-of="$page/total" unlike="0">
+        <h2>{$page/total} documents found (in {$page/total_time} seconds) of {$page/total_docs} total documents</h2>
+
+        <ul class="item" style="padding:20px 0;">
+            <nut:for-each select="xs_result/*">
+                <li>
+                    <div class="title"><a href="{$dir/home}/documents/{$item/id}"><nut:value-of select="$item/title" /></a></div>
+                    <div class="description"><nut:copy-of select="$item/extract" /></div>
+                    <div class="extra"><nut:copy-of select="$item/url" /> (score=<nut:copy-of select="$item/score" />)</div>
+                </li>
+            </nut:for-each>
+        </ul>
+
+        <nut:import template="snippets/pagination" />
+
+        <form action="{$dir/home}/{$rest/concept}" method="get" style="margin-top:10px;">
+            <input maxlength="2048" name="searchquery" value="{$request/searchquery}" class="lst" size="30" style="background:#fff;border:1px solid #ccc;border-bottom-color:#999;border-right-color:#999;color:#000;font:18px arial,sans-serif bold;height:25px;margin:0;padding:5px 8px 0 6px;vertical-align:top" />
+            <input type="submit" value="Search our manuals" style="font:18px arial,sans-serif bold;height:32px;margin:0;padding:5px 8px 0 6px;margin-left:10px;" on.click="xs_search()" />
+        </form>
+
+
+    </nut:if>
+    </div>
+
+</nut:template>

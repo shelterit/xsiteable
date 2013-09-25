@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+       <nut:import template="global/breadcrumbs" />
+
+    <div id="columns">
+
+        <ul id="column1" class="column" style="min-width:30%;width:39%;">
+                    <div id="col1" style="margin:10px 20px;">
+                        <ul>
+                            <li><a href="#col1-1" style="font-size:1.1em !important;">Folder structure</a></li>
+                        </ul>
+                        <div id="col1-1" style="margin:0;padding:0;">
+                            <div style="margin:0;padding:10px 0;">
+                                <nut:tree select="xs_tree" path="documents" />
+                            </div>
+                        </div>
+                    </div>
+        </ul>
+        
+        <ul id="column2" class="column" style="min-width:30%;width:60%;">
+            <div id="col2" style="margin:10px 20px 0 0;">
+                <ul>
+                    <li><a href="#col2-1" style="font-size:1.1em !important;">Files</a></li>
+                    <nut:if allowed="document:control_tab" default="deny">
+                        <li><a href="#col2-2" style="font-size:1.1em !important;">Control</a></li>
+                    </nut:if>
+                </ul>
+                <div id="col2-1" style="margin:0;padding:0;">
+                    <div class="content">
+                        
+                        <nut:if allowed="document:control_tab" default="false">
+                            <button id="add-new" type="button">Add new document</button>
+                            <hr />
+                        </nut:if>
+                        
+                        <nut:for-each select="xs_current_folders/*">
+                            <div class="tree-item {$selected}" style="white-space:nowrap;">
+                                <img src="{$dir/home}/static/images/icons/folder.gif" class="tree-icon" />
+                                <a href="{$dir/home}/documents/{$item/name()}" style="text-decoration:none;">
+                                    {$item/.}
+                                </a>
+                            </div>
+                        </nut:for-each>
+
+                        <ul>
+                            <nut:if count="xs_tree_docs" unlike="0">
+                                <nut:if allowed="document:controlled?" default="deny">
+                                    <li style="white-space: nowrap;height:20px;clear:both;"><span style="float:right;color:#888;font-style:italic;">Controlled?</span></li>
+                                </nut:if>
+                            </nut:if>
+                            
+                            <nut:for-each select="xs_tree_docs/*">
+                                <li style="white-space: nowrap;">
+                                  
+                                    <img src="{$dir/images}/icons/{$item/extension}" alt="" width="16" style="padding-right:4px;" />&#160;<a href="{$dir/home}/documents/{$item/id}">{$item/label}</a>
+
+                                    <nut:if allowed="document:controlled?" default="deny">
+                                        <nut:if value-of="$item/controlled" like="''"><span style="float:right;">
+                                            -
+                                        </span></nut:if>
+                                        <nut:if value-of="$item/controlled" like="'true'"><span style="float:right;">
+                                            <a id="controlled-{$item/uid}" href="#" onclick="ajax_flip_controlled('{$item/uid}');return false;">
+                                                <input type="checkbox" checked="checked" />
+                                            </a>
+                                        </span></nut:if>
+                                        <nut:if value-of="$item/controlled" like="'false'"><span style="float:right;">
+                                            <a id="controlled-{$item/uid}" href="#" onclick="ajax_flip_controlled('{$item/uid}');return false;">
+                                                <input type="checkbox" />
+                                            </a>
+                                        </span></nut:if>
+
+                                    </nut:if>
+                                </li>
+                            </nut:for-each>
+                        </ul>
+                    </div>
+                </div>
+
+                <nut:if allowed="document:control_tab" default="deny">
+                    <div id="col2-2" style="margin:0;padding:0;">
+
+                        <form id="result-set"><fieldset> 
+                            With selected (currently disabled) <span style="margin-left:5px;"> 
+                                <button type="button" style="font-size:0.8em;" onclick="">Delete</button>
+                                |
+                                <button type="button" style="font-size:0.8em;" onclick="">Controlled</button>
+                                <button type="button" style="font-size:0.8em;" onclick="">Uncontrolled</button>
+                                |
+                                <button type="button" style="font-size:0.8em;" onclick="">Tag</button>
+                                <button type="button" style="font-size:0.8em;" onclick="">Untag</button>
+                            </span>
+                        <table id="files-table" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" onclick="$(this).closest('fieldset').find(':checkbox').prop('checked', this.checked);" /></th>
+                                    <th>Name</th>
+                                    <th>Ctrl</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <nut:for-each select="xs_tree_docs/*">
+                                    <tr>
+                                        <td>
+                                            <input type='checkbox' value='{$item/uid}' id='id-{$item/uid}' name='check' />                                                        
+                                        </td>
+                                        <td style="white-space:nowrap;">
+                                            <img src="{$dir/images}/icons/doc.png" alt="" width="16" style="padding-right:4px;" />&#160;<a href="{$dir/home}/documents/{$item/uid}" style="text-decoration:none;color:blue;">{$item/label}</a>
+                                        </td>
+                                        <td style="text-align:center;vertical-align:middle;">
+
+                                            <nut:if value-of="$item/controlled" like="''"><span style="">
+                                                -
+                                            </span></nut:if>
+                                            <nut:if value-of="$item/controlled" like="'true'"><span style="">
+                                                <a id="controlledi-{$item/uid}" href="#" onclick="ajax_flip_controlled('{$item/uid}',1);return false;">
+                                                    <img src="{$dir/images}/icons/24x24/actions/button_ok.png" height="15" style="margin:0;padding:0;" title="Controlled" />
+                                                </a>
+                                            </span></nut:if>
+                                            <nut:if value-of="$item/controlled" like="'false'"><span style="">
+                                                <a id="controlledi-{$item/uid}" href="#" onclick="ajax_flip_controlled('{$item/uid}',1);return false;">
+                                                    <img src="{$dir/images}/icons/24x24/actions/exec.png" height="15" style="margin:0;padding:0;" title="Uncontrolled" />
+                                                </a>
+                                            </span></nut:if>
+
+                                        </td>
+                                    </tr>
+                                </nut:for-each>
+                            </tbody>
+                        </table>
+                        </fieldset></form>
+
+                        <js>
+                            oTable = $("#files-table").dataTable({ "bJQueryUI": true, "bPaginate": false, "bLengthChange": true });
+                        </js>
+
+                    </div>
+                </nut:if>
+
+            </div>
+        </ul>
+        
+        <div id="new-form" title="New document" style="display:none;background-color:#eee;">
+            <h1 style="text-align:center;width:100%;margin-bottom:15px;">You can either</h1>
+            <form action="{$dir/home}/api/data/files" method="post">
+            <div style="background-color:#fed !important;padding:10px;margin:10px;" class="text ui-widget-content ui-corner-all">
+                <label for="f:label"><b>a.</b> create a name for the new document</label><br />
+                <input id="new-input" type="text" name="f:label" style="font-size:1.1em;width:480px;" class="text ui-widget-content ui-corner-all" />
+                <input id="new-form-submit-button" type="submit" value="Create!" />
+            </div>
+            </form>
+            <h1 style="text-align:center;width:100%;margin-bottom:15px;">or</h1>
+            <form action="{$dir/home}/api/data/files" method="post">
+            <div class="text ui-widget-content ui-corner-all" style="background-color:#def !important;padding:10px;margin:10px;">
+                <label for="myfile"><b>b.</b> upload a file (and we'll get the title from the filename)</label><br/>
+                <input type="file" name="myfile"/><br/>
+                <input id="new-form-submit-button" type="submit" value="Upload!" />
+            </div>
+            </form>
+        </div>   
+        
+
+    <js> 
+
+    $(document).ready ( function() {
+      
+        setIframeHeight('ifrm', 1); window.onresize = function() { setIframeHeight('ifrm', 1); }
+        
+        $('#col1').tabs(); 
+        $('#col2').tabs(); 
+
+        $('#add-new').button().click(function(event) {
+            $('#new-form').dialog('open') ;
+        }) ;
+        
+        $('#new-form').dialog({
+            height: 450, width: 630,
+            autoOpen: false, modal: true,
+            show: "explode", hide: "explode",
+            buttons: {
+                Cancel: function() { $(this).dialog('close'); }
+            }, close: function() { $(this).dialog('close') ;}
+        });
+
+     } );
+    
+    
+    
+    </js>
+
+    </div>
+
+</nut:template>

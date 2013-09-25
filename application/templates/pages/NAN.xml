@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+	<h3>Oops!</h3>
+	<p>Something went wrong; the template to use for this page wasn't set.</p>
+
+</nut:template>

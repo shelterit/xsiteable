@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+<table id='frontpage' border="2">
+
+    <tr>
+        <td class="marg"></td>
+        <td class="c1"><h1>Chosen document collection</h1>
+            <div class="content" style="width:400px;">
+                <nut:tree select="xs_tree" />
+            </div>
+        </td>
+        <td class="c1"><h1>Documents found</h1>
+            <div class="content" style="width:500px;">
+                <ul>
+                    <nut:for-each select="xs_tree_docs/*">
+                        <li><img src="{$dir/images}/icons/doc.png" alt="" width="16" style="padding-right:4px;" />
+                            <a href="{$dir/home}/show/{$item/name}">{$item/.}</a>
+                        </li>
+                    </nut:for-each>
+                </ul>
+            </div>
+        </td>
+        <td class="marg"></td>
+    </tr>
+</table>
+
+    
+</nut:template>

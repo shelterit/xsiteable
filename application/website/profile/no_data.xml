@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+    <nut:plugins event="XS_GUI_SECTIONS" />
+
+    <nut:import template="global/breadcrumbs" />
+    
+    <div id="columns">
+
+        <ul id="column0" class="column">
+
+            <nut:context select="xs_profile">
+                
+             <li style='margin:5px 30px;'>   
+                <h1>Profile</h1>
+                <p>Sorry, but I can't find any profile data.</p>
+
+                <!-- 
+                    <hr />
+                    <nut:context select="*">
+                        <h1>Belongs to groups (<nut:value-of select="count(*)" />)</h1>
+                        <nut:for-each select="group/*">
+                            <i> | </i> <span style="color:#67c;"><nut:value-of select="." /></span>
+                        </nut:for-each>
+                    </nut:context>
+                 -->
+
+            </li>
+           
+            </nut:context>
+           
+           <nut:plugins event="XS_GUI_SECTION0" />
+        </ul>
+
+    </div>
+    
+</nut:template>

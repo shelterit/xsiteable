@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+<table id='frontpage' border="2">
+    <tr>
+        <td class="marg"></td>
+        <td class="c1"><h1>Choose a keyword to add</h1>
+           <div class="content"><nut:content name="keywords" /></div>
+        </td>
+        <td class="c2">
+
+           <h1>Select keywords to remove them</h1>
+
+           <div class="smallcontent" style="width:auto;">
+                <ul class="tagcloud">
+                    <nut:for-each select="xs_facets/*">
+                        <li class="cloud-40">
+                            <span class="buttons">
+                                <a href="{$dir/home}/keyword/{$item/.}" class="buttondelete">
+                                    <nut:value-of select="$item/name()" />
+                                    <img src="{$dir/static}/images/cancel.png" alt="delete" />
+                                </a>
+                            </span>
+                        </li>
+                    </nut:for-each>
+               </ul>
+           </div>
+
+            <h1>Documents found containing selected keywords</h1>
+            <div class="content" style="width:auto;">
+                <ul class="item" style="padding:20px 0;">
+                    <nut:for-each select="xs_result/*">
+                        <li>
+                            <div class="title"><a href="{$dir/home}/show/{$item/name()}">{$item/title}</a></div>
+                            <div class="description"><nut:copy-of select="$item/extract" /></div>
+                            <div class="extra"><nut:copy-of select="$item/url" /></div>
+                        </li>
+                    </nut:for-each>
+                </ul>
+            </div>
+
+        </td>
+        <td class="marg"></td>
+    </tr>
+</table>
+
+    
+</nut:template>

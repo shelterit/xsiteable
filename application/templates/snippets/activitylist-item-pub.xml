@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+        <p class="pub" style="padding-bottom:4px;">
+            <b><nut:value-of select="$item/where" />:
+            <nut:if value-of="$item/where" like="document">
+                <a href="{$dir/home}/show/{$item/parent_id}?f:_item=view#comment-{$item/id}"><nut:value-of select="$item/parent_label" /></a>
+            </nut:if>
+            <nut:if value-of="$item/where" unlike="document">
+                <a href="{$dir/home}/{$item/where}/{$item/parent_id}#comment-{$item/id}"><nut:value-of select="$item/parent_label" /></a>
+            </nut:if>
+            </b> where <nut:import template="snippets/who" /> made a comment <nut:date select="{$item/m_p_date}" />
+        </p>
+
+</nut:template>

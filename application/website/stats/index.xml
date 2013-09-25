@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+<script src="{$dir/js}/protovis-d3.2.js"></script>
+
+<div id="fig"><script type="text/javascript+protovis">
+
+var flare = null ;
+
+$.getJSON('{$dir/home}/api/stats?model={$request/model}', function(data) {
+  flare = data ;
+
+
+var format = pv.Format.number();
+
+var vis = new pv.Panel()
+    .width(1100)
+    .height(900)
+    .margin(0);
+
+var pack = vis.add(pv.Layout.Pack)
+    .nodes(pv.dom(flare).root("Policies and procedures").nodes())
+    .size(function(d) d.nodeValue );
+
+pack.node.add(pv.Dot)
+    .fillStyle(function(d) d.firstChild ? "rgba(31, 119, 180, .4)" : "#ff7f0e")
+    .title(function(d) d.nodeName + (d.firstChild ? "" : ": " + format(d.nodeValue)))
+    .lineWidth(1);
+
+pack.label.add(pv.Label)
+    .visible(function(d) !d.firstChild)
+    .text(function(d) d.nodeName.substring(0, Math.sqrt(d.nodeValue) / 30));
+
+vis.render();
+
+
+});
+    </script></div>
+    
+</nut:template>

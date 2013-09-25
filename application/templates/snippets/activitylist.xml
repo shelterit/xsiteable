@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+    <nut:for-each select="xs_latest_activity/*">
+        <h1 style="border-bottom:solid 1px #999;margin-top:10px;"><nut:value-of select="$item/name()" /></h1>
+        <nut:for-each select="*">
+            <nut:import template="snippets/activitylist-item" />
+            <nut:if value-of="$position" like="0">
+                ***
+            </nut:if>
+        </nut:for-each>
+    </nut:for-each>
+
+</nut:template>

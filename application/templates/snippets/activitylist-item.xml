@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+    <div class="newsitem" style="margin:0;padding:2px 3px;">
+        <nut:import template="snippets/activitylist-item-pub" />
+        <p class="pubshort" style="margin:0;padding:0;">
+            <nut:if value-of="$rest/concept" like="">
+                <style>.more { margin-top:-25px; }</style>
+            </nut:if>
+            <nut:if value-of="$rest/concept" unlike="">
+                <nut:value-of select="$item/pub_short" />
+            </nut:if>
+        </p>
+    </div>
+
+</nut:template>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+    <nut:import template="_gui/_js_proto" />
+    <nut:import template="_gui/_menu" />
+
+    <script type="text/javascript">
+
+	var template_mem = '';
+	var c_mem = 1;
+
+	var addMem = function ( memref, memrole ) {
+        $(template_mem(c_mem)).appendTo("#mems tbody");
+        $('#assoc_ref-'+c_mem).attr('value', memref) ;
+        $('#assoc_role-'+c_mem).attr('value', memrole) ;
+        $('.example_ref').example('Topic ref id',{className:'example'});
+        $('.example_role').example('Role type',{className:'example'});
+        c_mem++ ;
+    }.defaults('', '');
+
+	var addId = function ( id ) {
+        $('#item_id').attr('value', id) ;
+    }.defaults('');
+
+	var addType = function ( id ) {
+        $('#assoc_type').attr('value', id) ;
+    }.defaults('');
+
+
+$().ready(function() {
+
+    template_mem = jQuery.format($("#template_mem").val());
+
+	$("#add_mem").click(addMem);
+
+    run_auto() ;
+});
+
+<nut:copy-of select="$content/js_assoc" />
+
+</script>
+
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <td width="60%" valign="top">
+
+        <div class="formContent">
+            <form id="topicform" class="cmxform" method="post" action="{$dir/home}/_gui/assoc/{$rest/selected}">
+                <fieldset>
+                    <legend>Basics</legend>
+                    <table id="basics"><tbody>
+                    <tr>
+                        <td class="col1"><label>ID</label></td>
+                        <td class='col2'>
+                            <input size='14' style="width:100%;" class="type" min="1" id="item_id" name="field:assoc_id" />
+                        </td>
+                        <td class='col3' style="padding-left:5px;">
+                            <nut:import template="_gui/_delete" />
+                        </td><td class='col4'></td>
+                    </tr>
+                    <tr>
+                        <td class="col1"><label>Type</label></td>
+                        <td class='col2'>
+                            <input size='14' style="width:100%;" class="type" min="1" id="assoc_type" name="field:assoc_type" />
+                        </td>
+                        <td class='col3' style="padding-left:5px;">
+                        </td><td class='col4'></td>
+                    </tr>
+                    </tbody></table>
+                </fieldset>
+                <fieldset>
+                    <legend>Members <button id="add_mem" type="button"><img src="{$dir/static}/images/icons/16x16/actions/edit_add.png" alt="Add" /></button></legend>
+                    <table id="mems"><tbody></tbody></table>
+                </fieldset>
+            </form>
+        </div>
+
+    </td>
+    <td valign="top" style="padding-left:10px;">
+
+    </td>
+</tr>
+</table>
+
+
+
+    <textarea id="template_mem" style="display:none">
+        <tr id="section_mem_{0}">
+            <td class='col1'><img src="{$dir/static}/images/icons/24x24/actions/signature.png" alt="Member" /></td>
+            <td class='col2'>
+                <input size='14' class="example_ref" min="1" id="assoc_ref-{0}" name="field:assoc_ref:{0}" />
+            </td><td class='col3'>
+                <input size='40' class="example_role" min="1" id="assoc_role-{0}" name="field:assoc_role:{0}" />
+            </td>
+            <td class='col4'><span id="del_mem" onclick="$('#section_mem_{0}').remove()"><img src="{$dir/static}/images/icons/16x16/actions/agt_stop.png" /></span></td>
+        </tr>
+    </textarea>
+
+<textarea style="width:46%;height:400px;"><nut:copy-of select="$content/client" /></textarea>
+<textarea style="width:46%;height:400px;"><nut:copy-of select="$content/response" /></textarea>
+	
+</nut:template>
+

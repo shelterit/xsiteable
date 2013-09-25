@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+    <div class="newsitem newsitem-large" style="padding:10px;">
+        <h1><a href="{$dir/home}/forum/{$item/id}"><nut:value-of select="$item/label" /></a>
+            <nut:if allowed="forum:delete" default="deny">
+                <div id="dialog-confirm-{$item/id}" title="Delete this item?" style="display:none;">
+                    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>This item will be permanently deleted and cannot be recovered. Are you sure?</p>
+                </div>
+                <span style="margin:5px 10px;padding:0;float:right;cursor:pointer;"
+                   onclick="dia_del('{$item/id}',1);">
+                    <img src="{$dir/images}/icons/24x24/actions/mail_delete.png" alt="delete" style="width:12px;margin:0;padding:0;" />
+                </span>
+                <!-- <a style="margin:5px 10px;padding:0;float:right;" href="{$dir/home}/forum/{$item/id}?_method=DELETE&amp;_redirect={$dir/home}/news"><img src="{$dir/images}/icons/24x24/actions/mail_delete.png" alt="delete" style="width:12px;margin:0;padding:0;" /></a> -->
+            </nut:if>
+        </h1>
+        <nut:import template="snippets/forumlist-item-pub" />
+        <p class="pubshort">
+            <nut:if value-of="$rest/concept" like="">
+                <style>.more { margin-top:-25px; }</style>
+            </nut:if>
+            <nut:if value-of="$rest/concept" unlike="">
+                <nut:value-of select="$item/pub_short" />
+            </nut:if>
+            <a class="more" href="{$dir/home}/forum/{$item/id}">Read more</a>
+        </p>
+    </div>
+
+</nut:template>

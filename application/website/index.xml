@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+    <nut:plugins event="XS_GUI_SECTIONS" />
+
+
+ <!--
+    <div style="padding:5px;margin:5px;border: solid 1px green;">
+        <h3>Hello world widget test</h3>
+        <p>{@hello_world/greeting}</p>
+    </div>
+-->
+
+
+<!--
+
+    <table id='frontpage'>
+        <tr>
+            <td class="marg"></td>
+            <td colspan="2" style="padding-bottom:35px;border-bottom:solid 1px #eef;">
+            <form action="{$dir/home}/search" method="get">
+                <img src="{$dir/static}/images/wc_large.jpg" alt="" width="300" style="padding-bottom:20px;padding-top:10px;" /><br />
+                <input maxlength="2048" name="searchquery" class="lst" size="30" style="background:#fff;border:1px solid #ccc;border-bottom-color:#999;border-right-color:#999;color:#000;font:18px arial,sans-serif bold;height:25px;margin:0;padding:5px 8px 0 6px;vertical-align:top" />
+                <input type="submit" value="Search documents" style="font:18px arial,sans-serif bold;height:32px;margin:0;padding:5px 8px 0 6px;margin-left:10px;" on.click="xs_search()" />
+            </form></td>
+            <td rowspan="2" class="c1" style="padding-top:25px;background-color:#ddd !important;border:dotted 1px #bbb;">
+                <h1>News and announcements</h1>
+                <div class="content">
+                    <nut:import template="snippets/newslist" />
+                    <div style="font-size:0.8em;padding-top:10px;">(<a href="{$dir/home}/news">more news</a>)</div>
+                </div>
+            </td>
+            <td class="marg"></td>
+            </tr>
+        <tr>
+            <td class="marg"></td>
+            <td class="c1" style="padding-top:25px;">
+                <h1>Links</h1>
+                <nut:widget name="bookmark" param="action=admin" />
+            </td>
+            <td class="c1" style="padding-top:25px;">
+
+                <h1>Browse documents</h1>
+                <div class="content">
+                    <nut:tree select="xs_tree" path="browse" />
+                </div>
+
+
+            </td>
+
+            <td class="marg"></td>
+        </tr>
+    </table>
+-->
+
+    <div id="head" style="width:auto;position:absolute;margin-top:-36px;margin-left:370px;">
+        <div class="add">
+          <a id="widgetadd" onclick="Add();">Add</a>
+          <select id="wid" style="margin:1px 4px;padding:2px;font-size:0.9em;" onclick="return false;">
+              <nut:for-each select="xs_widgets/*">
+                <option value="{$item/name()}">
+                    <nut:context select="*"><nut:value-of select="$item/name" /></nut:context>
+                </option>
+              </nut:for-each>
+          </select>
+          at column
+          <select id="col">
+            <option value='column0'>0</option>
+            <option value='column1' selected="selected">1</option>
+            <option value='column2'>2</option>
+            <option value='column3'>3</option>
+            <option value='column5'>4</option>
+          </select>
+        </div>
+    </div>
+    
+    <js>
+        $('#widgetadd').button();
+
+        function Add() {
+          var i=1;
+          while ($("#widget"+i).length>0) i++;
+          iNettuts.getWidget(
+             "#"+$("#col").val(),
+                 $("#wid").val()
+          )}
+    </js>
+
+    <div id="columns">
+
+        <ul id="column0" class="column">
+           <nut:plugins event="XS_GUI_SECTION0" />
+        </ul>
+
+        <ul id="column1" class="column">
+           <nut:plugins event="XS_GUI_SECTION1" />
+            
+            <!-- <nut:widget name="wc_search" /> -->
+
+        </ul>
+
+       <ul id="column2" class="column">
+           <nut:plugins event="XS_GUI_SECTION2" />
+           <!--
+            <li class="widget color-blue" id="xs-widget-browse">
+                <div class="widget-head">
+                    <h3>BROWSE</h3>
+                </div>
+                <div class="widget-content" style="min-height:300px;">
+                    <nut:tree select="xs_tree" path="browse" />
+                </div>
+            </li>
+            <li class="widget color-blue" id="xs-widget-someother">
+                <div class="widget-head">
+                    <h3>test</h3>
+                </div>
+                <div class="widget-content">
+                </div>
+            </li>
+            -->
+        </ul>
+
+        <ul id="column3" class="column">
+           <nut:plugins event="XS_GUI_SECTION3" />
+           <!--
+            <li class="widget color-blue" id="xs-widget-news">
+                <div class="widget-head">
+                    <h3>NEWS</h3>
+                </div>
+                <div class="widget-content" style="min-height:300px;">
+                    <nut:import template="snippets/newslist" />
+                    <div style="font-size:0.8em;padding-top:10px;">(<a href="{$dir/home}/news">more news</a>)</div>
+                </div>
+            </li>
+            -->
+        </ul>
+
+        <ul id="column4" class="column">
+           <nut:plugins event="XS_GUI_SECTION4" />
+        </ul>
+
+
+</div>
+
+<div id="callbacks" style="display:none;margin:5px; padding:5px; border:solid 1px #888; background-color:#ccd; clear:both;">
+    empty result
+</div>
+
+<!-- <script type="text/javascript" src="jquery-ui-personalized-1.6rc2.min.js"></script> -->
+
+
+
+</nut:template>

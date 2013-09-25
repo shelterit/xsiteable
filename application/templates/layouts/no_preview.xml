@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+    <nut:plugins event="XS_GUI_SECTIONS" />
+
+    <nut:import template="global/breadcrumbs" />
+    
+    <div id="columns">
+        <ul id="column0" class="column">
+            <nut:plugins event="XS_GUI_SECTION0" />
+            
+            <div style="padding:15px;margin:10px;border:dotted 6px #555;background-color:#def;">
+                <p style="padding-top:4px;">Preview not available.</p>
+            </div>
+           
+        </ul>
+    </div>
+
+</nut:template>

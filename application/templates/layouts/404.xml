@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+    <nut:plugins event="XS_GUI_SECTIONS" />
+
+    <nut:import template="global/breadcrumbs" />
+    
+    <div id="columns">
+        <ul id="column0" class="column">
+            <nut:plugins event="XS_GUI_SECTION0" />
+            <nut:if allowed="admin:bar:page" default="deny">
+                <li>
+                    <div style="padding:15px;margin:10px;border:dotted 6px #f90;background-color:#fed;">
+                        <p style="padding-top:4px;">You are the system admin, at least in these parts of the website. You could ;</p>
+                        <p style="padding-top:10px;"><button onclick="$('#adm-ctrl-page').click();$('#page-create-button').click();">Create a page here!</button></p>
+                    </div>
+                </li>
+            </nut:if>
+           
+        </ul>
+    </div>
+
+
+<div style="display:none;clear:both;">Client
+<div id="callbacks-out" style="display:block;margin:5px; padding:5px; border:solid 1px #888; background-color:#cec; clear:both;">
+    empty result
+</div></div>
+
+<div style="display:none;clear:both;">Server
+<div id="callbacks" style="display:block;margin:5px; padding:5px; border:solid 1px #888; background-color:#ccd; clear:both;">
+    empty result
+</div></div>
+
+
+</nut:template>
+
+
+<!-- <?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+    <nut:plugins event="XS_GUI_SECTIONS" />
+
+    <div id="columns">
+
+        <ul id="column0" class="column">
+            <li style="padding:35px;margin:40px;border:dotted 2px #bbb;">
+                <h1 style="font-size:30px;">Oh, noes!</h1>
+                <p style="padding-top:10px;">The page plonked in the URI at the top of your browser can't be found in our system.</p>
+                <p style="padding-top:10px;">I'm so sorry; me and my diligent horde of trained bandicoots have looked through resources, databases and pages, to no avail; what you were looking for is not here. It has ceased to be, or was never there to begin with. We're stumped, and don't know what to do. We feel sad, now.</p>
+                <nut:if allowed="admin:bar:page" default="deny">
+                    <p style="padding-top:10px;">
+                        <div style="padding:15px;margin:10px;border:dotted 6px #f90;background-color:#fed;">
+                            <p style="padding-top:4px;">But there is hope; you are the system admin, at least in these parts of the website. You could ;</p>
+                            <p style="padding-top:10px;"><button onclick="$('#adm-ctrl-page').click();$('#page-create-button').click();">Create a page here!</button></p>
+                        </div>
+                    </p>
+                </nut:if>
+            </li>
+           <nut:plugins event="XS_GUI_SECTION0" />
+        </ul>
+
+        <ul id="column4" class="column">
+           <nut:plugins event="XS_GUI_SECTION4" />
+        </ul>
+        
+</div>
+
+</nut:template>
+-->

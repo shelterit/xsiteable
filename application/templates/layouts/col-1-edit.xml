@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template 
+    xmlns:nut="http://schema.shelter.nu/nut"
+    xmlns:form="http://schema.shelter.nu/nut-form"
+    xmlns:f="http://schema.shelter.nu/nut-formy"
+>
+
+    <nut:plugins event="XS_GUI_SECTIONS" />
+
+    <nut:import template="global/breadcrumbs" />
+
+    <form method="post" action="{$dir/home}/_api/resources/content?_redirect={$dir/q}">
+        
+    <table class="invisible-table">
+
+        <tr class="invisible-table">
+            <td class="marg invisible-table">
+                <nut:plugins event="XS_GUI_SECTION0" />
+            </td>
+            <td class="invisible-table" style="padding-top:25px;padding-left:10px;width:800px;border-left:dotted 1px #ccc;border-right:dotted 1px #ccc;">
+
+                        <div class="content-page-edit newsitem" style="border-bottom:dotted 1px #bbb;">
+
+                            <f:f name="f:label" title="Title" class="fielder">{$page/title}</f:f>
+                            <f:f id="xs_content_field" name="f:pub_full" title="Content" class="full" type="textarea" style="width:97%;height:500px;">
+                                <nut:plugins event="XS_GUI_SECTION1" />
+                            </f:f>
+                            
+                            <nut:import template="snippets/conduct" />
+
+                            <input name="f:name" type="hidden" value="{$page/identifier}" />
+                            
+                            <input id="go" type="submit" value="Save" style="background-color:#09f;padding:5px 13px;" />
+                            <input id="cancel" type="button" value="Cancel" onclick="location.href='{$dir/referer}';" style="margin-left:20px;padding:5px 13px;" />
+                        </div>
+                        
+                </td>
+                <td class="marg invisible-table"></td>
+            </tr>
+        </table>
+   </form>
+
+<js>wysiwyg ( '#xs_content_field' ) ; </js>
+
+
+</nut:template>

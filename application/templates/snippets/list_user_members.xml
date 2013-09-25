@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+    <nut:if count="*" more-than="0"> 
+        <h3>Owner</h3>
+        <nut:for-each select="*">
+            <li><a href="{$dir/home}/profile/{$item/name()}">{$item/label}</a></li>
+        </nut:for-each>
+    </nut:if>
+
+</nut:template>

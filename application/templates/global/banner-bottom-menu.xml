@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+	
+	<div id="xsFooterMenu" class="borderish">
+
+	</div>
+	
+</nut:template>

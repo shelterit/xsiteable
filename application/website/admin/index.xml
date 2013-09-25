@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+    <div id="admenu" style="width:1000px;margin:0 auto;margin-top:40px;">
+
+        <ul>
+            <li><a href="#admenu-1">File management</a></li>
+            <!-- <li><a href="#admenu-2">Ontology and types</a></li> -->
+            <li><a href="#admenu-3">Content</a></li>
+            <li><a href="#admenu-4">Database</a></li>
+        </ul>
+        
+<script src="http://blueimp.github.io/JavaScript-Load-Image/js/load-image.min.js"></script>
+<script src="http://blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>
+
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="{$dir/static}/js/jquery-file-upload/js/jquery.iframe-transport.js"></script>
+
+<!-- The basic File Upload plugin -->
+<script src="{$dir/static}/js/jquery-file-upload/js/jquery.fileupload.js"></script>
+
+<!-- The File Upload processing plugin -->
+<script src="{$dir/static}/js/jquery-file-upload/js/jquery.fileupload-process.js"></script>
+
+<!-- The File Upload image preview & resize plugin -->
+<script src="{$dir/static}/js/jquery-file-upload/js/jquery.fileupload-image.js"></script>
+
+<!-- The File Upload audio preview plugin -->
+<script src="{$dir/static}/js/jquery-file-upload/js/jquery.fileupload-audio.js"></script>
+
+<!-- The File Upload video preview plugin -->
+<script src="{$dir/static}/js/jquery-file-upload/js/jquery.fileupload-video.js"></script>
+
+<!-- The File Upload validation plugin -->
+<script src="{$dir/static}/js/jquery-file-upload/js/jquery.fileupload-validate.js"></script>
+
+
+        <div id="admenu-1">
+            
+            <h3>Upload</h3>
+
+            <span class="btn btn-success fileinput-button">
+                <i class="glyphicon glyphicon-plus"></i>
+                <span>Add files...</span>
+                <!-- The file input field used as target for the file upload widget -->
+                <input id="fileupload" type="file" name="files[]" multiple="multiple" />
+            </span>
+            <br />
+            <br />
+            <!-- The global progress bar -->
+            <div id="progress" class="progress">
+                <div class="progress-bar progress-bar-success"></div>
+            </div>
+            <!-- The container for the uploaded files -->
+            <div id="files" class="files"></div>            
+            
+        </div>
+        
+    <script src="{$dir/static}/js/jquery-file-upload/upload.js"></script>
+       
+        <!--
+        <div id="admenu-2">
+            
+            <style>
+                .placeholder {
+                        outline: 1px dashed #4183C4;
+			-webkit-border-radius: 3px;
+			-moz-border-radius: 3px;
+			border-radius: 3px;
+			margin: -1px;
+		}
+
+		.mjs-nestedSortable-error {
+			background: #fbe3e4;
+			border-color: transparent;
+		}
+                
+                #dragarea { 
+                        border:solid 8px #ccc;
+                        margin:10px 0;
+                        padding:0 15px;
+                        width:500px;
+                }
+                .dragger {
+			list-style-type: none;
+                }
+
+		ol {
+			margin: 0;
+			padding: 0;
+			padding-left: 30px;
+		}
+
+		ol.sortable, ol.sortable ol {
+			margin: 0 0 0 25px;
+			padding: 0;
+			list-style-type: none;
+		}
+
+		ol.sortable {
+			margin: 2em 0;
+		}
+
+		.sortable li {
+			margin: 5px 0 0 0;
+			padding: 0;
+                        width:auto;
+		}
+
+		.sortable li div, .dragger div  {
+                        width:300px;
+			border: 1px solid #d4d4d4;
+			-webkit-border-radius: 3px;
+			-moz-border-radius: 3px;
+			border-radius: 3px;
+			border-color: #D4D4D4 #D4D4D4 #BCBCBC;
+			padding: 3px 1px;
+			margin: 0;
+			cursor: move;
+			background: #f6f6f6;
+			background: -moz-linear-gradient(top,  #ffffff 0%, #f6f6f6 47%, #ededed 100%);
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(47%,#f6f6f6), color-stop(100%,#ededed));
+			background: -webkit-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#ededed 100%);
+			background: -o-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#ededed 100%);
+			background: -ms-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#ededed 100%);
+			background: linear-gradient(to bottom,  #ffffff 0%,#f6f6f6 47%,#ededed 100%);
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );
+		}
+
+		.sortable li.mjs-nestedSortable-branch div {
+			background: -moz-linear-gradient(top,  #ffffff 0%, #f6f6f6 47%, #f0ece9 100%);
+			background: -webkit-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#f0ece9 100%);
+
+		}
+
+		.sortable li.mjs-nestedSortable-leaf div {
+			background: -moz-linear-gradient(top,  #ffffff 0%, #f6f6f6 47%, #bcccbc 100%);
+			background: -webkit-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#bcccbc 100%);
+
+		}
+
+		li.mjs-nestedSortable-collapsed.mjs-nestedSortable-hovering div {
+			border-color: #999;
+			background: #fafafa;
+		}
+
+		.disclose {
+			cursor: pointer;
+			width: 10px;
+			display: none;
+		}
+
+		.sortable li.mjs-nestedSortable-collapsed > ol {
+			display: none;
+		}
+
+		.sortable li.mjs-nestedSortable-branch > div > .disclose {
+			display: inline-block;
+		}
+
+		.sortable li.mjs-nestedSortable-collapsed > div > .disclose > span:before {
+			content: '+ ';
+		}
+
+		.sortable li.mjs-nestedSortable-expanded > div > .disclose > span:before {
+			content: '- ';
+		}
+                
+                #trash { float: right; width: 22%; min-height: 8em; padding: 1%;} 
+                * html #trash { height: 8em; } /* IE6 */
+                #trash h4 { line-height: 16px; margin: 0 0 0.4em; }
+                #trash h4 .ui-icon { float: left; }
+                #trash .gallery h5 { display: none; }
+                
+            </style>
+            
+            <br/>
+            
+            <li class="dragger"><div>drag this to create</div></li>
+            
+            <hr/>
+            
+            <div id="trash" class="ui-widget-content ui-state-default">
+                <h4 class="ui-widget-header"><span class="ui-icon ui-icon-trash">Trash</span> Trash</h4>
+            </div>            
+            
+            
+            <div id="dragarea">
+            <ol class="sortable">
+                <li><div>Some content</div></li>
+                <li>
+                    <div>Some content</div>
+                    <ol>
+                        <li><div>Some sub-item content</div></li>
+                        <li><div>Some sub-item content</div></li>
+                    </ol>
+                </li>
+                <li><div>Some content</div></li>
+            </ol>
+            </div>
+            
+            <js>
+            $(document).ready(function(){
+            
+                var $trash = $('#trash');
+                var $tree = $('.sortable');
+                var $new = $('.dragger');
+                
+                $tree.nestedSortable({
+                    forcePlaceholderSize: true,
+                    handle: 'div',
+                    helper: 'clone',
+                    items: 'li',
+                    opacity: .6,
+                    placeholder: 'placeholder',
+                    revert: 250,
+                    tabSize: 15,
+                    tolerance: 'pointer',
+                    toleranceElement: '> div',
+                    maxLevels: 10,
+                    startCollapsed: true
+                });
+                
+                $new.draggable ({
+                    connectToSortable: $tree,
+                    helper: "clone"
+                });
+                
+            });    
+            
+             $('.sortable li>div').editable(function(value, settings) {  return(value); }, { 
+                tooltip   : "Doubleclick to edit...", event     : "dblclick", style     : "inherit"
+             });
+  
+            </js>
+            
+        </div>
+        -->
+        <div id="admenu-3">
+
+                <table><tr><td class="marg"></td>
+                        <td>
+                            <div style="width:150px;">
+                                <p>This path filter makes us use only files with the following case insesitive filter is in the pathname of the file (blank means all).</p>
+                                <input id="pathfilter" style="width:140px;" />
+                            </div>
+                            <div class="content" style="width:150px;">
+                                <ul>
+                                   <li><button onclick="xs_redirect('{$dir/home}/admin/daily_process_health_safe/'+$('#pathfilter').val(),'wind')">Health-check SAFE</button> Database health-check; checks the database, and fixes problems. Also included in the daily all-in-one below.</li>
+                                   <li><button onclick="xs_redirect('{$dir/home}/admin/daily_process_health/'+$('#pathfilter').val(),'wind')">Health-check</button> The real action version of the above.</li>
+                                   <li><button onclick="xs_redirect('{$dir/home}/admin/daily_process_safe/'+$('#pathfilter').val(),'wind')">Daily process SAFE</button> Daily all-in-one spidering, converting, updating and indexing.</li>
+                                   <li><button onclick="xs_redirect('{$dir/home}/admin/daily_process/'+$('#pathfilter').val(),'wind')">Daily process</button> The real action version of the above.</li>
+                                   <!-- <li><button onclick="xs_redirect('{$dir/home}/admin/daily_process_forced_harvest/'+$('#pathfilter').val(),'wind')">Forced harvest process</button>Forced harvest of all previews.</li> -->
+                                   <!--
+                                   <hr/>
+                                   <li><button onclick="xs_redirect('{$dir/home}/admin/spider/'+$('#pathfilter').val(),'wind')">Spider content</button>Finds all content.</li>
+                                   <li><button onclick="xs_redirect('{$dir/home}/admin/convert/'+$('#pathfilter').val(),'wind')">Convert content</button>Makes local copies, and make HTML previews.</li>
+                                   <li><button onclick="xs_redirect('{$dir/home}/admin/clean/'+$('#pathfilter').val(),'wind')">Clean up</button>Cleans the HTML previews, and create even cleaner text versions of the file for harvesting.</li>
+                                   <li><button onclick="xs_redirect('{$dir/home}/admin/harvest/'+$('#pathfilter').val(),'wind')">Harvest words</button>Grabs text files, finds words and phrases, index them and create keywords found.</li>
+                                   <li><button onclick="xs_redirect('{$dir/home}/admin/update/'+$('#pathfilter').val(),'wind')">Update document</button>List all documents, and allows you to update a single document.</li>
+                                   <li><button onclick="xs_redirect('{$dir/home}/admin/test','wind')">Test</button></li>
+                                   -->
+                                </ul>
+                            </div>
+                        </td>
+                        <td>
+                            <iframe src="" id="wind" width="800" height="600" style="border:solid 1px #fed;"></iframe>
+                        </td><td class="marg"></td></tr>
+                </table>
+        </div>
+        <div id="admenu-4">
+
+                <table><tr><td class="marg"></td>
+                        <td>
+                            <div class="content" style="width:150px;">
+                                <ul>
+                                   <li><button onclick="xs_redirect('{$dir/home}/admin/db_create_delete','windb')">Create tables and data</button> Note! Also deletes old data and tables, and re-inserts default data, so be careful!</li>
+                                   <li><button onclick="xs_redirect('{$dir/home}/admin/db_create','windb')">Create only new tables</button> Doesn't delete old data (nor inject any new), handy for just updating the datamodel.</li>
+                                   <li><button onclick="xs_redirect('{$dir/home}/admin/db_ontology','windb')">Convert ontology</button> Finds all types and basic ontology entities, and create a shortcut fast cached version for the framework.</li>
+                                   <li><button onclick="xs_redirect('{$dir/home}/admin/db_sql_dump/'+$('#filename').val(),'windb')">SQL dump</button> Dumps the whole content of the database to file <input id="filename" style="width:auto;" value="db.sql" /></li>
+                                </ul>
+                            </div>
+                        </td>
+                        <td>
+                            <iframe src="" id="windb" width="800" height="600" style="border:solid 1px #fed;"></iframe>
+                        </td><td class="marg"></td></tr>
+                </table>
+        </div>
+    </div>
+    <script type="text/javascript"> $('#admenu').tabs(); $('#admenu ul').css('background-image','none').css('background-color','#fdc'); </script>
+
+    <script type="text/javascript">
+        window.onload = pageScroll;
+        function pageScroll() {
+          wind.window.scrollBy(0,500);
+          // scrolldelay = setTimeout('pageScroll()', 50); 
+          }
+    </script>
+
+    
+</nut:template>

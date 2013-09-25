@@ -1,0 +1,138 @@
+
+
+/* The todo items are grouped into an UL unordered list */
+
+ul.todoList{
+	margin:0 auto;
+	width:auto;
+	position:relative;
+}
+
+ul.todoList li{
+	background-color:#F9F9F9;
+	border:1px solid #EEEEEE;
+	list-style:none;
+	margin:6px;
+	padding:6px 9px;
+	position:relative;
+	cursor:n-resize;
+
+	/* CSS3 text shadow and rounded corners: */
+
+	text-shadow:1px 1px 0 white;
+
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+}
+
+ul.todoList li:hover{
+	border-color:#9be0f9;
+
+	/* CSS3 glow effect: */
+	-moz-box-shadow:0 0 5px #A6E5FD;
+	-webkit-box-shadow:0 0 5px #A6E5FD;
+	box-shadow:0 0 5px #A6E5FD;
+}
+
+.todo .text{
+	color:#777777;
+	font-size:1.1em;
+}
+
+/* The edit and delete buttons */
+
+.todo .actions{
+	position:absolute;
+	right:7px;
+	top:6px;
+}
+
+.todo .actions a{
+	display:block;
+	width:16px;
+	height:16px;
+	overflow:hidden;
+	float:left;
+	text-indent:-9999px;
+	margin:3px;
+        border:solid 1px #555;
+}
+
+.todo .actions a.edit{
+	background:url("/static/images/widgets/simple_todo/edit.png") no-repeat center center;
+}
+
+.todo .actions a.delete{
+	background:url("/static/images/widgets/simple_todo/delete.png") no-repeat center center;
+}
+
+/* The edit textbox */
+
+.todo input{
+	border:1px solid #CCCCCC;
+	color:#666666;
+	font-family:Arial,Helvetica,sans-serif;
+	font-size:0.725em;
+	padding:3px 4px;
+	width:auto;
+}
+
+/* The Save and Cancel edit links: */
+
+.editTodo{
+	display:inline;
+	font-size:0.6em;
+	padding-left:9px;
+}
+
+.editTodo a{
+	font-weight:bold;
+}
+
+a.discardChanges{
+	color:#C00 !important;
+}
+
+a.saveChanges{
+	color:#4DB209 !important;
+}
+
+/* Overwriting some of the default jQuery UI styles */
+
+.ui-button,.ui-dialog-titlebar{
+	font-size:0.72em !important;
+}
+
+#dialog-confirm{
+	display:none;
+	font-size:0.9em;
+	padding:1em 1em 0;
+}
+
+#addButton{
+	margin:20px auto;
+}
+
+
+/* Green button class: */
+
+a.green-button,
+a.green-button:visited{
+	color:black;
+	display:block;
+	font-size:10px;
+	font-weight:bold;
+	height:15px;
+	padding:6px 5px 4px;
+	text-align:center;
+	width:60px;
+
+	text-shadow:1px 1px 1px #DDDDDD;
+	background:url("/static/images/widgets/simple_todo/button_green.png") no-repeat left top;
+}
+
+a.green-button:hover{
+	text-decoration:none;
+	background-position:left bottom;
+}

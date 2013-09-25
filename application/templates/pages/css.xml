@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+<!--
+    <nut:variable name="back" value="green" />
+    <nut:variable name="color" value="red" />
+    <nut:variable name="template">
+        border-top:solid 1px green;
+        border-bottom: dotted 3px <nut:value-of select="$color" />;
+    </nut:variable>
+
+    body { 
+        color:<nut:value-of select="$color" />;
+        background-color:<nut:value-of select="$back" />;
+        <nut:value-of select="$template" />
+    }
+-->
+    
+</nut:template>

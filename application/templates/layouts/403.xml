@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+    <nut:plugins event="XS_GUI_SECTIONS" />
+
+    <nut:import template="global/breadcrumbs" />
+    
+    <div id="columns">
+        <ul id="column0" class="column">
+            <nut:plugins event="XS_GUI_SECTION0" />
+        </ul>
+    </div>
+
+
+<div style="display:none;clear:both;">Client
+<div id="callbacks-out" style="display:block;margin:5px; padding:5px; border:solid 1px #888; background-color:#cec; clear:both;">
+    empty result
+</div></div>
+
+<div style="display:none;clear:both;">Server
+<div id="callbacks" style="display:block;margin:5px; padding:5px; border:solid 1px #888; background-color:#ccd; clear:both;">
+    empty result
+</div></div>
+
+
+</nut:template>
+

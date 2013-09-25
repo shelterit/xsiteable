@@ -1,0 +1,79 @@
+db_data:
+   xs_topicmap:
+      into: [id, name, label, type]
+      values:
+         - [  1, default, "Default TopicMap", 9]
+         - [  2, default-deleted, "Default TopicMap (deleted items)", 9]
+         - [  3, base, "Base TopicMap", 9]
+         - [  4, gist, "Gist Ontology", 9]
+         - [  5, gist-extended, "Extended Gist Ontology", 9]
+   xs_topic:
+      into: [id, name, label, type1]
+      values:
+         - [   1, 0, "Root of all things", 0]
+         - [   2, "topic", "Topic", 1]
+         - [   3, "assoc", "Association", 1]
+         - [   4, "prop", "Property", 1]
+         - [   5, "role", "Role", 1]
+         - [   6, "role_type", "Role type", 1]
+         - [   7, "type", "Topic type", 1]
+         - [   8, "basic", "Basic topic", 2]
+         - [   9, "topic_map", "A Topic Map", 1]
+         # basic entities
+         - [  10, pub, "Publication", 7]
+         - [  11, news, "News item", 10]
+         - [  12, comment, "A comment", 10]
+         - [  13, tag, "A tag", 10]
+         - [  14, bookmark, "A bookmark", 10]
+         # technology
+         - [  20, tech, "A technological concept", 7]
+         - [  21, section, "A section of our system", 20]
+         - [  22, page, "A page on our system", 20]
+         - [  23, widget, "A widget on our system", 20]
+         - [  24, function, "A function given through our system", 20]
+         # human relations
+         - [  40, hr, "A human relations concept", 7]
+         - [  41, user, "A user", 40]
+         - [  42, role, "A users' role", 40]
+         - [  43, auth, "A users' authentication", 40]
+         - [  44, user_group, "A group of users", 41]
+         # document management and control
+         - [  60, docman, "Document Management essentials", 7]
+         - [  61, doc, "A document", 60]
+         - [  62, doc_id, "A documents' persistent identifier", 60]
+         - [  63, original, "Original document", 60]
+         - [  64, preview, "A preview document", 60]
+         - [  65, original_path, "Original path of document", 60]
+         - [  70, manifestation, "A manifestation", 61]
+         - [  71, manifestation_source, "A manifestation source", 70]
+
+         # time and tide
+         - [  80, spacetime, "Conceptual time and space", 7 ]
+         # publication (news, blogs, articles, items of note) properties
+         - [ 100, pub_short, "Short description", 4 ]
+         - [ 101, pub_full, "Full text", 4 ]
+         - [ 102, pub_author, "Author", 4 ]
+         - [ 103, pub_username, "Username", 4 ]
+         # widget todo
+         - [ 120, todo, "Todo list" , 7]
+         - [ 121, todo_item, "Todo item", 120]
+         # security model
+         - [ 200, security, "Security concepts" , 7]
+         - [ 201, security_model, "Security model" , 200]
+         - [ 202, security_model_topic, "Security model topic" , 201]
+         - [ 203, security_model_access, "Security model access" , 201]
+         - [ 204, security_model_access_create, "Security model access CREATE" , 203]
+         - [ 205, security_model_access_read, "Security model access READ" , 203]
+         - [ 206, security_model_access_update, "Security model access UPDATE" , 203]
+         - [ 207, security_model_access_delete, "Security model access DELETE" , 203]
+         - [ 210, security_model_has_role, "has role" , 6]
+         - [ 211, security_model_is_group, "is in group" , 6]
+         - [ 212, security_model_has_title, "has title" , 6]
+         - [ 213, security_model_has_function, "has function" , 6]
+         - [ 214, security_model_belongs_to, "belongs to" , 6]
+         - [ 215, has_access, "has access to" , 6]
+         # super-admin user
+         - [ 998, super-admin, "Super-admin!" , 41]
+         # all data specific topics after this marker
+         - [ 999, data, "Data after this point", 1 ]
+

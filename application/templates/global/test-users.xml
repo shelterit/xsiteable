@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+	
+	<nut:if value-of="$env/runtime" unlike="'prod'">
+		<form action="">
+			<div>
+			<select onchange="location = '{$dir/home}/user/'+this.options[this.selectedIndex].value+'?redirect={$dir/home}/{$rest/concept}/{$rest/id}/{$rest/selected}';" name="user" style="position:relative;float:right;z-index:1000;">
+				<option> -- Test users -- </option>
+				<option value="reset"> ** Reset ** </option>
+				<nut:for-each select="LOON-OBJECT-USERS/item">
+					<option value="{$item/name}">
+						<nut:context select="itemList/item">
+									<nut:value-of select="$item/name" />  
+									(<nut:value-of select="$item/role" />) ::  
+									<nut:value-of select="$item/description" />
+						</nut:context>
+					</option>
+				</nut:for-each>
+			</select>
+			</div>
+		</form>
+	</nut:if>
+	
+</nut:template>

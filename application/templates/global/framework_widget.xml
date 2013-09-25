@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+    <nut:widget name="$request/_widget_name">
+        <options><close /><edit /><config /><move /><collapse /></options>
+        <settings><item name="test">blah</item></settings>
+        <properties></properties>
+    </nut:widget>
+
+</nut:template>

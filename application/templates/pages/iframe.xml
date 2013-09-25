@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+    <div class="xsSection">
+       <iframe id="ifrm" src="{$page/uri}" style="width:100%;height:100%;margin:0;"></iframe>
+    </div>
+    <js>
+       setIframeHeight('ifrm', 1); window.onresize = function() { setIframeHeight('ifrm', 1); }
+    </js>
+    
+</nut:template>

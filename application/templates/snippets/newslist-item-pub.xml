@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+        <p class="pub">
+            published <nut:date select="{$item/m_p_date}" />
+             by <nut:import template="snippets/who" />
+             <nut:if value-of="$item/count" unlike="0">
+                 and has <b><nut:value-of select="$item/count" /> comments</b>.
+             </nut:if>
+        </p>
+
+</nut:template>

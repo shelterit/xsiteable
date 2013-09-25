@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+    <nut:plugins event="XS_GUI_SECTIONS" />
+
+    <nut:import template="global/breadcrumbs" />
+    
+    <div id="columns">
+
+        <ul id="column0" class="column">
+
+            <nut:context select="xs_profile">
+                
+             <li style="margin-left:15px;margin-top:15px;">   
+             
+                <nut:widget name="content" 
+                    title="$item/label" 
+                    topic-id="$profile/id"
+                    id="$profile/id"
+                    class="color-orange">
+                        My name is <nut:value-of select="$user/name" />, and my email is <a href="mailto:{$item/email}" style="color:blue;font-style:underline;cursor:pointer;"><nut:value-of select="$item/email" /></a>.
+                </nut:widget>
+
+                <div>E-mail: <a href="mailto:{$item/email}" style="color:blue;font-style:underline;cursor:pointer;"><nut:value-of select="$item/email" /></a></div>
+              
+                <!-- 
+                    <nut:context select="*">
+                        <h1>Belongs to groups (<nut:value-of select="count(*)" />)</h1>
+                        <nut:for-each select="group/*">
+                            <i> | </i> <span style="color:#67c;"><nut:value-of select="." /></span>
+                        </nut:for-each>
+                    </nut:context>
+                 -->
+
+            </li>
+           
+            </nut:context>
+           
+           <nut:plugins event="XS_GUI_SECTION0" />
+        </ul>
+
+        <ul id="column1" class="column">
+           <nut:widget name="data_control_latest_list" 
+              title="Latest activity" 
+              topic-id="$profile/id"
+              class="color-orange"
+           />
+           <nut:plugins event="XS_GUI_SECTION1" />
+        </ul>
+
+       <ul id="column2" class="column">
+           <nut:widget name="data_control_assoc_list" 
+              title="Owner of (documents)" 
+              assoc-type="has_owner"
+              assoc-member-topic="$profile/id"
+              topic-type="_user"
+              class="color-orange"
+           />
+           <nut:widget name="data_control_assoc_list" 
+              title="Author of (documents)" 
+              assoc-type="has_author"
+              assoc-member-topic="$profile/id"
+              topic-type="_user"
+              class="color-orange"
+           />
+           <nut:plugins event="XS_GUI_SECTION2" />
+        </ul>
+
+        <ul id="column3" class="column">
+            <nut:context select="xs_profile">
+                <li class="widget color-orange"><nut:import template="snippets/comments" /></li>
+            </nut:context>
+           <nut:plugins event="XS_GUI_SECTION3" />
+        </ul>
+
+    </div>
+
+    
+</nut:template>

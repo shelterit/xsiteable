@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+    <nut:plugins event="XS_GUI_SECTIONS" />
+
+    <nut:import template="global/breadcrumbs" />
+
+    <table class="invisible-table">
+
+        <tr class="invisible-table">
+            <td class="marg invisible-table">
+                <nut:plugins event="XS_GUI_SECTION0" />
+            </td>
+            <td class="invisible-table generic-content" style="padding-top:25px;padding-left:10px;width:800px;border-left:dotted 1px #ccc;border-right:dotted 1px #ccc;">
+                
+                <nut:plugins event="XS_GUI_SECTION_PAGE_FUNCTIONALITY" />
+                
+                <div class="page-content">
+                    <nut:plugins event="XS_GUI_SECTION1" />
+                </div>
+                
+
+            </td>
+            <td class="marg invisible-table">
+                    <nut:plugins event="XS_GUI_SECTION2" />
+            </td>
+        </tr>
+    </table>
+    <nut:plugins event="XS_GUI_SECTION3" />
+    
+    <div id="dialog-form-new-page" title="Create new page" style="display:none;">
+        <p class="validateTips">Start typing the title of your page.</p>
+        <form method="post" title="{$dir/home}/_api/resources/content?_redirect=">
+            <input type="hidden" name="f:type" value="xs::_page" />
+            <fieldset>
+                <label for="f:label" style="width:50px;">Title</label><br />
+                <input id="new-page-input" type="text" name="f:label" style="font-size:1.2em;width:580px;" class="text ui-widget-content ui-corner-all" />
+                <br /><br />
+                <div style="padding:15px;margin:15px 0;border:solid 1px #999;background-color:#ddd;">
+                    <label for="f:slug" style="color:#777;width:50px;">slug / URI</label><br />
+                    <input id="new-page-input-slug" type="text" name="f:slug" value="" style="width:550px;font-size:11px;color:#555;background-color:#abc;" class="text ui-widget-content ui-corner-all" />
+                </div>
+            </fieldset>
+        </form>
+    </div>   
+    
+    <js>
+        $( "#dialog-form-new-page" ).dialog({
+            autoOpen: false, height: 380, width: 650, modal: true,
+            buttons: {
+                "Create page!": function() {
+                    var b = $('#new-page-input-slug').val() ;
+                    var uri = $('#dialog-form-new-page form').attr('title') ;
+                    $('#dialog-form-new-page form').attr('action', uri + b ) ;
+                    // alert($('#dialog-form-new-page form').attr('action'));
+                    $( this ).dialog( "close" ); 
+                    $('#dialog-form-new-page form').submit() ;
+                },
+                Cancel: function() { $( this ).dialog( "close" ); }
+            },
+            close: function() { $( this ).dialog( "close" ); }
+         });
+        $('#new-page-input').on ( 'input', function() {
+            var a = slug(this.value) ;
+            $('#new-page-input-slug').val( xs_dir.q + '/' + a ) ;
+        }) ;
+        $('#new-page-input-slug').val( xs_dir.q + '/' ) ;
+    </js>
+
+</nut:template>

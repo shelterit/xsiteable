@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+    <style>
+        .topic-table { border:solid 1px #999;padding:10px;margin:10px; }
+        .topic-table tr { background-color:#f0f0ff; }
+        .topic-table th { border-left:dotted 1px #aaa;border-bottom:solid 1px #aaa;background-color:#dde;padding:4px 8px; }
+        .topic-table td { border-left:dotted 1px #aaa;border-bottom:dotted 1px #aaa;padding:2px 4px; }
+    </style>
+
+    <table class="topic-table">
+        <tr>
+            <th style='width:50px;'>id</th>
+            <th style='width:50px;'>name</th>
+            <th style='width:300px;'>label</th>
+            <th style='width:200px;'>type(s)</th>
+            <th style='width:150px;'>parent</th>
+            <th style='width:50px;'>scheme</th>
+            <th style='width:300px;'>created</th>
+            <!-- <th>published</th>
+            <th>updated</th>
+            <th>deleted</th> -->
+        </tr>
+        <!-- <a class="listing" href="{$dir/home}/_gui/{#if name()='topic' 'topic' 'assoc'}/{$item/id}"> -->
+        <nut:for-each select="*">
+            <tr>
+                <td><a href="{$dir/home}/_tm/topic/{$item/id}"><nut:value-of select="$item/id" />.</a></td>
+                <td><a href="{$dir/home}/_tm/topic/{$item/id}"><nut:value-of select="$item/name" /></a></td>
+                <td>"<a href="{$dir/home}/_tm/topic/{$item/id}"><nut:value-of select="$item/label" /></a>"</td>
+                <td style='color:green;'>
+                    <nut:if value-of="$item/type1" unlike="''"><a class="topic_href" href="{$dir/home}/_tm/topic/{$item/type1}"><nut:value-of select="$item/type1label" /></a></nut:if>
+                    <nut:if value-of="$item/type2" unlike="''"><a class="topic_href" href="{$dir/home}/_tm/topic/{$item/type2}"><nut:value-of select="$item/type2label" /></a></nut:if>
+                    <nut:if value-of="$item/type3" unlike="''"><a class="topic_href" href="{$dir/home}/_tm/topic/{$item/type3}"><nut:value-of select="$item/type3label" /></a></nut:if>
+                </td>
+                <td><nut:if value-of="$item/parent" unlike="''">
+                    <a class="topic_href" href="{$dir/home}/_tm/topic/{$item/parent}"><nut:value-of select="$item/parentlabel" /></a>
+                </nut:if></td>
+                <td><nut:value-of select="$item/scheme" /></td>
+                <td><nut:value-of select="$item/m_c_date" /> by <a class="topic_href" href="{$dir/home}/_tm/topic/{$item/m_c_who}"><nut:value-of select="$item/m_c_wholabel" /></a></td>
+                
+            </tr>
+        </nut:for-each>
+    </table>
+
+    <nut:import template="snippets/pagination" />
+
+</nut:template>
+

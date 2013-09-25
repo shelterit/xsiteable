@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+    <nut:if value-of="$item/m_u_who_label" unlike="">
+        <a href="{$dir/home}/profile/{$item/m_u_who}"><nut:value-of select="$item/m_u_who_label" /></a>
+    </nut:if>
+</nut:template>

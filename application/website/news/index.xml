@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+    <nut:plugins event="XS_GUI_SECTION" />
+
+    <nut:import template="global/breadcrumbs" />
+    
+    <div class="context-menu-left">
+        <nut:plugins event="XS_GUI_SECTION_PAGE_FUNCTIONALITY" />
+    </div>
+    <div style="clear:both;"></div>
+        
+    <div id="columns">
+
+        <ul id="column1" class="column" style="width:48%;margin-left:30px;min-height:100px;">
+          <li>
+            <div class="contentc">
+                <nut:for-each select="xs_news/*">
+                    <nut:if value-of="$position" less-than="4">
+                        <nut:import template="snippets/newslist-item" />
+                    </nut:if>
+                </nut:for-each>
+            </div>
+          </li>
+        </ul>
+
+       <ul id="column2" class="column" style="width:48%">
+          <li>
+            <div class="content">
+                <nut:for-each select="xs_news/*">
+                    <nut:if value-of="$position" more-than="3">
+
+                        <div class="newsitem" style="margin:0;border-bottom:dotted 1px #ccc;">
+                            <h3><a href="{$dir/home}/news/{$item/id}"><nut:value-of select="$item/label" /></a>
+                                <nut:if allowed="news:delete" default="deny">
+                                    <div id="dialog-confirm-{$item/id}" title="Delete this item?" style="display:none;">
+                                        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>This item will be permanently deleted and cannot be recovered. Are you sure?</p>
+                                    </div>
+                                    <span style="margin:5px 10px;padding:0;float:right;cursor:pointer;"
+                                       onclick="dia_del('{$item/id}',0);">
+                                        <img src="{$dir/images}/icons/24x24/actions/mail_delete.png" alt="delete" style="width:12px;margin:0;padding:0;" />
+                                    </span>
+                                    <!-- <a style="margin:5px 10px;padding:0;float:right;" href="{$dir/home}/news/{$item/id}?_method=DELETE&amp;_redirect={$dir/home}/news"><img src="{$dir/images}/icons/24x24/actions/mail_delete.png" alt="delete" style="width:12px;margin:0;padding:0;" /></a> -->
+                                </nut:if>
+                            </h3>
+                            <nut:import template="snippets/newslist-item-pub" />
+                        </div>
+
+                    </nut:if>
+                </nut:for-each>
+              <p style="margin-top:10px;"><a href="{$dir/home}/news/archive">News archive</a></p>
+
+            </div>
+          </li>
+        </ul>
+
+
+</div>
+
+
+</nut:template>

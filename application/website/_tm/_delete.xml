@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+<table><tr><td>
+    <button class="cmd" type="button" id="lut" onclick="location.href='{$dir/home}/_gui/{$rest/id}/'+$('#item_id').attr('value');"><img src="{$dir/static}/images/icons/16x16/actions/14_layer_novisible.png" /><br />Lookup <nut:value-of select="$rest/id" /></button>
+    </td><td>
+
+            <div id="modal" style="width:180px;position:absolute;padding:0;margin:0;border:solid 3px #c62;display:none;">
+            <div style="background-color:#555;color:white;padding:5px;margin:0;text-align:center;"><h3>Are you sure?</h3></div>
+            <div style="background-color:#ddd;padding:10px;margin:0;text-align:center;">
+
+           <button type="button" onclick="location.href='{$dir/home}/_gui/{$rest/id}/'+$('#item_id').attr('value')+'?method_overload=DELETE';">Yes</button>
+           <button type="button" onclick="$('#modal').hide('slow');">Cancel</button>
+           </div>
+        </div>
+    <button class="cmd" type="button" id="del" onclick="$('#modal').show('slow');"><img src="{$dir/static}/images/icons/24x24/actions/cnrdelete-all1.png" /><br />Delete <nut:value-of select="$rest/id" /></button>
+    <button class="cmd" type="submit" id="sav"><img src="{$dir/static}/images/icons/24x24/actions/apply.png" /><br />Save <nut:value-of select="$rest/id" /></button>
+
+   </td></tr></table>
+
+</nut:template>
+

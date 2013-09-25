@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template 
+    xmlns:nut="http://schema.shelter.nu/nut"
+    xmlns:form="http://schema.shelter.nu/nut-form"
+    xmlns:f="http://schema.shelter.nu/nut-formy"
+>
+
+    <nut:plugins event="XS_GUI_SECTION" />
+
+    <nut:import template="global/breadcrumbs" />
+
+    <div id="columns" class="generic-content">
+        
+        <ul id="column0" class="column">
+           <nut:plugins event="XS_GUI_SECTION0" />
+        </ul>
+
+        <ul id="column1" class="column">
+            <li style="margin-left:35px;">
+
+                <form action="{$dir/home}/news/{$rest/section}" method="post">
+                    
+                    <nut:for-each select="xs_news/*">
+                    <nut:context select=".">
+                        <div class="newsitem" style="border-bottom:dotted 1px #bbb;">
+
+                            <f:f name="f:label" title="Title" class="fielder">{$item/label}</f:f>
+                            <f:f name="f:pub_short" title="Short description" type="textarea" style="width:450px;"><nut:copy-of select="$item/pub_short" /></f:f>
+                            <f:f name="f:pub_full" title="Content" id="xs-content" class="full" type="textarea" style="width:100%;height:400px;"><nut:copy-of select="$item/pub_full" /></f:f>
+                            
+                            <input type="hidden" name="f:m_u_date" value="{$page/date}" />
+                            <input type="hidden" name="f:m_u_who" value="{$user/id}" />
+                            <input type="hidden" name="f:item" value="true" />
+
+                            <nut:import template="snippets/conduct" />
+
+                            <input id="go" type="submit" value="Save" style="background-color:#09f;padding:5px 13px;" />
+                            <input id="cancel" type="button" value="Cancel" onclick="location.href='{$dir/referer}';" style="margin-left:20px;padding:5px 13px;" />
+                        </div>
+                    </nut:context>
+                    </nut:for-each>
+                </form>
+                <js> wysiwyg ( '#xs-content', 600, 200 ) ;</js>
+
+            </li>
+        </ul>
+    </div>
+
+</nut:template>

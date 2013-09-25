@@ -1,0 +1,129 @@
+db_tables:
+   xs_meta:
+      id:                     int.primary
+      name:                   string.short *
+      value:                  text.long
+   xs_topicmap:
+      _type:                  "meta"
+      id:                     int.primary
+      name:                   text *
+      label:                  text.long *
+      type:                   int topic.id *
+   xs_topic:
+      _type:                  "meta"
+      id:                     int.primary
+      topicmap:               int topic.id *
+      name:                   text *
+      label:                  text *
+      parent:                 int topic.id *
+      type1:                  int topic.id *
+      type2:                  int topic.id *
+      type3:                  int topic.id *
+      value:                  blob
+      scheme:                 text.medium
+      m_c_date:               time *
+      m_c_who:                int topic.id *
+      m_p_date:               time *
+      m_p_who:                int topic.id *
+      m_u_date:               time *
+      m_u_who:                int topic.id *
+      m_d_date:               time *
+      m_d_who:                int topic.id *
+   xs_psi:
+      _type:                  "meta"
+      id:                     int.primary
+      status:                 int topic.id *
+      name:                   text *
+      label:                  text.long *
+      parent:                 int topic.id *
+      type:                   int topic.id *
+      value:                  text.short
+   xs_assoc:
+      _type:                  "meta"
+      id:                     int.primary
+      type:                   int topic.id *
+      m_c_date:               time *
+      m_c_who:                int topic.id *
+      m_p_date:               time *
+      m_p_who:                int topic.id *
+      m_u_date:               time *
+      m_u_who:                int topic.id *
+      m_d_date:               time *
+      m_d_who:                int topic.id *
+   xs_assoc_member:
+      _type:                  "meta"
+      assoc:                  int assoc.id *
+      topic:                  int topic.id *
+      role:                   int topic.id *
+   xs_property:
+      _type:                  "util"
+      id:                     int.primary
+      type:                   int topic.id *
+      type_name:              text.short
+      parent:                 int *
+      value:                  text.long
+      m_c_date:               time *
+      m_c_who:                int topic.id *
+      m_p_date:               time *
+      m_p_who:                int topic.id *
+      m_u_date:               time *
+      m_u_who:                int topic.id *
+      m_d_date:               time *
+      m_d_who:                int topic.id *
+   xs_content:
+      _type:                  "util"
+      id:                     int.primary
+      type:                   int topic.id *
+      typelabel:              text.short
+      parent:                 int *
+      value:                  blob
+      m_c_date:               time *
+      m_c_who:                int topic.id *
+      m_p_date:               time *
+      m_p_who:                int topic.id *
+      m_u_date:               time *
+      m_u_who:                int topic.id *
+      m_d_date:               time *
+      m_d_who:                int topic.id *
+   xs_nugget:
+      _type:                  "meta"
+      id:                     int.primary
+      label:                  text.long *
+      type:                   int topic.id *
+      f1_type:                int topic.id *
+      f1_value:               int
+      f2_type:                int topic.id *
+      f2_value:               int
+      f3_type:                int topic.id *
+      f3_value:               int
+      f4_type:                int topic.id *
+      f4_value:               int
+      f5_type:                int topic.id *
+      f5_value:               int
+      f6_type:                int topic.id *
+      f6_value:               int
+      f7_type:                int topic.id *
+      f7_value:               int
+      f8_type:                int topic.id *
+      f8_value:               int
+      f9_type:                int topic.id *
+      f9_value:               int
+      f10_type:               int topic.id *
+      f10_value:              int
+      f11_type:               int topic.id *
+      f11_value:              int
+      f12_type:               int topic.id *
+      f12_value:              int
+      f13_type:               int topic.id *
+      f13_value:              int
+      f14_type:               int topic.id *
+      f14_value:              int
+      f15_type:               int topic.id *
+      f15_value:              int
+      value_text:             text
+      value_number:           int
+      value_date:             time
+      source:                 int topic.id *
+      date_from:              time *
+      date_to:                time *
+      date_registered:        time *     

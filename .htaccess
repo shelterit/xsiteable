@@ -1,0 +1,14 @@
+RewriteEngine On
+
+# Ignore static directory, and a couple of common files
+RewriteRule ^static/ - [L]
+RewriteRule ^robots.txt - [L]
+RewriteRule ^index.html - [L]
+
+# ignore the index.php file itself
+RewriteRule ^index.php - [L]
+RewriteRule ^_dynamic.php - [L]
+RewriteRule ^_convert.php - [L]
+
+# everything else, rewrite to /index.php
+RewriteRule ^(.+) /daproject/index.php?q=$1 [B,NE,QSA]

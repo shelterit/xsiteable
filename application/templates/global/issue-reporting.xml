@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+	
+
+
+    <form id="issues" name="issues" method="post" action="" style="
+				position:absolute;margin-left:30%;margin-top:100px;width:300px;height:auto;z-index:9999;
+				color:#000; padding:10px;font:100% normal 'Verdana', sans-serif;
+				background-color:#ff9;border:1px solid #000;display:none;
+			"> 
+
+        <table id="ajax_feedback_before">
+            <tr>
+                <td style="padding:4px;">
+                    <strong>Oh dear, there's an issue?</strong> (
+                    <a href="#" onclick="$('#issues').hide();$('#reporter').show();" style="color:#444;">close</a>)
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:4px;text-align:left;">
+                    <label>Short story (required)
+                        <textarea name="feedbackSubject" style="height:30px;width:100%;"></textarea>
+                    </label>
+                    <label>Longer version
+                        <textarea name="feedbackComments" style="height:150px;width:100%;"></textarea>
+                    </label>
+   
+                    <input name="feedbackUsername" type="hidden" value="{$user/username}" />
+                    <input name="feedbackURL" type="hidden" value="{$request/q}" />
+                    <input name="feedbackVersion" type="hidden" value="{$page/version}" />
+                    <input name="feedbackName" type="hidden" value="{$user/firstname} {$user/lastname}" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="button" value="Create issue" 
+                    onclick="$('#ajax_feedback_before').hide();$('#reporter').show();feedbackAction('{$dir/home}/api/data/issues');" />
+                </td>
+            </tr>
+        </table>
+		
+        <table id="ajax_feedback_after" style="display:none;">
+            <tr>
+                <td style="margin-bottom:8px;">
+                    <h1>Thanks!</h1>
+                </td>
+            </tr>
+            <tr>
+                <td style="margin:8px;padding:10px;text-align:center;font-size:13px;">Your message has been forwarded to our Information Services people.</td>
+            </tr>
+            <tr>
+                <td style="">(
+                    <a href="#" onclick="$('#ajax_feedback_after').hide();" style="color:#444;">close</a>)
+                </td>
+            </tr>
+        </table>
+    </form>
+
+</nut:template>

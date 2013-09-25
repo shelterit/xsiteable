@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template
+    xmlns:nut="http://schema.shelter.nu/nut"
+    xmlns:form="http://schema.shelter.nu/nut-form"
+    xmlns:f="http://schema.shelter.nu/nut-formy"
+>
+
+    <nut:import template="../website/_tm/_menu" />
+    
+    <nut:context select="xs_topics/*">
+        
+
+        <div id="columns">
+            
+            <ul id="column1" class="column">
+                <nut:widget name="data_control_topic" title="Topic" class="color-orange" />
+            </ul>
+            <ul id="column2" class="column">
+                <nut:widget name="data_control_properties" title="Topic properties" class="color-orange" />
+            </ul>
+
+            <ul id="column3" class="column">
+                <nut:widget name="data_control_assocs" title="Associated topics" class="color-orange" />
+            </ul>
+
+            <ul id="column0" class="column">
+                <nut:widget name="data_control_meta" title="Meta-data" class="color-grey" />
+            </ul>
+                       
+        </div>
+  
+<!--
+    <nut:context select="xs_topics/*">
+
+        <div style="width:40%;height:300px;float:left;margin:25px;padding:15px;border:dotted 2px #ddd;">
+
+            <form action="{$dir/home}/_tm/topic/{$rest/id}" method="post">
+                <h1><f:f name="f:label" title="Title" style="width:400px;font-size:15px;" class="fielder">{$item/label}</f:f></h1>
+                <f:f name="f:id" title="Id" class="fielder">{$item/id}</f:f>
+                <f:f name="f:name" title="Name" class="fielder">{$item/name}</f:f>
+                <f:f name="f:schema" title="Schema" class="fielder">{$item/schema}</f:f>
+                <f:f name="f:value" title="Value" class="fielder" type='textarea' style="width:100%;height:100px;">{$item/value}</f:f>
+            </form>
+
+        </div>
+        <div style="width:45%;height:300px;float:right;margin:25px;padding:15px;border:dotted 2px #ddd;overflow:auto;">
+            <ul id="column0" class="column">
+               <nut:widget name="data_control_properties" />
+            </ul>
+        </div>
+    -->
+<!--
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <td width="60%" valign="top">
+
+        <div class="formContent">
+            <form id="topicform" class="cmxform" method="post" action="{$dir/home}/_tm/topic/{$rest/id}">
+                <fieldset>
+                    <legend>Basics</legend>
+                    <table id="basics"><tbody>
+                    <tr>
+                        <td class="col1"><label>ID</label></td>
+                        <td class='col2'>
+                            <input size='14' style="width:100%;" class="type" min="1" id="item_id" name="field:id" />
+                        </td>
+                        <td class='col3' style="padding-left:5px;">
+                            <nut:import template="_gui/_delete" />
+                        </td><td class='col4'>
+                        </td>
+                    </tr>
+                    </tbody></table>
+                </fieldset>
+                <fieldset>
+                    <legend>Names <button id="add_name" type="button"><img src="{$dir/static}/images/icons/16x16/actions/edit_add.png" alt="Add" /></button></legend>
+                    <table id="names"><tbody></tbody></table>
+                </fieldset>
+                <fieldset>
+                    <legend>Types <button id="add_type" type="button"><img src="{$dir/static}/images/icons/16x16/actions/edit_add.png" alt="Add" /></button></legend>
+                    <table id="types"><tbody></tbody></table>
+                </fieldset>
+                <fieldset>
+                    <legend>Occurrences <button id="add_occ" type="button"><img src="{$dir/static}/images/icons/16x16/actions/edit_add.png" alt="Add" /></button></legend>
+                    <table id="occs"><tbody></tbody></table>
+                </fieldset>
+            </form>
+        </div>
+
+    </td>
+    <td valign="top" style="padding-left:10px;">
+
+                <fieldset style="height:90%;width:100%;">
+                    <legend>Others who use this topic as type</legend>
+                    <nut:context select="xs_topics_type">
+                        <nut:import template="_gui/_list" />
+                    </nut:context>
+                </fieldset>
+                <fieldset style="height:90%;width:100%;">
+                    <legend>Others who use this topic as an occurrence type</legend>
+                    <nut:context select="xs_occurrence_type">
+                        <nut:import template="_gui/_list" />
+                    </nut:context>
+                </fieldset>
+                <fieldset style="height:90%;width:100%;">
+                    <legend>Others who use this as a role</legend>
+                    <nut:context select="xs_topics_role_type">
+                        <nut:import template="_gui/_list" />
+                    </nut:context>
+                </fieldset>
+                <fieldset style="height:90%;width:100%;">
+                    <legend>Associations using this topic</legend>
+                    <nut:context select="xs_assocs">
+                        <nut:import template="_gui/_list" />
+                    </nut:context>
+                </fieldset>
+                <fieldset style="height:90%;width:100%;">
+                    <legend>Others who interact in associations</legend>
+                    <nut:context select="xs_topics_assoc_type">
+                        <nut:import template="_gui/_list" />
+                    </nut:context>
+                </fieldset>
+    </td>
+</tr>
+</table>
+
+
+
+    <textarea id="template_name" style="display:none">
+        <tr id="section_name_{0}">
+            <td class='col1'><img src="{$dir/static}/images/icons/24x24/actions/signature.png" alt="Name" /></td>
+            <td class='col2'>
+                <input size='14' class="example_type" min="1" id="topic_name_type-{0}" name="field:topic_name_type:{0}" />
+            </td><td class='col3'>
+                <input size='40' class="example_name" min="1" id="topic_name-{0}" name="field:topic_name:{0}" />
+            </td>
+            <td class='col4'><span id="del_name" onclick="$('#section_name_{0}').remove()"><img src="{$dir/static}/images/icons/16x16/actions/agt_stop.png" /></span></td>
+        </tr>
+    </textarea>
+
+    <textarea id="template_type" style="display:none">
+        <tr id="section_type_{0}">
+            <td class='col1'><img src="{$dir/static}/images/icons/24x24/actions/info.png" alt="Type" /></td>
+            <td class='col2'>
+                <input size='14' class="example_type" min="1" id="topic_type-{0}" name="field:topic_type:{0}" />
+            </td>
+            <td class='col3'> </td>
+            <td class='col4'><span id="del_type" onclick="$('#section_type_{0}').remove()"><img src="{$dir/static}/images/icons/16x16/actions/agt_stop.png" /></span></td>
+        </tr>
+    </textarea>
+
+    <textarea id="template_occ" style="display:none">
+        <tr id="section_occ_{0}">
+            <td class='col1'><img src="{$dir/static}/images/icons/24x24/actions/view_icon.png" alt="Occurrence" /></td>
+            <td class='col2'>
+                <input size='14' class="example_type" min="1" id="topic_occ_type-{0}" name="field:topic_occ_type:{0}" />
+            </td><td class='col3'>
+                <input size='40' class="example_value" min="1" id="topic_occ_value-{0}" name="field:topic_occ_value:{0}" />
+            </td>
+            <td class='col4'><span id="del_occ" onclick="$('#section_occ_{0}').remove()"><img src="{$dir/static}/images/icons/16x16/actions/agt_stop.png" /></span></td>
+        </tr>
+    </textarea>
+
+<div id="con_on"><button type="button" onclick="$('#con_off').show('slow');$('#con_on').hide('slow');">Show console</button> </div>
+<div id="con_off" style="display:none;"><button type="button" onclick="$('#con_on').show('slow');$('#con_off').hide('slow');">Hide console</button><br/>
+    <textarea style="width:46%;height:400px;"><nut:copy-of select="$content/client" /></textarea>
+    <textarea style="width:46%;height:400px;"><nut:copy-of select="$content/response" /></textarea>
+</div>
+-->
+    </nut:context>
+
+</nut:template>
+

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut" xmlns:form="http://schema.shelter.nu/nut-form">
+	
+    <div id="xsBread">
+        
+        <nut:plugins event="XS_GUI_BREADCRUMB" />
+
+        <nut:content name="breadcrumb" default="en:You are here|no:Du er her" />:
+
+        <a href="{$dir/home}/"><nut:content name="home" default="en:Home|no:Hjem" /></a>
+
+        <nut:for-each select="xs_facets/*">
+           <span> / </span>
+           <nut:if value-of="$position" unlike="$max">
+               <a href="{$dir/home}/{$item/name()}"><nut:value-of select="$item/." /></a>
+           </nut:if>
+           <nut:if value-of="$position" like="$max">
+               <span id="documentname" title="{$page/id}"><nut:value-of select="$item/." /></span>
+               <!-- <nut:context select="$menu/page">
+                   <nut:context-menu name="page" this="true" />
+               </nut:context> -->
+           </nut:if>
+        </nut:for-each>
+
+    </div>
+
+</nut:template>

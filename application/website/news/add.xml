@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template
+    xmlns:nut="http://schema.shelter.nu/nut"
+    xmlns:form="http://schema.shelter.nu/nut-form"
+    xmlns:f="http://schema.shelter.nu/nut-formy"
+>
+
+    <nut:plugins event="XS_GUI_SECTION" />
+
+    <div id="columns" class="generic-content">
+        
+        <ul id="column0" class="column">
+           <nut:plugins event="XS_GUI_SECTION0" />
+        </ul>
+
+        <ul id="column1" class="column">
+            <li style="margin-left:35px;">
+                
+                <form action="{$dir/home}/news" method="post">
+
+                     <div class="newsitem" style="border-bottom:dotted 1px #bbb;">
+                        <f:f name="f:label" title="Title" class="fielder"></f:f>
+                        <f:f name="f:pub_short" title="Short description" type="textarea" style="width:450px;"></f:f>
+
+                        <!-- <nut:import template="snippets/paste_note" /> -->
+
+                        <f:f name="f:pub_full" title="Content" id="xs-content" class="full" type="textarea" style="width:100%;height:400px;"></f:f>
+
+                            <input type="hidden" name="f:m_c_date" value="{$page/date}" />
+                            <input type="hidden" name="f:m_p_date" value="{$page/date}" />
+                            <input type="hidden" name="f:m_c_who" value="{$user/id}" />
+                            <input type="hidden" name="f:m_p_who" value="{$user/id}" />
+                            <input type="hidden" name="f:item" value="true" />
+
+                        <nut:import template="snippets/conduct" />
+
+                        <input id="go" type="submit" value="Post new item!" style="background-color:#09f;padding:5px 13px;" />
+                        <a href="{$dir/referer}">Cancel</a>
+                        
+                     </div>
+                </form>
+            </li>
+        </ul>
+    </div>
+   <js> wysiwyg ( '#xs-content', 600, 200 ) ;</js>
+
+</nut:template>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+    <div id="menubar">
+        <a href="{$dir/home}/_tm/index" class="{#if $rest/section='index' 'selected'}"><img src="{$dir/static}/images/icons/24x24/apps/kaddressbook.png" alt="Index" /><br/>Index</a>
+        <a href="{$dir/home}/_tm/topic" class="{#if $rest/section='topic' 'selected'}"><img src="{$dir/static}/images/icons/24x24/actions/internet_networking.png" alt="Topics" /><br/>Topics</a>
+        <a href="{$dir/home}/_tm/assoc" class="{#if $rest/section='assoc' 'selected'}"><img src="{$dir/static}/images/icons/24x24/actions/reload.png" alt="Associations" /><br/>Associations</a>
+        <div style="clear:both;"></div>
+    </div>
+
+    <div id="xs-tm-delete-prop-dialog-confirm" title="Delete this property?" style="display:none;">
+        <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>
+            This will permanently delete this property and cannot be recovered. Are you sure?
+        </p>
+    </div>
+    
+    <script id="ItemTemplate" type="text/html">
+        <li><table class="no-border"><tr><td class="no-border" style="width:50%;"><input name="k:n-{= rnd }" style="width:99%;" /></td><td class="no-border" style="width:50%;"><input name="k:v-{= rnd }" style="width:99%;" /></td></tr></table></li>
+    </script>
+    
+    <script type="text/javascript">
+        function xs_add_prop () { 
+            var e = $("#xs-tm-props") ;
+            var a = parseTemplate($("#ItemTemplate").html(), { "rnd": Math.floor(Math.random()*1100)+100 } );
+            e.append ( $(a) );
+        } 
+        function xs_delete_prop ( prop ) {
+            var url = $('#xs-tm-props-form').attr('action');
+            $( "#xs-tm-delete-prop-dialog-confirm" ).dialog({
+            modal: true,
+            buttons: {
+                "Delete property": function() {
+                    location.href = url + '?_delete_prop=' + prop ;
+                    $( this ).dialog( "close" );
+                },
+                Cancel: function() { $( this ).dialog( "close" ); }
+            }
+            });
+        } 
+
+    </script>            
+
+
+</nut:template>
+

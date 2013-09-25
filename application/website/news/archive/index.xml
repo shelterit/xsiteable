@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+    <nut:plugins event="XS_GUI_SECTION" />
+
+    <nut:import template="global/breadcrumbs" />
+
+    <table>
+
+        <tr>
+            <td class="marg"></td>
+            <td class="" style="width:70%;padding-top:25px;">
+
+                <h1>News and announcements</h1>
+
+                <nut:context select="xs_news_archive">
+                    <nut:news-list-index />
+                </nut:context>
+
+                <hr />
+                <!--
+                <nut:context select="xs_news">
+                    <nut:news-list-index />
+                </nut:context>
+                -->
+            </td>
+            <td class="marg"></td>
+        </tr>
+    </table>
+
+</nut:template>

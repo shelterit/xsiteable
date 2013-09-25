@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template 
+    xmlns:nut="http://schema.shelter.nu/nut"
+    xmlns:tm="http://schema.shelter.nu/tm"
+>
+
+    <div class="mini-suggest" style="padding:0 15px;">
+        <tm:assoc title="Tags" id="tags" 
+            context="xs_assoc_tags"
+            type="tag"
+            link-to="tags/_open"
+            create-new="true"
+            find-member="{$item/id}" />
+    </div>
+
+    <nut:if not-allowed="tags_controlled:edit" default="deny">
+        <nut:context select="xs_assoc_controlled_tags/*">
+            <hr />
+            <nut:if count="members" more-than="1"> 
+                <h3>Part of collection</h3>
+                <nut:for-each select="*">
+                    <nut:if value-of="$item/topic" unlike='$page/id'>
+                        <li><a href="{$dir/home}/tags/_controlled/{$item/topic}">{$item/label}</a></li>
+                    </nut:if>
+                </nut:for-each>
+            </nut:if>
+        </nut:context>
+    </nut:if>
+
+    <nut:if allowed="tags_controlled:edit" default="deny">
+        <div class="mini-suggest" style="padding:0 15px;">
+            <tm:assoc title="Part of collection" id="controlled_tags" 
+                context="xs_assoc_controlled_tags"
+                type="controlled_tag"
+                link-to="tags/_controlled"
+                create-new="true"
+                find-member="{$item/id}" />
+        </div>
+    </nut:if>
+
+
+</nut:template>

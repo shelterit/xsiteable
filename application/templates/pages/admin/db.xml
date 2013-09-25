@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+        <div class="xsSectjion">
+            <table width="100%" id="xs_grid" class="scroll" cellpadding="0" cellspacing="0"></table>
+            <div id="xs_pager" class="scroll" style="text-align:center;"></div>
+        </div>
+
+<js>
+
+var mystr = {
+  total: "1",
+  page: "1",
+  records: "2",
+  rows : [
+    {id:"1", cell:["cell11", "cell12", "cell13"]},
+    {id:"2", cell:["cell21", "cell22", "cell23"]},
+    {id:"3", cell:["cell11", "cell12", "cell13"]},
+    {id:"4", cell:["cell21", "cell22", "cell23"]},
+    {id:"5", cell:["cell11", "cell12", "cell13"]},
+    {id:"6", cell:["cell21", "cell22", "cell23"]},
+  ]
+};
+
+jQuery(document).ready(function(){
+  jQuery("#xs_grid").jqGrid({
+    colNames:['What','Type', 'Value','Scope'],
+    colModel :[
+      {name:'what', index:'what', sortable:true},
+      {name:'type', index:'type'},
+      {name:'value', index:'value'},
+      {name:'scope', index:'scope'}
+    ],
+    pager: jQuery('#xs_pager'),
+    rowNum:20,
+    viewrecords: true,
+    imgpath:xs_jquery_grid + '/themes/basic/images',
+    caption: 'My first grid',
+    cellEdit: true
+  });
+
+
+jQuery("#xs_grid").addRowData("",{ what:"Identity", type:"", value:"", scope:"" });
+jQuery("#xs_grid").addRowData("",{ what:"", type:"internal", value:"34", scope:"" });
+jQuery("#xs_grid").addRowData("",{ what:"", type:"external", value:"http://shelter.nu/psi/dd", scope:"" });
+jQuery("#xs_grid").addRowData("",{ what:"Name", type:"", value:"Alexander", scope:"" });
+jQuery("#xs_grid").addRowData("",{ what:"Property", type:"email", value:"alex@shelter.nu", scope:"" });
+
+});
+
+</js>
+	
+</nut:template>

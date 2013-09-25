@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+    <div class="xsSection">
+
+	<h2><nut:content name="404_title" default="en:Page not found (404)|no:Siden ikke funnet (404)" /></h2>
+	<p><nut:content name="404_content" default="en:You've tried to get to a page that does not exist on this server. Sorry.|no:Du har forsøkt å komme til en side som ikke finnes. Sorry." /></p>
+
+    </div>
+
+</nut:template>

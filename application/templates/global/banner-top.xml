@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nut:template 
+    xmlns:nut="http://schema.shelter.nu/nut"
+    xmlns:form="http://schema.shelter.nu/nut-form"
+>
+
+    <div id="xs-saving">Saving ... <img src="{$dir/images}/ajax-loader-2.gif" width="28" alt="please wait" /></div>
+    
+    <nut:if value-of="$request/_access" like="true">
+        
+        <div id="access-rules-table-a"></div>
+        <div id="access-rules-functionality-a" style="display:none;">
+            <nut:for-each select="xs_functionality/*">
+                <li title="{$item/.}">{$item/@name}</li>
+            </nut:for-each>
+        </div>
+        <js>
+           var zz = "{$request/q}" ; 
+           var xs_functionality_a = $('#access-rules-functionality-a').html(); 
+           $(document).ready ( function() {
+                $('#access-rules-table-a').html ( ajax_wait () ) ;
+                $('.access-denied').show ( 3000 ) ;
+                $.ajax ({
+                    type: "GET",
+                    url: xs_dir.home + '/_api/module/security/access_table',
+                    data: { uri: zz, func: xs_functionality_a, read_only: true },
+                    success: function( response ) { 
+                        $('#access-rules-table-a').html ( response ) ;                    
+                        $("#xs-access-rules-ro tbody").sortable({
+                            items: "tr:not(.state-disabled)"
+                        }).disableSelection();   
+                    },
+                    fail: function ( response ) { $('#access-rules-table-a').html ( 'Hmm. Something went wrong.' ) ; }
+                });
+           });
+         </js>
+    </nut:if>
+
+    <nut:if allowed="admin:bar" default="deny">
+
+        <div id="admin-wrapper">
+
+            <nut:if allowed="admin:bar:page" default="deny"><a href="#" id="adm-ctrl-page">Show page admin >></a></nut:if>
+            <nut:if allowed="admin:bar:access" default="deny"><a href="#" id="adm-ctrl-access">Show access admin >></a></nut:if>
+            <nut:if allowed="admin:bar:widgets" default="deny"><a href="#" id="adm-ctrl-widgets">Show widget manager >></a></nut:if>
+
+            <nut:if allowed="admin:bar:page" default="deny">
+            <div id="admin-page">
+                
+                <h1>Page options >> </h1>
+                
+                <nut:if value-of="$page/source" like="''">
+                    <input id="page-create-button" type="button" value="Create page" onclick="$('#page-create-button').slideUp();$('#page-create-form').slideDown();" />
+                    <div id="page-create-form" style="display:none;border:dotted 2px #ccc;padding:9px 15px;">
+                        <form method="post" action="{$dir/home}/_api/resources/content?_redirect={$dir/q}">
+                            <p style="margin-bottom:15px;">The new page will be linked to the URI / page identifier "<span style='background-color:#ededed;border:dotted 1px #aaa;padding:2px 3px;'>{$request/q}</span>".</p>
+                            <p style="margin-bottom:15px;">
+                                What title should the page have?<br/>
+                                <form:dynamic name="f:label" input="" schema="text" />
+                            </p>
+
+                            <p style="margin-bottom:15px;">What type of template should the page use?<br/>
+                                <form:dynamic
+                                    name="f:page-type"
+                                    input="generic"
+                                    radio="true"
+                                    schema="[Generic content=generic,Dynamic template (for widgets)=dynamic,Static template=static]"
+                                />
+                            </p>
+                            <p style="margin-bottom:15px;">Template name for static page?<br/>
+                                <form:dynamic
+                                    name="f:template"
+                                    input="{$page/template}"
+                                    schema="text"
+                                />
+                            </p>
+                            <p style="margin-bottom:15px;">
+                                <a href="#"  onclick="$('#page-create-button').slideDown();$('#page-create-form').slideUp();" style="color:blue;">Cancel</a> 
+                                <input type="submit" value="Submit" />
+                            </p>
+                            <input type="hidden" name="f:type" value="xs::_page" />
+                            <!-- <input type="hidden" name="f:identifier" value="{$page/identifier}" /> -->
+                        </form>
+                    </div>
+                </nut:if>
+                
+                <nut:if value-of="$page/source" like="'file'">
+                    <p>This page is defined through a file, and have no options. Title is 
+                    <span style='background-color:#ededed;border:dotted 1px #aaa;padding:2px 3px;'>{$page/title}</span>, the type of page is 
+                    <span style='background-color:#ededed;border:dotted 1px #aaa;padding:2px 3px;'>{$page/type}</span>, and it's using template 
+                    <span style='background-color:#ededed;border:dotted 1px #aaa;padding:2px 3px;'>{$page/template}</span>.
+                    </p>
+                </nut:if>
+                
+                <nut:if value-of="$page/source" like="'resource'">
+                    <p>This page is defined through a resource, and have no options. Title is
+                    <span style='background-color:#ededed;border:dotted 1px #aaa;padding:2px 3px;'>{$page/title}</span>, the type of page is 
+                    <span style='background-color:#ededed;border:dotted 1px #aaa;padding:2px 3px;'>{$page/type}</span>, and it's using template 
+                    <span style='background-color:#ededed;border:dotted 1px #aaa;padding:2px 3px;'>{$page/template}</span>.
+                    </p>
+                </nut:if>
+                
+                <nut:if value-of="$page/source" like="'db'">
+                    <nut:context select="xs_page">
+ <!--
+                    <h4>Functionality</h4>
+                    <form method="post" action="{$dir/home}/_api/resources/content?_redirect={$dir/q}">
+                        <input type="submit" value="Delete this page" />
+                    </form>
+                    <hr /> -->
+
+                        <form method="post" action="{$dir/home}/_api/resources/content?_redirect={$dir/q}">
+                            
+                            <p style="margin-bottom:15px;">
+                                What title should the page have?<br/>
+                                <form:dynamic
+                                    name="f:label"
+                                    input="{$page/title}"
+                                    schema="text"
+                                />
+                            </p>
+
+                            <p style="margin-bottom:15px;">What type of template should the page use?<br/>
+                                <form:dynamic
+                                    name="f:page-type"
+                                    input="{$page/page_type}"
+                                    radio="true"
+                                    schema="[Generic content=generic,Dynamic template (for widgets)=dynamic,Static template=static]"
+                                />
+                            </p>
+                            <p style="margin-bottom:15px;">Template name for static page?<br/>
+                                <form:dynamic
+                                    name="f:template"
+                                    input="{$page/template}"
+                                    schema="text"
+                                />
+                            </p>
+
+                    <hr />
+
+
+                        <h1>Don't forget to ...</h1>
+                        <input type="submit" value="Save" />
+
+                        </form>
+                    </nut:context>
+                </nut:if>
+                
+            </div>
+            </nut:if>
+            
+            <nut:if allowed="admin:bar:access" default="deny">
+            <div id="admin-access">
+                
+                <!-- <h1>Access rules</h1> -->
+                <div id="access-rules-table"></div>
+                <div id="access-rules-functionality" style="display:none;">
+                    <nut:for-each select="xs_functionality/*">
+                        <li title="{$item.}"> {$item/@name} </li>
+                    </nut:for-each>
+                </div>
+                <js> var z = "{$request/q}" ; 
+                </js>
+                <js>
+                    function redraw_access () {
+                        var xsfunctionality = $('#access-rules-functionality').text();
+                        // alert(xsfunctionality.length);
+                        $('#access-rules-table').html ( ajax_wait () ) ;
+                        $.ajax( {
+                            type: "GET",
+                            url: xs_dir.home + '/_api/module/security/access_table',
+                            data: { uri: z, func: xsfunctionality },
+                            success: function( response ) { 
+                                $('#access-rules-table').html ( response ) ;                    
+                                $("#xs-access-rules tbody").sortable({
+                                   helper: fixHelper,
+                                   items: "tr:not(.state-disabled)"
+                                }).disableSelection();   
+                            },
+                            fail: function ( response ) { $('#access-rules-table').html ( 'Hmm. Something went wrong.' ) ; }
+                        } );
+                    }
+                </js>
+            </div>
+            </nut:if>
+            
+            <nut:if allowed="admin:bar:widgets" default="deny">
+            <div id="admin-widgets">
+
+                <h1>Widgets</h1>
+                <p>Drag the widgets into the content columns of the page (colors indicate category)</p>
+
+                <ul id="sortable-widgets">
+                  <nut:for-each select="xs_widgets/*">
+                        <li class="widget-admin-cat" style="" title="{$item/name()}">
+                            <nut:value-of select="$item/name()" />
+                        </li>
+                        <nut:for-each select="*">
+                            <li class="widget-admin draggable color-{$item/color}" title="{$item/name()}">
+                                <h3 style="font-size:0.9em;margin:0;padding:0;"><nut:value-of select="$item/name" /></h3>
+                            </li>
+                        </nut:for-each>
+                   </nut:for-each>
+                   <li style="clear:both;width:1px;height:1px;"></li>
+                </ul>
+            </div>
+            </nut:if>
+            
+        </div>
+
+    </nut:if>
+
+</nut:template>

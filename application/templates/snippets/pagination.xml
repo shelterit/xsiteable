@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+    <div class="resultsnav">
+        <nut:for-each select="xs_result_pages/*">
+            <!-- <span>[<nut:value-of select="$item/." />]</span> -->
+
+            <nut:if value-of="$item/." equal="'...'"> ... </nut:if>
+            <nut:if value-of="$item/." not-equal="'...'">
+                <a class="page-button ui-state-{#if $page/current_page=$item/name() 'highlight' 'default'}" href="{$dir/home}/{$rest/concept}/{$rest/section}?searchquery={$request/searchquery}&amp;{$item/.}">
+                   <nut:value-of select="$item/name()" />
+                </a>
+
+            </nut:if>
+        </nut:for-each>
+        <js> $('.page-button').button(); </js>
+
+    </div>
+
+</nut:template>

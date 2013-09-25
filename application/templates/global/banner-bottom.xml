@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+	
+	<div id="xsFooter" class="borderish">
+            <div>
+                
+            </div>
+        <!-- <nut:debug select="profile" /> -->
+	</div>
+	
+</nut:template>

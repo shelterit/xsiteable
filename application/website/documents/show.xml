@@ -1,0 +1,572 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template
+    xmlns:nut="http://schema.shelter.nu/nut"
+    xmlns:form="http://schema.shelter.nu/nut-form"
+    xmlns:tm="http://schema.shelter.nu/tm"
+>
+
+    <js>var autotab = 0 ;</js>
+    
+       <nut:import template="global/breadcrumbs" />
+
+	<div id="container">
+
+                <div id="messages" style="display:none;position:absolute;z-index:99999;top:260px;left:190px;border:solid 2px #aca;width:120px;height:70px;color:#686;padding:10px 15px;text-align:center;font-size:0.9em;background-color:#cfc;"></div>
+                                
+		<div id="content">
+
+                    <div id="content-pdf" style="">
+                        <ul>
+                            <li><a href="#content-pdf-1" style="font-size:1.1em !important;">Preview</a></li>
+                            <nut:context select="xs_comments">
+                                <li><a href="#content-pdf-2" style="font-size:1.1em !important;">Comments (<nut:value-of select="count(*)" />)</a></li>
+                            </nut:context>
+                            
+                            <nut:if allowed="document:versions_tab"  default="deny">
+                                <li><a href="#content-pdf-3" style="font-size:1.1em !important;">Versions</a></li>
+                            </nut:if>
+                            
+                        </ul>
+                        <div id="content-pdf-1" style="margin:0;padding:0;">
+                            <nut:if value-of="$doc/no-preview" unlike="'true'">
+                                <div style="margin:0;margin-top:10px;padding:4px 10px;color:#987;font-style:italic;font-size:0.9em;"><b>Note:</b> This is a preview. To open the original document for proper reading and / or printing, use the "<b>Open document</b>" button on the left.</div>
+                            </nut:if>
+                            <iframe id="ifrm" src="{$doc/final_www_html}"></iframe>
+                        </div>
+                        <div id="content-pdf-2" style="margin:0;padding:0;">
+                            <nut:import template="snippets/comments" />
+                        </div>
+                        
+                        <nut:if allowed="document:versions_tab" default="deny">
+                            <div id="content-pdf-3" style="margin:0;padding:0;">
+                                <div id="status" style="display:none;padding:40px;border:solid 1px #999;"></div>
+                                <button onclick='redraw_versions();'>Update list</button>
+                                <button onclick='redraw_drafts();'>Update drafts</button>
+                                <div id="versions" style="padding-bottom:10px;"></div>  
+                                <js> $(document).ready(function(){redraw_versions();}); </js>
+                            </div>
+                        </nut:if>
+                        
+                    </div>
+                </div>
+                
+		<div id="rail">
+                    
+                    <div style="margin:0;padding:0;margin-bottom:25px;">
+                        <a id="open-button" href="{$dir/docs_web}{$doc/home_directory}/{$doc/uid}.{$doc/extension}" style="margin:0;padding:0;">
+                            <div style="float:left;width:58%;height:60px;text-align:center;">
+                                <div style="font-size:1.2em;font-weight:bold;">Open document</div>
+                                <div style="font-size:0.8em;padding-top:3px;">Open the original document for reading or printing.</div>
+                                </div>
+                            <img src="{$dir/static}/images/icons/{$doc/icon}" alt="" width="20%" style="margin:0;padding:5px 3px 5px 0;float:right;" />
+                        </a>
+                    </div>
+                   
+                    <div id="content-meta">
+                        <ul>
+                            <li><a href="#content-meta-1" style="font-size:1.1em !important;">Info</a></li>
+                            <nut:if allowed="document:control_tab" default="deny">
+                                <li><a href="#content-meta-2" style="font-size:1.1em !important;">Control</a></li>
+                            </nut:if>
+                        </ul>
+                        <div id="content-meta-1" class="" style="margin:0;padding:0;">
+
+                        <div style="margin:18px 10px;padding:10px 13px;text-align:center;vertical-align:middle;background-color:green !important;" class="ui-widget ui-state-default ui-corner-all">
+                            <span class="ui-button-text" style="font-size:1.1em;color:#36a">Document&#160;ID&#160;<b style="font-size:1.3em;">{$doc/id}</b></span>
+                        </div>                            
+                            
+                            <tm:list-members context="xs_assoc_owner" title="Owner" id-link="profile" />
+
+                            <tm:list-members context="xs_assoc_author" title="Author" id-link="profile" />
+
+                            <tm:list-members context="xs_assoc_controlled_tags" title="Part of collection" id-link="tags/_controlled" id="label" />
+
+                            <div class="mini-suggest" style="margin:10px;padding-bottom:10px;border-top:solid 1px #ccc;border-bottom:solid 1px #ccc;">
+                                <tm:assoc title="Tags" id="tags" 
+                                    context="xs_assoc_tags"
+                                    type="tag"
+                                    link-to="tags/_open"
+                                    create-new="true"
+                                    find-member="{$doc/id}" />
+                            </div>
+
+                            <h3>Trivia</h3>
+
+                            <div style="padding-left:15px;">
+                                <div style="float:left;width:80px;color:#555;">Words:</div>
+                                <div style="float:left;"> <nut:value-of select="$doc/words_count" /></div>
+                                <div style="clear:both;"> </div>
+                            </div>
+                            <div style="padding-left:15px;">
+                                <div style="float:left;width:80px;color:#555;">Keywords:</div>
+                                <div style="float:left;"> <nut:value-of select="$doc/words_pruned" /></div>
+                                <div style="clear:both;"> </div>
+                            </div>
+
+                            <h3>Important words</h3>
+                            <div><nut:content name="keywords" /></div>
+                                
+                            <h3>Technical</h3>
+                            <div style="padding-left:15px;">
+                                <div>
+                                    
+                                   <button type="button" id="tech-show" 
+                                      onclick="$('#techtable').show('slow');$(this).hide();$('#tech-hide').show();">Show</button>
+                                      
+                                   <button type="button" id="tech-hide" href="#" 
+                                      onclick="$('#techtable').hide('slow');$(this).hide();$('#tech-show').show();" 
+                                      style="display:none;">Close</button>
+                                      
+                                </div>
+                                <table id="techtable" style="font-size:0.8em;display:none;">
+                                    <tr>
+                                        <td>uid</td>
+                                        <td><nut:value-of select="$doc/uid" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>topic_id</td>
+                                        <td><nut:value-of select="$doc/id" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>original_path</td>
+                                        <td><nut:value-of select="$doc/original_path" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>relative_path</td>
+                                        <td><nut:value-of select="$doc/relative_path" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>extension</td>
+                                        <td><nut:value-of select="$doc/extension" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>timestamp</td>
+                                        <td><nut:value-of select="$doc/timestamp" /></td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                        </div>
+ 
+                    <nut:if allowed="document:control_tab" default="deny">
+                        
+                        <div id="content-meta-2" style="margin:0;padding:0 10px;">
+
+                            
+                            <nut:if allowed="document:controlled?" default="deny">
+                                <div style='font-weight:bold;font-size:0.9em;margin-top:15px;'>
+                                    <nut:if value-of="$item/controlled" like="''"><span style="float:right;">
+                                        -
+                                    </span></nut:if>
+                                    <nut:if value-of="$item/controlled" like="'true'"><span style="float:right;">
+                                        <a id="controlled-{$item/uid}" href="#" onclick="ajax_flip_controlled('{$item/uid}');return false;">
+                                            <input type="checkbox" checked="checked" />
+                                        </a>
+                                    </span></nut:if>
+                                    <nut:if value-of="$item/controlled" like="'false'"><span style="float:right;">
+                                        <a id="controlled-{$item/uid}" href="#" onclick="ajax_flip_controlled('{$item/uid}');return false;">
+                                            <input type="checkbox" />
+                                        </a>
+                                    </span></nut:if>
+                                    Document controlled?</div>
+                                <nut:if value-of="$doc/extension" unlike="'pdf'">
+                                <div style='font-weight:bold;font-size:0.9em;margin-top:5px;'>
+                                    <nut:if value-of="$item/pub_format" like="''"><span style="float:right;">
+                                        -
+                                    </span></nut:if>
+                                    <nut:if value-of="$item/pub_format" like="'true'"><span style="float:right;">
+                                        <a id="pub_format-{$item/uid}" class='topic_radio' href="#" onclick="ajax_flip('pub_format','{$doc/id}');return false;">
+                                            <input type="checkbox" checked="checked" />
+                                        </a>
+                                    </span></nut:if>
+                                    <nut:if value-of="$item/pub_format" like="'false'"><span style="float:right;">
+                                        <a id="pub_format-{$item/uid}" href="#" onclick="ajax_flip('pub_format','{$doc/id}');return false;">
+                                            <input type="checkbox" />
+                                        </a>
+                                    </span></nut:if>
+                                    Publish in PDF format?</div>
+                                </nut:if>
+                            </nut:if>
+                            
+                            <hr />
+                            
+                            <h6>Action</h6>
+                            <div class="show-hide">
+                                <div class="label-div">Show >></div>
+                                <div class="content-div" style="margin:0;padding:10px;margin-bottom:10px;border:dotted 2px #999;font-size:0.9em;color:#555;display:none;">
+                                    <div>You can;</div>
+                                    <ul>
+                                        <li><input type="submit" id="touch-original-button" value="Redo all" /></li>
+                                        <li><input type="submit" id="touch-dest-button" value="Redo html and txt" /></li>
+                                        <li><input type="submit" id="touch-dest-html-button" value="Redo txt" /></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <js>var docid = '{$doc/id}' ; </js>
+                            <js>
+                                var original = ifrm.location.href ;
+                                function do_this ( do_this ) {
+                                    var w = ifrm.location.href ;
+                                    var f = xs_dir.home + '/_api/module/docs/action?id='+docid+'&amp;' + do_this ;
+                                    if ( w == f )
+                                        ifrm.location.reload(true) ;
+                                    else
+                                        ifrm.location.href = f ;
+                                }
+                                $('#touch-original-button').button().click(function(event) {
+                                    do_this ( 'action=touch-original') ;
+                                }) ;
+                                $('#touch-dest-button').button().click(function(event) {
+                                    do_this ( 'action=touch-dest') ;
+                                }) ;
+                                $('#touch-dest-html-button').button().click(function(event) {
+                                    do_this ( 'action=touch-dest-html') ;
+                                }) ;
+                            </js>
+                            
+                            <hr />
+                                
+                            <tm:assoc title="Owner" id="owner" 
+                                context="xs_assoc_owner" 
+                                find-member="{$doc/id}" />
+                            
+                            <hr />
+                            
+                            <tm:assoc title="Author" id="author" 
+                                context="xs_assoc_author" 
+                                find-member="{$doc/id}" />
+                            
+                            <hr />
+                            
+                            <div class="mini-suggest">
+                                <tm:assoc title="Controlled vocabulary" id="controlled_tags" 
+                                    context="xs_assoc_controlled_tags"
+                                    type="controlled_tag"
+                                    create-new="true"
+                                    find-member="{$doc/id}" />
+                            </div>
+                                
+                            
+                    
+                            <style>
+                                #owner { padding-bottom:10px; } 
+                                ul.as-selections li { margin: 0 0 4px 0; }
+                            </style>
+
+                            
+                            <!-- <h4>Published date</h4> <div style="padding-bottom:10px;"><input id="published_date" /></div> -->
+                            <form id="my_awesome_reviewdate" action="{$dir/home}/api/data/tm/property">
+                                <h6>Next review date</h6> 
+                                <div style="padding-bottom:10px;">
+                                    <input id="next_review_date" name="next_review_date" value="{$doc/next_review_date}" /> 
+                                    <div style="font-size:0.8em;color:#777;">(<span id="days-away"></span>)</div>
+                                    <input type="hidden" id="topic_id" name="topic_id" value="{$doc/id}" />
+                                </div>  
+
+                            <js>
+                                $(document).ready ( function() {
+                                    $('#my_awesome_reviewdate').change ( function() {
+                                        var v = $('#next_review_date').val();
+                                        $('#days-away').text(days_ago(v) + ' days away');
+                                        $.ajax( {
+                                            type: "GET",
+                                            url: $('#my_awesome_reviewdate' ).attr( 'action' ),
+                                            data: $('#my_awesome_reviewdate' ).serialize(),
+                                            success: function( response ) { },
+                                            always: function ( response ) { }
+                                        } );                                                    
+                                    } );
+                                    var v = $('#next_review_date').val();
+                                    $('#days-away').text(days_ago(v) + ' days away');
+                                } );
+
+                            </js>
+
+                            </form>
+
+                                <h6>Published date</h6> 
+                                <div style="padding-bottom:10px;">
+                                    <input id="publish_date" name="publish_date" disabled="true" value="{$doc/publish_date}" />
+                                    <div style="font-size:0.8em;color:#777;">(<span id="days-ago"></span>)</div>
+                                    <js>
+                                        var v = $('#publish_date').val();
+                                        $('#days-ago').text(days_ago(v) + ' days ago');
+                                    </js>
+                                </div>  
+
+
+                            <!-- <button onclick="$(this).hide();$('#new-version').show();">New version</button> -->
+                            
+
+                            <div id="draft-upload-form" title="Upload draft">
+                            <form action="{$dir/home}/api/data/files" method="post" enctype="multipart/form-data">
+                            <fieldset>
+                                
+                                <label for="f:comment">Comments</label><br/>
+                                <textarea name="f:comment" style="width:400px;height:120px;"></textarea>
+                                <br/>
+                                <input type="hidden" name="f:mode" value="draft" />
+                                <input type="hidden" name="f:id" value="{$doc/id}" />
+                                <input type="hidden" name="f:filename" value="{$doc/item}" />
+
+                                <label for="myfile">File</label><br/>
+                                <input type="file" name="myfile"/><br/>
+                                <br/>
+                                
+                                <div class="progress">
+                                    <div class="bar"></div>
+                                    <div class="percent">0%</div>
+                                </div>
+
+                                <input id="draft-submit-button" type="submit" value="Upload New version!" style="display:none;" />
+                                
+                            </fieldset>
+                            </form>
+                            </div>   
+                            
+                            <div id="draft-promote-confirm" title="Promote draft?" style="display:none;">
+                                <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>
+                                This will <b>promote</b> <i style="color:#777;">(but not approve nor publish)</i> the draft to become a new version of the current document. Are you sure?</p>
+                            </div> 
+                            
+                            <div id="draft-approve-confirm" title="Approve draft?" style="display:none;">
+                                <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>
+                                This will <b>approve</b> <i style="color:#777;">(but not publish)</i> the draft to become a new version of the current document. Are you sure?</p>
+                            </div> 
+                            
+                            <div id="draft-publish-confirm" title="Publish draft as new version?" style="display:none;">
+                                <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>
+                                This will <b>publish</b> the approved draft to become a new <b>version</b> of the current document. Are you sure?</p>
+                            </div> 
+                            
+                            <div id="new-version" style="display:none;">
+                            </div>
+
+                        </div>
+                        
+                    </nut:if>
+
+                    </div>
+                </div>
+
+
+	</div> 
+        <div id="results"  style="displays:none;"></div>
+
+    <nut:if value-of="$request/_comment" like="'true'">
+        <js>autotab = 1 ; </js>
+    </nut:if>
+    
+    
+    <js>
+        
+        var doc_id = '{$doc/id}' ;
+        var doc_uid = '{$doc/uid}' ;
+        
+        function redraw_versions () {
+            $('#versions').html ( ajax_wait () ) ;
+            $.ajax( {
+                type: "GET",
+                url: xs_dir.home + '/api/data/versions',
+                data: { uid: doc_uid },
+                success: function( response ) { $('#versions').html ( response ) ;},
+                fail: function ( response ) { $('#versions').html ( 'Hmm. Something went wrong.' ) ; }
+            } );                                                    
+        }
+        function redraw_drafts ( draft ) {
+            $('#drafts').html ( ajax_wait () ) ;
+            $.ajax( {
+                type: "GET",
+                url: xs_dir.home + '/api/data/versions',
+                data: { id: doc_id, just_drafts: true, draft: draft },
+                success: function( response ) { $('#drafts').html ( response ) ;},
+                fail: function ( response ) { $('#drafts').html ( 'Hmm. Something went wrong.' ) ; }
+            } );                                                    
+        }
+        function reset_draft ( draft_version, draft ) {
+            $.ajax( {
+                type: "GET",
+                url: xs_dir.home + '/api/data/versions',
+                data: { id: doc_id, mode: 'reset', just_drafts: true, draft_version: draft_version, draft: draft },
+                success: function( response ) { $('#drafts').html ( response ) ;},
+                fail: function ( response ) { $('#drafts').html ( 'Hmm. Something went wrong.' ) ; }
+            } );                                                    
+        }
+        function promote_draft ( draft_version, draft ) {
+            $( "#draft-promote-confirm" ).dialog({
+                resizable: false,
+                height:190,
+                modal: true,
+                buttons: {
+                    "Promote!": function() {
+                        $( this ).dialog( "close" );
+                        $.ajax( {
+                            type: "GET",
+                            url: xs_dir.home + '/api/data/versions',
+                            data: { id: doc_id, mode: 'promote', just_drafts: true, draft_version: draft_version, draft: draft },
+                            success: function( response ) { $('#drafts').html ( response ) ;},
+                            fail: function ( response ) { $('#drafts').html ( 'Hmm. Something went wrong.' ) ; }
+                        } );                                                    
+                    },
+                    Cancel: function() {
+                        $( this ).dialog( "close" );
+                        return false;
+                    }
+                }
+            });
+        }
+        function approve_draft ( draft_version, draft ) {
+            $( "#draft-approve-confirm" ).dialog({
+                resizable: false,
+                height:190,
+                modal: true,
+                buttons: {
+                    "Approve!": function() {
+                        $( this ).dialog( "close" );
+                        $.ajax( {
+                            type: "GET",
+                            url: xs_dir.home + '/api/data/versions',
+                            data: { id: doc_id, mode: 'approve', just_drafts: true, draft_version: draft_version, draft: draft },
+                            success: function( response ) { $('#drafts').html ( response ) ;},
+                            fail: function ( response ) { $('#drafts').html ( 'Hmm. Something went wrong.' ) ; }
+                        } );                                                    
+                    },
+                    Cancel: function() {
+                        $( this ).dialog( "close" );
+                        return false;
+                    }
+                }
+            });
+        }
+        function publish_draft ( draft_version, draft ) {
+            $( "#draft-publish-confirm" ).dialog({
+                resizable: false,
+                height:190,
+                modal: true,
+                buttons: {
+                    "Publish!": function() {
+                        $( this ).dialog( "close" );
+                        $.ajax( {
+                            type: "GET",
+                            url: xs_dir.home + '/api/data/versions',
+                            data: { id: doc_id, mode: 'publish', just_drafts: true, draft_version: draft_version, draft: draft },
+                            success: function( response ) { $('#drafts').html ( response ) ;},
+                            fail: function ( response ) { $('#drafts').html ( 'Hmm. Something went wrong.' ) ; }
+                        } );                                                    
+                    },
+                    Cancel: function() {
+                        $( this ).dialog( "close" );
+                        return false;
+                    }
+                }
+            });
+        }
+        $('#draft-upload-form').dialog({
+            height: 400, width: 500,
+            autoOpen: false, modal: true,
+            show: "explode", hide: "explode",
+            buttons: {
+                "Upload": function() { $('#draft-submit-button').click() ; },
+                Cancel: function() { $(this).dialog('close'); }
+            }, close: function() { $(this).dialog('close') ;}
+        });
+
+      $(document).ready ( function() {
+      
+        setIframeHeight('ifrm', 1); window.onresize = function() { setIframeHeight('ifrm', 1); }
+        $('#open-button').button();  // $('#open-button').button();
+        $("#bookmark" ).button({ icons: { primary: "ui-icon-gear" } }) ;
+        var tabs = $('#content-pdf').tabs();
+        var meta = $('#content-meta').tabs();
+        
+        if ( autotab != 0 ) { tabs.tabs('select', autotab ) ; }
+
+        var bar = $('.bar');
+        var percent = $('.percent');
+        
+        $('#draft-upload-form form').ajaxForm({
+        
+            beforeSend: function() {
+                $('#status').empty();
+                var percentVal = '0%';
+                bar.width(percentVal)
+                percent.html(percentVal);
+                $('#filesubmit').hide('slow') ;
+            },
+            uploadProgress: function(event, position, total, percentComplete) {
+                var percentVal = percentComplete + '%';
+                bar.width(percentVal)
+                percent.html(percentVal);
+            },
+            complete: function(xhr) {
+                // meta.tabs('select', 1 ) ;
+                redraw_drafts () ;
+                $('#status').html(xhr.responseText);
+                $('#draft-upload-form').dialog('close') ;
+                test = $('#status').text();
+                t = test.indexOf('!!!! Error') ;
+                if ( t > 0 ) {
+                    // error : file uploaded not the same extension as original
+                    $('#filesubmitsuccess').hide();
+                    $('#filesubmitsuccess').css('background-color', '#fab'); 
+                    $('#filesubmitsuccess').html( "Error: new file has different extension from the original file. Not uploaded; try again." ) ;
+                    $('#filesubmitsuccess').fadeIn("slow");
+                    setTimeout(function(){
+                        $('#filesubmitsuccess').fadeOut("slow", function () { $('#filesubmitsuccess').remove(); });
+                    }, 6000);
+
+                } else {
+                    $('#filesubmitsuccess').hide();
+                    $('#filesubmitsuccess').css('background-color', '#afb'); 
+                    $('#filesubmitsuccess').html( "Success! File is uploaded, and a new file has been added." ) ;
+                    $('#filesubmitsuccess').fadeIn("slow");
+                    setTimeout(function(){
+                        $('#filesubmitsuccess').fadeOut("slow", function () { $('#filesubmitsuccess').remove(); });
+                    }, 6000);
+                }
+            }
+        }); 
+
+         $( "#published_date,#next_review_date" ).datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: 'yy-mm-dd'
+         });
+
+     } );
+    </js>
+
+<style type="text/css">
+#container{
+    
+	overflow:hidden;
+	margin:25px 30px;
+	padding-left:280px; /* The width of the rail */
+}
+* html #container{
+	height:1%; /* So IE plays nice */
+}
+#content{
+	width:100%;
+	border-left:280px solid #fff; /* The width and color of the rail */
+	margin-left:-280px; /* Hat tip to Ryan Brill */
+	float:right;
+}
+#rail{
+	background-color:#fff;
+	width:250px;
+	float:left;
+	margin-left:-280px;
+	display:inline; /* So IE plays nice */
+}
+#content-meta h3 {
+    padding:10px 0 1px 10px;
+    margin:0;color:#666;
+}
+
+#content-meta .smallcontent {margin-top:0;}
+
+</style>
+    
+</nut:template>
