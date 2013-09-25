@@ -2,7 +2,7 @@
 
     // Include the install and diag page, if needed
     require_once ( '_install.php' ) ; die () ;
-      
+       
     // Include the basic xSiteable framework
     require_once ( '_include.php' ) ;
     xs_Core::$glob->log->add ( 'Included framework' ) ;
