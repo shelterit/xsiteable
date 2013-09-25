@@ -155,6 +155,7 @@
 
 <?php
     } else {
+        touch ('.installed') ;
         ?>
 <html>
     <head><title>xSiteable successfully installed!</title></head>
