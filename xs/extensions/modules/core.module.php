@@ -727,17 +727,25 @@
 
         function ___directories () {
             
+            $uri = $this->glob->config['website']['uri'] ;
+            
+            if ( $this->glob->config['website']['uri'] === null ) {
+                // there's a good chance no URI is specified; try to figure
+                // it out automatically
+                $uri = get_current_page_URI () ;
+            }
+            
             $dirs = array (
-                'root' => $this->glob->config['website']['uri'],
-                'home' => $this->glob->config['website']['uri'],
-                'static' => $this->glob->config['website']['uri'].'/static',
-                'js' => $this->glob->config['website']['uri'].'/static/js',
-                'css' => $this->glob->config['website']['uri'].'/static/css',
-                'images' => $this->glob->config['website']['uri'].'/static/images',
-                'api' => $this->glob->config['website']['uri'].'/_api',
+                'root' => $uri,
+                'home' => $uri,
+                'static' => $uri.'/static',
+                'js' => $uri.'/static/js',
+                'css' => $uri.'/static/css',
+                'images' => $uri.'/static/images',
+                'api' => $uri.'/_api',
                 'q' => $this->glob->request->q,
                 'referer' => isset ( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : '',
-                '_this' => $this->glob->config['website']['uri'].'/'.$this->glob->request->q,
+                '_this' => $uri.'/'.$this->glob->request->q,
                 'xs_this' => XS_DIR_APP,
                 'xs_self' => XS_DIR_APP,
                 'xs_file' => XS_DIR_XS,
