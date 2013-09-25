@@ -137,7 +137,7 @@
                 $this->config = $this->parse_config () ;
             
 
-            // if ($rules == null) {
+            if ( is_array ( $this->topics ) ) {
                 $rules = $this->config ;
                 foreach ($this->topics as $topic) {
                     if (isset($topic['scheme'])) {
@@ -165,11 +165,11 @@
                 // debug_r ( $rules ) ;
                 // debug_r ( $rules ) ;
                 $this->rules = $rules ;
-            // }
+            }
             
             // debug_r ( $this->rules ) ;
 
-            // if ($result == null) {
+            if ( is_array ( $this->rules ) ) {
 
                 $result = array();
 
