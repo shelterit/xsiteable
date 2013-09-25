@@ -124,7 +124,7 @@
             
             // Inject directory paths for various bits of our system
             self::$dir_xs  = dirname ( __FILE__ ) ;
-            self::$dir_lib = self::$dir_xs . '/../lib' ;
+            self::$dir_lib = $root . '/lib' ;
             self::$dir_app = $root . '/application' ;
             self::$dir_cache = $root . '/cache' ;
             self::$dir_log = $root . '/log' ;
