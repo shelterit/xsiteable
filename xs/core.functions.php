@@ -24,6 +24,19 @@
        // debug ( $f ) ;
     }
     
+function get_current_page_URI () {
+     $pageURL = 'http';
+     if (isset ( $_SERVER["HTTPS"] ) && $_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
+     $pageURL .= "://";
+     if ($_SERVER["SERVER_PORT"] != "80") {
+      $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+     } else {
+      $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+     }
+     return $pageURL;
+}    
+      
+    
 function debug ( $data, $title = null ) {
     if ( $title ) 
         echo "<div style='float:right;margin-top:2px;margin-right:6px;margin-left:18px;padding:1px 3px;background-color:#deffde;font-size:0.7em;color:#333;'>$title</div>" ;
