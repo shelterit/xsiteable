@@ -27,7 +27,7 @@ class Filesystem {
         $attempt = 0;
 
         while (true) {
-            $handle = fopen($file, "w");
+            $handle = @fopen($file, "w");
             if ($handle)
                 break;
             if ($attempt++ == Filesystem::attempts)
