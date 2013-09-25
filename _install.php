@@ -18,15 +18,18 @@
     
     // echo "<hr> [$sn] [$self] [$chop] = [$base_uri] <hr>" ;
     
+    echo "<h2>Welcome!</h2> <p>Welcome to the xSiteable install testing script, which runs the first time to make sure you've got all the bits and bobs installed and configured.</p>" ;
+    echo "<p>What follows is a set of points that will test items of interest, and tell you if you've got them right. Ok, here we go;</p>" ;
+    
     $xs_installed = true ;
     $versions = array () ;
     
     $php = $xsl = $pdo = $tidy = $json = $rewrite = false ;
     
     foreach (get_loaded_extensions() as $ext) 
-        $versions[strtolower ($ext)] = phpversion($ext) ;
+        $versions[strtolower($ext)] = phpversion($ext) ;
     
-    echo "<li>PHP is at least version 5.2 : " ;
+    echo "<li>PHP needs to be at least version 5.2 : " ;
     if ( (int) substr ( $versions['core'], 0, 1) > 4 ) {
         if ( (int) substr ( $versions['core'], 2, 1) > 1 ) {
             $php = true ;
@@ -99,7 +102,7 @@
     echo "</li>\n" ;
     
 
-    echo "<li>rewrite rules enabled : " ;
+    echo "<li>rewrite rules enabled or configured correctly: " ;
         
     $uri = $base_uri . 'admin/test?through=true' ;
 
@@ -109,7 +112,7 @@
 
     if ( trim ( $test ) !== 'Through!' ) {
         $xs_installed = false ;
-        echo "<b style='color:red'>Nope</b>." ; $xs_installed = false ;
+        echo "<b style='color:red'>Nope</b>. If using Apache webserver, the .htaccess file provided may need tweaking of paths to make it go correctly. For any other, who knows? (Ie. support for other webservers and OSes will come over time)" ; $xs_installed = false ;
     } else {
         $rewrite = true ;
         echo "<b style='color:green'>Yes, looks good</b>." ;
