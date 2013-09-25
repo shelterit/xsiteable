@@ -106,7 +106,7 @@
         
     $uri = $base_uri . 'admin/test?through=true' ;
 
-    echo "[$uri] " ;
+    // echo "[$uri] " ;
     
     $test = file_get_contents ( $uri ) ;
 
