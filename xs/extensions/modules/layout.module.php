@@ -50,20 +50,10 @@
                 'SELECT * FROM xs_topic WHERE type1 = 22 AND parent > 0', 
             '+1 hour' ) ;
 
-            $struct = $this->glob->data->get ( 'xs_site_structure_pages' ) ;
-            
-            
-            foreach ( $struct as $idx => $page ) {
-                // echo '[' ; print_r ( $page['id'] ) ; echo '] ' ;
-            }
-            
-            // print_r ( $this->glob->page ) ;
-            
             $this->glob->data->register_query ( 'xs', 'xs_site_structure', 
                 'SELECT * FROM xs_topic WHERE type1 = 22 AND parent > 0', 
             '+1 hour' ) ;
 
-            // print_r ( $struct ) ;
         }
 
         function POST ( $args = null ) {
