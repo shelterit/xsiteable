@@ -1,7 +1,7 @@
 <?php
 
     // Include the basic xSiteable framework
-    require_once ( '_include.php' ) ;
+    require_once ( '_framework.php' ) ;
     
     // Create the application stack
     $xs_stack = new xs_EventStack () ;
