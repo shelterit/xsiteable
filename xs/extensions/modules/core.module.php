@@ -727,9 +727,9 @@
 
         function ___directories () {
             
-            $uri = $this->glob->config['website']['uri'] ;
+            $uri = @$this->glob->config['website']['uri'] ;
             
-            if ( $this->glob->config['website']['uri'] === null ) {
+            if ( $uri === null ) {
                 // there's a good chance no URI is specified; try to figure
                 // it out automatically
                 $uri = get_current_page_URI () ;
