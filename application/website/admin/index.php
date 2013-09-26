@@ -154,20 +154,6 @@ class xs_action_instance extends xs_Action_Webpage {
 
                 die() ;
 
-            case 'db_ontology' :
-
-                $m = $this->glob->data->get_native_driver ( 'xs' ) ;
-
-                $dm = new xs_TopicMaps_Datamodel ( $m ) ;
-
-                $ret = $dm->createOntology ( ) ;
-
-                echo "<pre>" . htmlentities ( $ret ) . "</pre>" ;
-                
-                file_put_contents ( XS_DIR_APP . '/datastore/_ontology.php', $ret ) ;
-
-                die() ;
-
             case 'db_sql_dump' :
 
                 $m = $this->glob->data->get_native_driver ( 'xs' ) ;
