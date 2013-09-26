@@ -1,13 +1,19 @@
 <?php
 
+    // error_reporting(-1);
+    ini_set("display_errors", 1);
+    
     if ( ! file_exists ( '.installed') ) {
         
         // Include the install and diag page, if needed
-        require_once ( '_install.php' ) ; die () ;
+        require_once ( '_install.php' ) ; 
+        
+        // and die!
+        die () ;
     }
     
     // Include the basic xSiteable framework
-    require_once ( '_include.php' ) ;
+    require_once ( '_framework.php' ) ;
     xs_Core::$glob->log->add ( 'Included framework' ) ;
 
     // Set the version number for our app
