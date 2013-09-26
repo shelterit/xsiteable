@@ -16,10 +16,10 @@ class dms_lib_files {
     
     function __construct ( $glob = null ) {
         $this->glob = $glob ;
-        $this->base_folder = $this->glob->config['dms']['destination_folder'] ;
+        $this->base_folder = @$this->glob->config['dms']['destination_folder'] ;
         
-        $this->source_path = $this->glob->config['dms']['source_folder'] ;
-        $this->alt_source_paths = $this->glob->config['dms']['additional_source_folder'] ;
+        $this->source_path = @$this->glob->config['dms']['source_folder'] ;
+        $this->alt_source_paths = @$this->glob->config['dms']['additional_source_folder'] ;
         
     }
     
