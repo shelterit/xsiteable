@@ -277,7 +277,7 @@
                                 <ul>
                                    <li><button onclick="xs_redirect('{$dir/home}/admin/db_create_delete','windb')">Create tables and data</button> Note! Also deletes old data and tables, and re-inserts default data, so be careful!</li>
                                    <li><button onclick="xs_redirect('{$dir/home}/admin/db_create','windb')">Create only new tables</button> Doesn't delete old data (nor inject any new), handy for just updating the datamodel.</li>
-                                   <li><button onclick="xs_redirect('{$dir/home}/admin/db_ontology','windb')">Convert ontology</button> Finds all types and basic ontology entities, and create a shortcut fast cached version for the framework.</li>
+                                   <!-- <li><button onclick="xs_redirect('{$dir/home}/admin/db_ontology','windb')">Convert ontology</button> Finds all types and basic ontology entities, and create a shortcut fast cached version for the framework.</li> -->
                                    <li><button onclick="xs_redirect('{$dir/home}/admin/db_sql_dump/'+$('#filename').val(),'windb')">SQL dump</button> Dumps the whole content of the database to file <input id="filename" style="width:auto;" value="db.sql" /></li>
                                 </ul>
                             </div>
