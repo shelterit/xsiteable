@@ -134,11 +134,11 @@ class xs_module_dms extends xs_Action {
         // register a few actions against a given type
         // $this->_register_action ( 'add', $this->_type->_document, 'add_document' ) ;
         
-        $this->base_folder = $this->glob->config['dms']['destination_folder'] ;
-        $this->base_uri = $this->glob->config['dms']['destination_uri'] ;
+        $this->base_folder = @$this->glob->config['dms']['destination_folder'] ;
+        $this->base_uri = @$this->glob->config['dms']['destination_uri'] ;
         
-        $this->source_path = $this->glob->config['dms']['source_folder'] ;
-        $this->alt_source_paths = $this->glob->config['dms']['additional_source_folder'] ;
+        $this->source_path = @$this->glob->config['dms']['source_folder'] ;
+        $this->alt_source_paths = @$this->glob->config['dms']['additional_source_folder'] ;
         
         // a couple of helper classes
         $this->lib_files = new dms_lib_files ( $this->glob ) ;
