@@ -1,4 +1,6 @@
 <?php
+        require_once ( XS_DIR_LIB . '/spyc/spyc.php5' ) ;
+
 	class xs_TopicMaps_Datamodel {
 
 		private $_db = null ;
