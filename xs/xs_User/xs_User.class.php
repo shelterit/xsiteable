@@ -150,7 +150,6 @@
         
         function callback___on_user_blank ( $param = null ) {
             $this->_blanks[] = $param ;
-            // debug($param,'real param');
         }
         
 
@@ -172,7 +171,7 @@
 
             // debug ($param, "param");
             
-            if ( $param == null ) {
+            if ( $param === null ) {
 
                 // $this->glob->seclog->logInfo ( '['.$this->glob->user->username."] xs_User->___on_user_blank_callback : no params, firing events"  ) ;
 
@@ -217,7 +216,8 @@
             // Well, is it?
             if ( isset ( $r['xs-login-username'] ) ) {
 
-                if ( $this->debug ) debug_r($r, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX") ;
+                // if ( $this->debug ) 
+                // debug_r($r, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX") ;
                 
                 // yes, let's return those credentials
                 return array (
