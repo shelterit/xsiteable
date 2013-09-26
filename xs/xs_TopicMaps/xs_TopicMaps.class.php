@@ -522,7 +522,7 @@ group by
                     $identity = $arr['who'] ;
                     unset ( $arr['who'] ) ;
                 }
-                if ( $this->glob->config['framework']['auto_signing'] && $identity == 1 )
+                if ( isset ( $this->glob->config['framework']['auto_signing'] ) && $this->glob->config['framework']['auto_signing'] && $identity == 1 )
                     $this->glob->user->id ;
                 $arr['m_u_date'] = date ( XS_DATE ) ;
                 $arr['m_u_who'] = $identity ;
@@ -534,7 +534,7 @@ group by
                     $identity = $arr['who'] ;
                     unset ( $arr['who'] ) ;
                 }
-                if ( $this->glob->config['framework']['auto_signing'] && $identity == 1 )
+                if ( isset ( $this->glob->config['framework']['auto_signing'] ) && $this->glob->config['framework']['auto_signing'] && $identity == 1 )
                     $this->glob->user->id ;
                 $arr['m_c_date'] = date ( XS_DATE ) ;
                 $arr['m_c_who'] = $identity ;
