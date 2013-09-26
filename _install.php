@@ -1,7 +1,7 @@
 <?php
     
     // Include the basic xSiteable framework
-    require_once ( '_include.php' ) ;
+    require_once ( '_framework.php' ) ;
     
     if ( isset ( $_REQUEST['through'] ) ) {
         echo "Through!" ;
