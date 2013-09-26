@@ -29,6 +29,9 @@
     // We also need SimplePie
     require_once ( 'lib/simplepie/autoloader.php' ) ;
     
+    
+    
+    
     /*
      *
      * The core of the framework begins here; create the stack, init
@@ -52,7 +55,6 @@
     $xs_stack->init () ;
     xs_Core::$glob->log->add ( 'Event stack has initiated all plugins and modules' ) ;
 
-    // debug_r( $xs_stack);
     // Start the fun!
     $xs_stack->action () ;
 
