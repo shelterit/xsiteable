@@ -74,8 +74,8 @@ class xs_action_instance extends xs_Action_Webpage {
         
         arsort ( $score ) ;
 
-        echo "<pre>" ; print_r ( $finals ) ; echo "</pre>" ;
-        echo "<pre>" ; print_r ( $score ) ; echo "</pre>" ;
+        // echo "<pre>" ; print_r ( $finals ) ; echo "</pre>" ;
+        // echo "<pre>" ; print_r ( $score ) ; echo "</pre>" ;
 
         $this->glob->log->add ( 'search : scored and sorted, small search done.' ) ;
 
