@@ -66,7 +66,7 @@
         echo "<div style='border:solid 1px #999;padding:8px;margin-left:30px;'>" ;
         echo "<p>In order for xSiteable to work properly, we need to use and initiate a database. The DSN string has the following format;<br>" ;
         echo "<code>'[driver]:host=[host];dbname=[database]'</code>, so for example: <code>'mysql:host=127.0.0.1;dbname=intranet'</code>.<br>" ;
-        echo "xSiteable uses at least one database which you can call whatever you want, but 'intranet' is the one used in the example above. If this database doesn't exist in the database, it needs to be created, and make sure the user account you use for it has reand and write access, and 'CREATE' access as well for the schema filling (unless you want to do this yourself; look at the docos).</p>" ;
+        echo "xSiteable uses at least one database which you can call whatever you want, but 'intranet' is the one used in the example above. If this database doesn't exist in the database, it needs to be created, and make sure the user account you use for it has read and write access, and 'CREATE' access as well for the schema filling (unless you want to do this yourself; look at the docos).</p>" ;
         
         $d = isset ( $_REQUEST['dsn'] ) ? $_REQUEST['dsn'] : '' ;
         $u = isset ( $_REQUEST['un'] ) ? $_REQUEST['un'] : '' ;
@@ -89,11 +89,11 @@
                 
                 $dm = new xs_TopicMaps_Datamodel ( $test ) ;
 
-                file_put_contents ( 'datastore/_data_backup.sql', $dm->backupData ( 'datastore/_data_backup.sql' ) ) ;
+                file_put_contents ( 'application/datastore/_data_backup.sql', $dm->backupData ( 'application/datastore/_data_backup.sql' ) ) ;
 
                 $dm->installModel ( false ) ;
 
-                $dm->restoreData ( file_get_contents ( 'datastore/_data_backup.sql' ) ) ;
+                $dm->restoreData ( file_get_contents ( 'application/datastore/_data_backup.sql' ) ) ;
                 
                 // $result = $test->exec ("SHOW TABLES;");
                 echo "<b style='color:green'>Seems Ok; I've loaded the database with the xSiteable tables. Yay!</b><br> " ;
@@ -103,6 +103,11 @@
                 if ($e->getCode == '2A000')
                     echo "Syntax Error: ".$e->getMessage();
             }            
+            
+        } else {
+            
+            echo "<p><b style='color:red;'>Note! Database hasn't been initiated.</b> Make sure you've installed the datamodel. If you're certain you have and this is the last point holiding you back, create an empty file in the root directory of where you installed xSiteable called '.installed', and this install script will go away.</p>" ;
+            $xs_installed = false ;
             
         }
     
@@ -172,7 +177,7 @@
     <body>
         <h1>Yay!</h1>
         <p>Looks like your installation of xSiteable has come together fine. No guarantees that it all fits together, though, especially databases and the like (which has many sources of things that could go wrong. But apart from that ...</p>
-        <p>Next, you can now safely a) remove the "require" line from the index.php file, and b) knock your self out in the application/configuration.ini file. Good luck.</p>
+        <p>Next, you can <button>finish</button> the install process, and jump into xSiteable.</p>
     </body>
 </html>
 
