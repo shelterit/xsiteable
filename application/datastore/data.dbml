@@ -3,10 +3,9 @@ db_data:
       into: [id, name, label, type]
       values:
          - [  1, default, "Default TopicMap", 9]
-         - [  2, default-deleted, "Default TopicMap (deleted items)", 9]
+         - [  2, archived, "Default TopicMap (archived items)", 9]
          - [  3, base, "Base TopicMap", 9]
          - [  4, gist, "Gist Ontology", 9]
-         - [  5, gist-extended, "Extended Gist Ontology", 9]
    xs_topic:
       into: [id, name, label, type1]
       values:
@@ -34,13 +33,14 @@ db_data:
          # human relations
          - [  40, hr, "A human relations concept", 7]
          - [  41, user, "A user", 40]
-         - [  42, role, "A users' role", 40]
-         - [  43, auth, "A users' authentication", 40]
+         - [  42, user_role, "A users role", 40]
+         - [  43, user_auth, "A users authentication", 40]
          - [  44, user_group, "A group of users", 41]
+         - [  45, user_type, "A type of a user", 41]
          # document management and control
          - [  60, docman, "Document Management essentials", 7]
          - [  61, doc, "A document", 60]
-         - [  62, doc_id, "A documents' persistent identifier", 60]
+         - [  62, doc_id, "A documents persistent identifier", 60]
          - [  63, original, "Original document", 60]
          - [  64, preview, "A preview document", 60]
          - [  65, original_path, "Original path of document", 60]
@@ -49,6 +49,8 @@ db_data:
 
          # time and tide
          - [  80, spacetime, "Conceptual time and space", 7 ]
+         ## the system
+         - [  99, xs, "System", 9]
          # publication (news, blogs, articles, items of note) properties
          - [ 100, pub_short, "Short description", 4 ]
          - [ 101, pub_full, "Full text", 4 ]
