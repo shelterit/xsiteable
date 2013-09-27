@@ -79,7 +79,7 @@
                                 <input type="submit" value="Submit" />
                             </p>
                             <input type="hidden" name="f:type" value="xs::_page" />
-                            <!-- <input type="hidden" name="f:identifier" value="{$page/identifier}" /> -->
+                            <input type="hidden" name="f:identifier" value="{$page/identifier}" />
                         </form>
                     </div>
                 </nut:if>
