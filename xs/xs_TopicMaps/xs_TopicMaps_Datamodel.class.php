@@ -181,6 +181,8 @@
 
 		function prepareDataSQL ( $res ) {
 
+                    $who = '99' ;
+                    
 			$ret = array() ;
 
 			foreach ( $res as $table => $meta ) {
@@ -196,11 +198,15 @@
 						$sql = "INSERT INTO $table ( " ;
 
 						if ( isset ( $meta['into'] ) ) {
+                                                    
+                                                    // $meta['into'][] = 'm_p_who' ;
 
 							foreach ( $meta['into'] as $field )
 								$sql .= $field . ", " ;
 
-							$sql = substr ( $sql, 0, strlen ($sql) - 2 ) ;
+                                                        $sql .= 'm_p_who, m_c_who' ;
+                                                        
+							// $sql = substr ( $sql, 0, strlen ($sql) - 2 ) ;
 
 						}
 
@@ -208,29 +214,29 @@
 
 						if ( isset ( $meta['values'] ) ) {
 
-						// '%base64='.base64_encode ( $text )
+                                                    foreach ( $meta['values'][$n] as $idx => $value ) {
+                                                            $s = trim ( substr ( $value, 0, 8) ) ;
+                                                            if ( $s == '%base64=' ) {
+                                                                    $str = $this->_db->quote (
+                                                                            html_entity_decode (
+                                                                                    base64_decode (
+                                                                                            substr ($value, 8)
+                                                                                    ), ENT_COMPAT, 'UTF-8'
+                                                                            )
+                                                                    ) ;
+                                                                    $str = str_replace ( "&~", "&#", $str ) ;
+                                                                    $str = str_replace ( " & ", " &amp; ", $str ) ;
+                                                                    $sql .= $str.", " ;
+                                                                    // echo "[$idx=".substr ( $value, 0, 8)."]" ;
+                                                            } else {
+                                                                $sql .= "'".html_entity_decode($value)."', " ;
+                                                            }
+                                                    }
 
-						// print_r ( $meta['values'] ) ; die() ;
-							foreach ( $meta['values'][$n] as $idx => $value ) {
-								$s = trim ( substr ( $value, 0, 8) ) ;
-								if ( $s == '%base64=' ) {
-									$str = $this->_db->quote (
-										html_entity_decode (
-											base64_decode (
-												substr ($value, 8)
-											), ENT_COMPAT, 'UTF-8'
-										)
-									) ;
-									$str = str_replace ( "&~", "&#", $str ) ;
-									$str = str_replace ( " & ", " &amp; ", $str ) ;
-									$sql .= $str.", " ;
-									// echo "[$idx=".substr ( $value, 0, 8)."]" ;
-								}
-								else
-									$sql .= "'".html_entity_decode($value)."', " ;
-							}
+                                                    // $sql = substr ( $sql, 0, strlen ($sql) - 2 ) ;
 
-							$sql = substr ( $sql, 0, strlen ($sql) - 2 ) ;
+                                                    $sql .= " '$who', '$who' " ;
+                                                    // echo "($sql) <br/>" ;
 						}
 
 						$sql .= " ) ;" ;
@@ -352,7 +358,7 @@
 
 		function installModel ( $delete = false, $specific_table = false ) {
 
-			$debug = false ;
+			$debug = false;
 
 			// $this->timer->add ( 'get:datamodel' ) ;
 
@@ -398,17 +404,17 @@
 
                             if ( !$debug) $this->_db->beginTransaction();
                             foreach ( $sql as $num => $line ) {
-                                    try {
+                                $result = null ;
+                                try {
+                                        if ( $debug )
+                                            var_dump ( $line ) ;
+                                        else
+                                            $result = $this->_db->query ( $line ) ;
+                                        echo "<pre>[$num] ".print_r ( $line, true )." [".print_r ( $result, true )."]</pre><hr>" ;
 
-                                            if ( $debug )
-                                                var_dump ( $line ) ;
-                                            else
-                                                $result = $this->_db->query ( $line ) ;
-                                            echo "<pre>[$num] ".print_r ( $line, true )." [".print_r ( $result, true )."]</pre><hr>" ;
-
-                                    } catch ( Exception $e ) {
-                                             echo "<pre style='background-color:red;color:yellow;'> error : ".print_r ( $result, true )."</pre><hr>" ;
-                                    }
+                                } catch ( Exception $e ) {
+                                            echo "<pre style='background-color:red;color:yellow;'> error : ".print_r ( $result, true )."</pre><hr>" ;
+                                }
                             }
                             if ( !$debug) { $result = $this->_db->commit(); print_r ( $result ) ; print_r ( $this->_db ) ; }
 			} catch ( Exception $e ) {
