@@ -9,6 +9,10 @@ db_tables:
       name:                   text *
       label:                  text.long *
       type:                   int topic.id *
+      m_c_date:               time *
+      m_c_who:                int topic.id *
+      m_p_date:               time *
+      m_p_who:                int topic.id *
    xs_topic:
       _type:                  "meta"
       id:                     int.primary
