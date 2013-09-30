@@ -91,7 +91,7 @@
 
                 file_put_contents ( 'application/datastore/_data_backup.sql', $dm->backupData ( 'application/datastore/_data_backup.sql' ) ) ;
 
-                $dm->installModel ( false ) ;
+                $dm->installModel ( true ) ;
 
                 $dm->restoreData ( file_get_contents ( 'application/datastore/_data_backup.sql' ) ) ;
                 
@@ -170,7 +170,7 @@
 
 <?php
     } else {
-        touch ('.installed') ;
+        // touch ('.installed') ;
         ?>
 <html>
     <head><title>xSiteable successfully installed!</title></head>
