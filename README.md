@@ -14,3 +14,19 @@ well as normal development stuff!
 Enjoy. And join in. It will never be complete, never be perfect, never be done; it will evolve and mutate into
 what I hope is the perfect development framework that's for people who are sick of the fragmented approach to
 PHP libraries.
+
+install
+=======
+
+Git pull to where you'd like it, or zip it there, and ... uh, go to your webbrowser and view the root through 
+your webserver. Yeah, things will be wrong; an install script will run and let you know of all the silly
+little things we need to get working before xSiteable takes off. It's basically a few good PHP modules, some
+rewrite rules (which are easy to fix if you're on Apache with a .htaccess file included), and a database
+connection, all testable through the script. If it all passes, it just creates a .installed file in the root,
+and gets on with its life. If you feel the need to go back and check, just delete that .installed file.
+
+questions?
+==========
+
+There's a mailing-list over at https://groups.google.com/forum/#!forum/xsiteable you can try, as well as just
+contacting us. We're easy-going and eager to please.
