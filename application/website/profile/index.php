@@ -21,7 +21,7 @@ class xs_action_instance extends xs_Action_Webpage {
             
             // yes, but is it numeric?
             if (is_numeric ( $uid ) ) {
-                $this->current_id = $uid ;
+                $this->current_id = $id = $uid ;
                 $topics = $this->glob->tm->query ( array ( 'id' => $uid ) ) ;
                 $topic = reset ( $topics ) ;
                 if ( $topic ) {
@@ -31,6 +31,7 @@ class xs_action_instance extends xs_Action_Webpage {
             } else {
                 $topics = $this->glob->tm->query ( array ( 'name' => 'user:'.$uid ) ) ;
                 $topic = reset ( $topics ) ;
+                $id = $topic['id'] ;
             }
             
             if ( ! $topic ) {
