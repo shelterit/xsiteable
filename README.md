@@ -1,6 +1,8 @@
 xSiteable
 =========
 
+(btw, check out the Wiki; https://github.com/shelterit/xsiteable/wiki)
+
 xSiteable is a PHP event-based framework for application development. It uses a normalised Topic Maps datamodel 
 for super-stable application state through development iterations, and a host of things to make the developers 
 life seem easier and cooler. It's a complete plugin system, it comes with widgets, it uses Jquery and Jquery UI
