@@ -337,7 +337,7 @@
             if ( trim ( $txt ) == '' )
                 return ;
             
-            $txt = htmlentities($txt) ;
+            $txt = preg_replace ( '/&(?![A-Za-z0-9#]{1,7};)/','&amp;', $txt ) ;
             
             try {
                 // debug($txt);
