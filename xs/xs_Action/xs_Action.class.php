@@ -337,6 +337,8 @@
             if ( trim ( $txt ) == '' )
                 return ;
             
+            $txt = htmlentities($txt) ;
+            
             try {
                 // debug($txt);
                 $s = @simplexml_load_string ( $txt ) ;
