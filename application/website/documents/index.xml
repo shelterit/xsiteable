@@ -30,7 +30,7 @@
                 <div id="col2-1" style="margin:0;padding:0;">
                     <div class="content">
                         
-                        <nut:if allowed="document:control_tab" default="false">
+                        <nut:if allowed="document:control_tab" default="deny">
                             <button id="add-new" type="button">Add new document</button>
                             <hr />
                         </nut:if>
