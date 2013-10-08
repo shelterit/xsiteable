@@ -77,9 +77,9 @@
         
         function ___output_pre () {
             
-            $redirect = urldecode ( $this->glob->request->__fetch ( '_redirect', '' ) ) ;
+            $redirect = urldecode ( $this->glob->request->__fetch ( '_redirect', 'zzz' ) ) ;
             
-            if ( $redirect != '' ) {
+            if ( $redirect != 'zzz' ) {
 
                 if ( $redirect == XS_ROOT_ID ) $redirect = '' ;
                 
