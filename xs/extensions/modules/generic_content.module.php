@@ -87,9 +87,9 @@
 
                 $l = $redirect ;
 
-                if ( sizeof ( $l ) > 0 && $l[0] !== '/' && $l[0] !== '\\' ) {
-                    $domain .= '/' ;
-                }
+                if ( $l != '' && $l[0] !== '/' && $l[0] !== '\\' ) {
+                            $domain .= '/' ;
+                        }
 
                 if ( ! strstr ( $domain, 'http:' ) and ! strstr ( $domain, 'https:' ))
                     $domain = 'http://' . $domain ;
