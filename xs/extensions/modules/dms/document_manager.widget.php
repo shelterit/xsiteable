@@ -66,13 +66,23 @@ class xs_widget_document_manager extends xs_Action_Widget_Controller {
     
         // check if we're to output the data in some other format
         $output = $this->glob->request->_output ;
+        
+        if ($output == '')
+            $output = 'html';
 
         // renderer
-        $render = html_helper::RENDER_HTML ;
+        if ($output == 'csv') {
+            $render = html_helper::RENDER_CSV ;
+            $export = null;
+        }
+        else {
+            $render = html_helper::RENDER_HTML ;
+            $export = array ( 'document_manager', '', $this->glob->dir->api );
+        }
         
         // table configuration options
         $conf = array ( 
-            '_export' => array ( 'document_manager', '', $this->glob->dir->api ),
+            '_export' => $export,
             'id'  => $this->html->create_link ( $this->glob->dir->home.'/documents', '[id]'  ),
             'label' => $this->html->create_link ( $this->glob->dir->home.'/documents', '[name:9]'  ),
             // 'owned_by' => true, // $this->html->create_link ( $this->glob->dir->home.'/profile', '[owned_by]'  ),
@@ -182,7 +192,10 @@ class xs_widget_document_manager extends xs_Action_Widget_Controller {
                 $html = '' ;
                 foreach ( $f->get_members_of_type ( $this->_type->_user, $fin[$item['id']] ) as $i => $p )
                    $html .= '<a href="'.$this->glob->dir->home.'/profile/'.$i.'">' . $ww[$i]['label'] . '</a> ' ;
-                $data[$idx]['owned_by'] = $html ;
+                if ($output == 'csv')
+                    $data[$idx]['owned_by'] = $ww[$i]['label'];
+                else
+                    $data[$idx]['owned_by'] = $html ;
             }
         }
         
@@ -192,9 +205,15 @@ class xs_widget_document_manager extends xs_Action_Widget_Controller {
         
         $data_result = $this->html->_render_table ( $data, $conf, $render ) ;
         
+        if ($output == 'csv') {
+            header('Content-Type: text/csv');
+            header('Content-disposition: attachment;filename=Document_Register.csv');
+        }
+            
         echo $data_result ;
-        echo " <script>oTable = $('#".$this->html->id."').dataTable({'sScrollY': '400px','bPaginate': false,'bJQueryUI': true,'sPaginationType': 'two_button' });</script>" ;
-        
+            
+        if ($output == 'html')
+            echo " <script>oTable = $('#".$this->html->id."').dataTable({'sScrollY': '400px','bPaginate': false,'bJQueryUI': true,'sPaginationType': 'two_button' });</script>" ;
     }
 
     // Get the widget initial content

@@ -95,20 +95,25 @@
             $ret = null ;
             if ( $mode == html_helper::RENDER_HTML ) $ret .= "<thead><tr>\n";
             if ( $mode == html_helper::RENDER_HTML ) $ret .= "<th>No.</th>\n";
+            if ( $mode == html_helper::RENDER_CSV ) $ret .= "No.\n";
+            
             foreach ( $keys as $key ) {
                 if ( isset ( $conf[$key] ) ) {
                     if ( $conf[$key] !== false ) {
                         if ( strpos($key, 'flag:') !== false )
                            $key = str_replace ('flag:', '', $key ) ;
                         if ( $mode == html_helper::RENDER_HTML ) $ret .= "<th>$key</th>\n";
+                        elseif ( $mode == html_helper::RENDER_CSV ) $ret .= "$key,";
                         else $ret[$key] = $key ;
                     }
                 } else {
                    if ( $mode == html_helper::RENDER_HTML ) $ret .= "<th>$key</th>\n";
-                        else $ret[$key] = $key ;
+                   elseif ( $mode == html_helper::RENDER_CSV ) $ret .= "$key,";
+                   else $ret[$key] = $key ;
                 }
             }
             if ( $mode == html_helper::RENDER_HTML ) $ret .= "</tr></thead>\n";
+            elseif ( $mode == html_helper::RENDER_CSV ) $ret .= "\n";
             return $ret ;
         }
 
@@ -118,7 +123,8 @@
 
             if ( $mode == html_helper::RENDER_HTML ) $ret .= "<tr>\n";
             if ( $mode == html_helper::RENDER_HTML ) $ret .= "<td> $this->counter</td>\n"; // (".print_r(array_keys($keys),true).")
-
+            if ( $mode == html_helper::RENDER_CSV ) $ret .= "$this->counter,";
+            
             foreach ( $keys as $key => $value ) {
 
                 if ( isset ( $conf[$key] ) ) {
@@ -159,6 +165,7 @@
                             }
 
                             if ( $mode == html_helper::RENDER_HTML ) $ret .= '<td class="color-'.$cls.'" style="'.$stl.'"> '.$value.' </td>' ;
+                            elseif ( $mode == html_helper::RENDER_CSV ) $ret .= $value . ',';
                             else $ret[$key] = $value ;
 
                         } elseif ( count ( $res = explode ( '[', $conf[$key] ) ) > 1 ) {
@@ -194,6 +201,8 @@
 
                             if ( $mode == html_helper::RENDER_HTML ) 
                                 $ret .= '<td><a href="'.$conf[$key].'">'.$value.'</a> </td>' ;
+                            elseif ( $mode == html_helper::RENDER_CSV )
+                                $ret .= $value . ',';
                             else 
                                 $ret[$key] = $value ;
 
@@ -205,11 +214,13 @@
 
                 } else {
                     if ( $mode == html_helper::RENDER_HTML ) $ret .= "<td>$value</td>" ;
+                    elseif ( $mode == html_helper::RENDER_CSV ) $ret .= "$value," ;
                     else $ret[$key] = $value ;
                 }
             }
 
             if ( $mode == html_helper::RENDER_HTML ) $ret .= "</tr>\n";
+            if ( $mode == html_helper::RENDER_CSV ) $ret .= "\n";
 
             return $ret ;
         }
@@ -273,13 +284,17 @@
 
                         if ( $mode == html_helper::RENDER_HTML ) {
                             $ret .= $this->_render_headers ( array_keys ( $row ), $conf, $mode ) . "<tbody>" ;
+                        }
+                        if ( $mode == html_helper::RENDER_CSV ) {
+                            // do nothing
                         } else {
                             $data['headers'] = $this->_render_headers ( array_keys ( $row ), $conf, $mode ) ;
                         }
 
                     $render = $this->_render_row ( $row, $conf, $mode ) ;
 
-                    if ( $mode == html_helper::RENDER_HTML )
+                    if ( $mode == html_helper::RENDER_HTML 
+                      or $mode == html_helper::RENDER_CSV)
                         $ret .= $render ;
                     else
                         $data[$record] = $render ;
@@ -293,9 +308,9 @@
 
             switch ( $mode ) {
                 case html_helper::RENDER_EXCEL :
-                case html_helper::RENDER_CSV   : 
                 case html_helper::RENDER_JSON  :
                 case html_helper::RETURN_DATA  : return $data ; break ;
+                case html_helper::RENDER_CSV   : 
                 case html_helper::RENDER_HTML  : return $ret ; break ;
             }
 
