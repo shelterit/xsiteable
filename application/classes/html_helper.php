@@ -122,8 +122,9 @@
             $ret = null ;
 
             if ( $mode == html_helper::RENDER_HTML ) $ret .= "<tr>\n";
+            
             if ( $mode == html_helper::RENDER_HTML ) $ret .= "<td> $this->counter</td>\n"; // (".print_r(array_keys($keys),true).")
-            if ( $mode == html_helper::RENDER_CSV ) $ret .= "$this->counter,";
+            elseif ( $mode == html_helper::RENDER_CSV ) $ret .= "$this->counter,";
             
             foreach ( $keys as $key => $value ) {
 
