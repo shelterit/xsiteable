@@ -7,8 +7,8 @@
     <html>
         <nut:import template="global/framework_head" />
         <body>
-            <nut:import template="global/banner-bar" />
             <nut:import template="global/banner-top" />
+            <nut:import template="global/banner-bar" />
 
             <div class="ui-tabs ui-widget ui-widget-content" id="tabs" style="padding:0 !important;margin:0 !important;border:none !important;">
 
