@@ -29,8 +29,8 @@
 
         <!-- CSS : implied media="all" -->
         <link rel="stylesheet" href="{$dir/css}/style.css?v=1" type="text/css"  />
-        <link rel="stylesheet" href="{$dir/css}/{$page/style}/jquery-ui.custom.css" />
         <link rel="stylesheet" href="{$dir/css}/mystyle.css?v=1" />
+        <link rel="stylesheet" href="{$dir/css}/{$page/style}/jquery-ui.custom.css" />
         <link rel="stylesheet" href="{$dir/css}/autoSuggest.css?v=1" />
         <link rel="stylesheet" media="handheld" href="{$dir/css}/handheld.css?v=1" />
         <!-- <link rel="stylesheet" href="{$dir/css}/datatable.css" /> -->
