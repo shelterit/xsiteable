@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * array ( 'tid' => 3445, 'uid' => 'sb5t5et5n6ybae4t4', 'type' => 23 )
+ * 
+ * 
+ * 
+ */
+
+
+
+
     class xs_module_appendix extends xs_Action {
         
         public $meta = array (
@@ -11,8 +21,17 @@
             'editable_options' => true,
         ) ;
         
+        // our index
         private $idx = array () ;
+        
+        // our UID lookup-table (for documents with UIDs)
         private $idx_uid = array () ;
+        
+        // our lookup-table for topics
+        private $idx_tid = array () ;
+        
+        // our lookup-table for topic types
+        private $idx_type = array () ;
 
         // Shortcut for our API
         private $resource_base = '_api/module/appendix' ;
@@ -37,6 +56,12 @@
         function find_by_uid ( $uid ) {
             if ( isset ( $this->idx_uid[$uid] ) )
                 return $this->idx_uid[$uid] ;
+            return array () ;
+        }
+        
+        function find_by_tid ( $tid ) {
+            if ( isset ( $this->idx_tid[$tid] ) )
+                return $this->idx_tid[$tid] ;
             return array () ;
         }
         
