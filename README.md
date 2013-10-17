@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 xSiteable
 =========
 
@@ -32,3 +33,9 @@ questions?
 
 There's a mailing-list over at https://groups.google.com/forum/#!forum/xsiteable you can try, as well as just
 contacting us. We're easy-going and eager to please.
+=======
+themes
+======
+
+Themes
+>>>>>>> branch 'master' of https://github.com/davidmac26/themes.git
