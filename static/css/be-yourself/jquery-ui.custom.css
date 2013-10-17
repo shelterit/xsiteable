@@ -149,13 +149,13 @@ height: 40px;
 width: 72px;
 color: white;
 text-transform: uppercase;
-background: #cbc;
+background: #979;
 border-radius: 0 3px 3px 0;
 text-shadow: 0 -1px 0 rgba(0, 0, 0, .3);
 }
    
 .search-wrapper button:hover{     
-    background: #cac;
+    background: #bab;
 }   
    
 .search-wrapper button:active,
@@ -169,13 +169,13 @@ text-shadow: 0 -1px 0 rgba(0, 0, 0, .3);
     position: absolute;
     border-width: 8px 8px 8px 0;
     border-style: solid solid solid none;
-    border-color: transparent #cbc transparent;
+    border-color: transparent #979 transparent;
     top: 12px;
     left: -6px;
 }
  
 .search-wrapper button:hover:before{
-    border-right-color: #cac;
+    border-right-color: #bab;
 }
  
 .search-wrapper button:focus:before,
