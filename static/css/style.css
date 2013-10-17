@@ -347,7 +347,12 @@ body,img,p { font-size:0.9em; }
 	{color:#FFF;}
 /* End Colors */
 
-#admin-wrapper { z-index:99999; width:100%;background-color:#f66e00;padding:2px 10px;border-right:solid 1px #222;border-left:solid 1px #222;position:fixed; }
+#admin-wrapper-wrapper { margin:0;padding:0;height:24px;width:100%; }
+#admin-wrapper { 
+    z-index:99999; height:24px;width:100%;background-color:#f66e00;padding:2px 10px;
+    border-right:solid 1px #222;border-left:solid 1px #222;
+    position:fixed;
+;}
 #admin-wrapper a:link, #admin-wrapper a:visited, #admin-wrapper a:active, #admin-wrapper a:hover {
     text-decoration:none;color:white;padding:3px 0;margin-right:15px; }
 #admin-wrapper a:hover {
