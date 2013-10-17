@@ -121,6 +121,31 @@ $(function(){
                 if ( t ) $.gritter.add({title: t, text: m, time: timer, sticky:sticky, class_name:'alert-' + mtype});
             }
         }
+        
+        $( "#dialog-form-new-page" ).dialog({
+            autoOpen: false, height: 380, width: 650, modal: true,
+            buttons: {
+                "Create page!": function() {
+                    var b = $('#new-page-input-slug').val() ;
+                    var uri = $('#dialog-form-new-page form').attr('title') ;
+                    $('#dialog-form-new-page form').attr('action', uri + b ) ;
+                    // alert($('#dialog-form-new-page form').attr('action'));
+                    $( this ).dialog( "close" ); 
+                    $('#dialog-form-new-page form').submit() ;
+                },
+                Cancel: function() { $( this ).dialog( "close" ); }
+            },
+            close: function() { $( this ).dialog( "close" ); }
+         });
+        $('#new-page-input').on ( 'input', function() {
+            $('#new-page-input-slug').val( xs_dir.q + '/' + string_to_slug(this.value) ) ;
+        }) ;
+        // damn you, IE8!!!!
+        $('#new-page-input').on ( 'propertychange', function() {
+            $('#new-page-input-slug').val( xs_dir.q + '/' + string_to_slug(this.value) ) ;
+        }) ;
+        $('#new-page-input-slug').val( xs_dir.q + '/' ) ;        
+        
 });
 
 
