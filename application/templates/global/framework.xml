@@ -27,17 +27,6 @@
                     </nut:for-each>
                 </ul>
                 
-                <div id="utilities">
-                    <div id="search">
-                        <form action="{$dir/home}/search" method="get">
-                            <input class="as-input" id="searchbox" name="searchquery" title="Search our documents" value="{$request/searchquery}" />
-                        </form>
-                    </div>
-                    <div id="phone">
-                        <input class="as-input" id="lut" title="Search phone directory" autocomplete="off" />
-                    </div>
-                    <div style="clear:both;"> </div>
-                </div>
                 
                 <!-- Here we go! All other templates run from here! -->
                 <nut:apply-templates select="$page/template" />
