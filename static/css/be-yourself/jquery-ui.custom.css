@@ -68,8 +68,11 @@
 
 
 
-#utilities {margin:0;padding:0;padding-right:10px;width:50%;text-align:right;margin-top:40px;float:right;}
-#search, #phone { margin:0;padding:15px; }
+#utilities {
+    width:60%;margin:0;padding:0;padding-right:10px;text-align:right;margin-top:50px;right:0;
+    border:solid 2px red;position:absolute;
+}
+#search, #phone { margin:0;padding:15px;border:dotted 2px green; }
 #search form, #phone form { margin:0;padding:0; }
 
 
