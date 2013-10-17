@@ -70,9 +70,9 @@
 
 #utilities {
     width:60%;margin:0;padding:0;padding-right:10px;text-align:right;margin-top:50px;right:0;
-    border:solid 2px red;position:absolute;
+    position:absolute;
 }
-#search, #phone { margin:0;padding:15px;border:dotted 2px green; }
+#search, #phone { margin:0;padding:15px;float:right; }
 #search form, #phone form { margin:0;padding:0; }
 
 
