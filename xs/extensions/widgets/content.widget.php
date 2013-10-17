@@ -14,6 +14,7 @@
 
         public $settings = array (
             'title' => '',
+            'style' => 'min-height:300px;',
             'color' => 'color-blue',
         ) ;
 
