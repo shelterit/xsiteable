@@ -10,6 +10,28 @@
             </form>
         </div>
     </div>
+    
+                <div id="utilities">
+                    <div id="search">
+                        <!--
+                        <form action="{$dir/home}/search" method="get">
+                            <input class="as-input" id="searchbox" name="searchquery" title="Search our documents" value="{$request/searchquery}" />
+                        </form> -->
+                        <form action="#" class="search-wrapper cf">
+                            <input id="searchbox" name="searchquery" type="text" placeholder="People, phones, places" required="" value="{$request/searchquery}" />
+                            <button type="submit">Search</button>
+                        </form>                        
+                    </div>
+                    <div id="phone">
+                        <form action="{$dir/home}/search" class="search-wrapper cf">
+                            <input id="lut" type="text" placeholder="Document names, ids, content" required="" />
+                            <button type="submit">Find</button>
+                        </form>                        
+                        <!-- <input class="as-input" id="lut" title="Search phone directory" /> -->
+                    </div>
+                    <div style="clear:both;"> </div>
+                </div>
+
 
     <div id="xsBarOuter" class="borderish">
         <div id="xsBarInner">
