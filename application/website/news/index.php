@@ -73,7 +73,7 @@
                             $fields = $this->glob->request->__get_fields () ;
 
                             $fields['type1'] = $this->_type->_news_item ;
-                            $fields['pub_full'] = str_replace( array('&nbsp;'), ' ', $fields['pub_full'] ) ;
+                            $fields['pub_full'] = str_replace( array('&nbsp;'), ' ', isset ( $fields['pub_full'] ) ? $fields['pub_full'] : null ) ;
 
                             $news_item->inject ( $fields ) ;
 
