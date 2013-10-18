@@ -208,7 +208,8 @@
             
         </div>
 
-        <div id="admin-wrapper-wrapper"> </div>
+        <!-- <div id="admin-wrapper-wrapper"> </div> -->
+        
     </nut:if>
 
 </nut:template>
