@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <nut:template xmlns:nut="http://schema.shelter.nu/nut">
 
-            <div id="utilities">
-                <div id="search">
-                    <form action="#" class="search-wrapper cf">
-                        <input id="searchbox" name="searchquery" type="text" placeholder="People, phones, places" required="" value="{$request/searchquery}" />
-                        <button type="submit">Search</button>
-                    </form>                        
-                </div>
-                <div id="phone">
-                    <form action="{$dir/home}/search" class="search-wrapper cf">
-                        <input id="lut" type="text" placeholder="Document names, ids, content" required="" />
-                        <button type="submit">Find</button>
-                    </form>                        
-                </div>
-                <div style="clear:both;"> </div>
-            </div>
+    <div id="utilities">
+        <div id="search">
+            <form action="#" class="search-wrapper cf">
+                <input id="searchbox" name="searchquery" type="text" placeholder="People, phones, places" required="" value="{$request/searchquery}" />
+                <button type="submit">Search</button>
+            </form>                        
+        </div>
+        <div id="phone">
+            <form action="{$dir/home}/search" class="search-wrapper cf">
+                <input id="lut" type="text" placeholder="Document names, ids, content" required="" />
+                <button type="submit">Find</button>
+            </form>                        
+        </div>
+        <div style="clear:both;"> </div>
+    </div>
+    
+    <div id="intranet">Intranet</div>
             
     <div id="login-box">
         <div id="login-box-inner">
