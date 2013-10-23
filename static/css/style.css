@@ -269,7 +269,7 @@ button {  width: auto; overflow: visible; }
 
 
 
-
+.blur { font-weight:ligther !important;font-style:italic !important;color:#999 !important; }
 
 /* 
  * print styles
@@ -388,7 +388,7 @@ body,img,p { font-size:0.9em; }
 /* Columns section */
 #columns .column {
     margin:0;padding:0;float: left;width: 33.3333333333%;
-    min-height: 100px;height: auto !important;
+    min-height:0;height: auto !important;
     list-style:none;list-style-type:none;
 }
 #column0, #column4, #columnadmin { width:100% !important;clear:both !important;
