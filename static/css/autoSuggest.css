@@ -26,7 +26,6 @@ div.mini-suggest li.as-selection-item a.as-close {
 
 ul.as-selections li.as-selection-item {
 	color: #2b3840; width:auto;
-	font-family: "Lucida Grande", arial, sans-serif;
 	text-shadow: 0 1px 1px #fff;
 	background-color: #ddeefe;
 	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ddeefe), to(#bfe0f1));
@@ -51,7 +50,6 @@ ul.as-selections li.as-selection-item a.as-close {
 	float: right;
 	cursor: pointer;
 	color: #5491be;
-	font-family: "Helvetica", helvetica, arial, sans-serif;
 	font-weight: bold;
 	text-shadow: 0 1px 1px #fff;
 	-webkit-transition: color .1s ease-in;
@@ -109,14 +107,13 @@ ul.as-list {
 	position: absolute;
 	list-style-type: none;
         text-align:left;
-	margin: 0;
+	margin: 0;margin-top:36px;
 	padding: 2px 5px;/* white-space:nowrap; */
 	font-size: 0.9em;
 	color: #000;
-	font-family: "Lucida Grande", arial, sans-serif;
-	background-color: #fff;
+	background-color: #dcd;
 	background-color: rgba(255,255,255,0.95);
-	z-index: 2;
+	z-index: 999999999;
 	box-shadow: 0 2px 12px #222;
 	-webkit-box-shadow: 0 2px 12px #222;
 	-moz-box-shadow: 0 2px 12px #222;
