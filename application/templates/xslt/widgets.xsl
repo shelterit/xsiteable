@@ -33,6 +33,7 @@
         <xsl:param name="level" select="2" />
         <xsl:param name="url" select="''" />
         <xsl:param name="parent" select="." />
+        <xsl:param name="this" select="./*[name() != 'options'][name() != 'settings'][name() != 'properties'][name() != 'technical']" />
         <xsl:param name="input" />
         <xsl:param name="position" />
         <xsl:param name="max" select="0" />
@@ -196,10 +197,10 @@
                     </div>
                 </form>
                 <xsl:variable name="test" select="php:function('widget_setting',$name,'style', $id)" />
-                <!-- [<xsl:value-of select="count(*)" />] -->
+                <!-- [<xsl:value-of select="count($this)" />] -->
                 <div id="wc-{$id}" class="widget-content" style="{$test}">
                     <xsl:choose>
-                        <xsl:when test="count(*) &gt; 0">
+                        <xsl:when test="count($this) &gt; 1">
                             <xsl:apply-templates>
                                 <xsl:with-param name="data" select="$data" />
                                 <xsl:with-param name="parent" select="$parent" />
