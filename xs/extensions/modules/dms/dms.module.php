@@ -218,12 +218,18 @@ class xs_module_dms extends xs_Action {
         // create objects from those spidered paths
         $this->document_objects = $this->objectify_topics ( $this->spidered_documents ) ;
         
+        $howmany0 = count ( $this->spidered_documents ) ;
         $howmany1 = count ( $this->document_objects ) ;
         $howmany2 = count ( $this->lut_db ) ;
         $howmany3 = count ( $this->lut_ctrl ) ;
         $howmany4 = count ( $this->lut_timestamp ) ;
         $howmany5 = count ( $this->lut_document_id ) ;
              
+        echo "<li>Found <b>{$howmany0}</b> spidered files.</li>" ;
+        
+        if ( $howmany0 == 0 ) {
+            echo "<li>Odd, none found at [".$this->glob->config['dms']['source_folder']."] Have I got access to read this directory?</li>" ;
+        }
         echo "<li>Found <b>{$howmany1}</b> object representations of spidered files.</li>" ;
         echo "<li>Found <b>{$howmany2}</b> document representations in the database.</li>" ;
         echo "<li>Found <b>{$howmany3}</b> controlled documents in the database.</li>" ;
