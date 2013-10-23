@@ -42,6 +42,14 @@ $(function(){
         // If any admin widgets are around, bind them, too!
         xs_widgets.make_sortable_admin() ;
 
+        $('#adm-ctrl-login').toggle( function () {
+            $(this).text('Hide login <<') ;
+            $('#login-box').slideDown('fast') ;
+        }, function () {
+            $(this).text('Login >>') ;
+            $('#login-box').slideUp('fast') ;
+        }) ;
+
         $('xs-ctrl-msg').toggle( function ( ev ) {
             $(this).text('Hide <<') ;
             $('xs-msg').slideDown('fast') ;
@@ -50,14 +58,6 @@ $(function(){
             $('xs-msg').slideUp('fast') ;
         }) ;
         
-        $('#adm-ctrl-login').toggle( function ( ev ) {
-            $(this).text('Hide login <<') ;
-            $('#login-box').slideDown('fast') ;
-        }, function () {
-            $(this).text('Login >>') ;
-            $('#login-box').slideUp('fast') ;
-        }) ;
-
         $('#adm-ctrl-page').toggle( function ( ev ) {
             $(this).text('Hide page admin <<') ;
             $('#admin-page').slideDown('fast') ;
