@@ -4,7 +4,7 @@ $(function(){
         // $('#lut').bind ( 'click', function () {
             $.getJSON( xs_dir.home + '/api/data/phonebook', function ( data ) {
                 $("#lut").autoSuggest( data.items, {
-                    startText:"Search phone directory",
+                    startText:"People, phones, places",
                     selectedItemProp: "name",
                     searchObjProps: "name,location,phone",
                     neverSubmit: true
@@ -147,8 +147,6 @@ $(function(){
         $('#new-page-input-slug').val( xs_dir.q + '/' ) ;        
         
 });
-
-
 
 
 (function ($) {
