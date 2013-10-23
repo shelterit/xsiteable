@@ -3,14 +3,14 @@
 
     <div id="utilities">
         <div id="search">
-            <form action="#" class="search-wrapper cf">
-                <input id="searchbox" name="searchquery" type="text" placeholder="People, phones, places" required="" value="{$request/searchquery}" />
+            <form action="{$dir/home}/search" class="search-wrapper cf">
+                <input id="searchbox" name="searchquery" type="text" required="" value="{$request/searchquery}" title="Document names, ids, content" placeholder="Document names, ids, content" />
                 <button type="submit">Search</button>
             </form>                        
         </div>
         <div id="phone">
-            <form action="{$dir/home}/search" class="search-wrapper cf">
-                <input id="lut" type="text" placeholder="Document names, ids, content" required="" />
+            <form action="#" class="search-wrapper cf">
+                <input id="lut" type="text" title="People, phones, places" placeholder="People, phones, places" required="" />
                 <button type="submit">Find</button>
             </form>                        
         </div>
