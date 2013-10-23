@@ -84,6 +84,8 @@ class dms_lib_files {
 
             for ( $list = array(), $handle = opendir ( $dir ) ; ( FALSE !== ( $file = readdir ( $handle ) ) ) ; ) {
                 
+                // echo "[$file] " ;
+                
                 if ( ( $file != '.' && $file != '..') && ( file_exists ( $path = $dir . '/' . $file ) ) ) {
 
                     if ( is_dir ( $path ) && ( $recursive ) ) {
@@ -94,6 +96,7 @@ class dms_lib_files {
                             if ( isset ( $ext[trim($f['extension'])] ) ) {
                                 $entry = $dir . '/' . $file ;
                                 $list[$entry] = stat ( $entry ) ;
+                                // echo '. ' ;
                             }
                         }
                     } 
@@ -101,8 +104,9 @@ class dms_lib_files {
             }
             closedir($handle);
             return $list;
-        } else
-            return FALSE;
+        }
+        echo '<li>Error: ProcessDir ( $directory ) where $directory isn\'t a directory.</li>' ;
+        return FALSE;
     }
         
     function get_dir_structure ( $filename, $base_folder = '', $create = false ) {
