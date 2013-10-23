@@ -17,12 +17,7 @@
                         <li class="ui-state-default ui-corner-top{#if $rest/concept=$item/@path ' ui-tabs-selected ui-state-active'}">
                             <nut:if value-of="$item/@popup" unlike="''"><a target="_blank" href="{$item/@popup}">{$item/@label}</a></nut:if>
                             <nut:if value-of="$item/@popup" like="''"><a href="{$dir/home}/{$item/@path}">{$item/@label}</a></nut:if>
-                            <nut:if count="*" unlike="0">
-                                <button id="menu-{$item/@name}" class="ui-button ui-widget ui-state-default ui-corner-all" style="padding:1px 2px;margin:2px 3px;" role="button" aria-disabled="false" title="Menu">
-                                    <a style="margin:0;padding:0;" href="#"><span class="ui-button-icon-primary ui-icon ui-icon-triangle-1-s"></span></a>
-                                </button>
-                                <nut:create-menu for="#menu-{$item/@name}" />
-                            </nut:if>
+                            <nut:if count="*" unlike="0"><nut:create-menu for="menu-{$item/@name}" /></nut:if>
                         </li>
                     </nut:for-each>
                 </ul>
