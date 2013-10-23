@@ -560,3 +560,4 @@ var slug = function(Text) {
         .replace("/ /g",'-')
         .replace("/[^\w-]+/g",'') ;
 };
+
