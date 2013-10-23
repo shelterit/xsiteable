@@ -258,7 +258,7 @@
             <xsl:param name="data" select="*" />
             <xsl:param name="level" select="0" />
             <xsl:for-each select="$data">
-                <xsl:variable name="href">
+                <li>
                     <xsl:choose>
                         <xsl:when test="@popup">
                             <a href="{@popup}" target="_blank"><xsl:value-of select="@label" /></a>
@@ -267,14 +267,15 @@
                             <a href="{$dir/item[@name='home']}/{@path}"><xsl:value-of select="@label" /></a>
                         </xsl:otherwise>
                     </xsl:choose>
-                </xsl:variable>
-                "<xsl:value-of select="@uid" />": { name: '<xsl:copy-of select="$href" />'<xsl:if test="count(*) != 0">,
-                    "items": {
-                        <xsl:call-template name="levely">
-                            <xsl:with-param name="level" select="$level + 1" />
-                        </xsl:call-template>
-                    }</xsl:if>}<xsl:if test="position() != last()">,</xsl:if>
-            </xsl:for-each>
+                    <xsl:if test="count(*) != 0">
+                        <ul>
+                            <xsl:call-template name="levely">
+                                <xsl:with-param name="level" select="$level + 1" />
+                            </xsl:call-template>
+                        </ul>
+                    </xsl:if>
+                </li>    
+            </xsl:for-each>                    
         </xsl:template>
 	
         <xsl:template match="nut:create-menu" name="create-menu">
@@ -294,20 +295,36 @@
                     <xsl:with-param name="position" select="$position" />
                     <xsl:with-param name="max" select="$max" />
             </xsl:call-template></xsl:variable>
+
+            <button id="{$inp}-button" class="ui-button ui-widget ui-state-default ui-corner-all" style="padding:1px 2px;margin:2px 3px;width:24px;height:18px;z-index:999999;" role="button" aria-disabled="false" title="Menu">
+                <a style="margin:0;padding:0;" href="#"><span class="ui-button-icon-primary ui-icon ui-icon-triangle-1-s"></span></a>
+            </button>
+            
+            <ul id="{$inp}" class="xs-context-menu" style="border:solid 2px #999;margin-top:20px;display:none;position:absolute;">
+                <xsl:choose>
+                    <xsl:when test="$this = 'true'">
+                        <xsl:call-template name="levely">
+                            <xsl:with-param name="data" select="$data" />
+                        </xsl:call-template>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:call-template name="levely">
+                            <xsl:with-param name="data" select="$data/*" />
+                        </xsl:call-template>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </ul>
+            
             <script type="text/javascript">
-            $.contextMenu ({ selector: '<xsl:value-of select="$inp" />', trigger: 'left', autoHide: false, callback: function(key, options, test) {}, 
-            items: { <xsl:choose>
-                        <xsl:when test="$this = 'true'">
-                            <xsl:call-template name="levely">
-                                <xsl:with-param name="data" select="$data" />
-                            </xsl:call-template>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:call-template name="levely">
-                                <xsl:with-param name="data" select="$data/*" />
-                            </xsl:call-template>
-                        </xsl:otherwise>
-                     </xsl:choose> } }) ;
+                $('#<xsl:value-of select="$inp" />').menu ();
+                $('#<xsl:value-of select="$inp" />-button').hover ( function () { 
+                    // $(".xs-context-menu").slideUp('fast'); 
+                    $('#<xsl:value-of select="$inp" />').slideDown('fast'); 
+                    $(document).click(function (e) { 
+                        $(".xs-context-menu").slideUp('fast'); 
+                        $(document).off('click');
+                    });
+                });
             </script>
         </xsl:template>
         
