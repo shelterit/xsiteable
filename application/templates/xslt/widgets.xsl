@@ -198,13 +198,16 @@
                 <xsl:variable name="test" select="php:function('widget_setting',$name,'style', $id)" />
                 <!-- [<xsl:copy-of select="$test" />] -->
                 <div id="wc-{$id}" class="widget-content" style="{$test}">
-                    <xsl:apply-templates select="php:function('widget', $name, 'GET_content', $params, $id )">
-                        <xsl:with-param name="data" select="$data" />
-                        <xsl:with-param name="parent" select="$parent" />
-                        <xsl:with-param name="input" select="$input" />
-                        <xsl:with-param name="position" select="$position" />
-                        <xsl:with-param name="max" select="$max" />
-                    </xsl:apply-templates>
+                    <xsl:choose>
+                        <xsl:when test="$content"><xsl:copy-of select="$content" /></xsl:when>
+                        <xsl:otherwise><xsl:apply-templates select="php:function('widget', $name, 'GET_content', $params, $id )">
+                            <xsl:with-param name="data" select="$data" />
+                            <xsl:with-param name="parent" select="$parent" />
+                            <xsl:with-param name="input" select="$input" />
+                            <xsl:with-param name="position" select="$position" />
+                            <xsl:with-param name="max" select="$max" />
+                        </xsl:apply-templates></xsl:otherwise>
+                    </xsl:choose>
                 </div>
             </li>
             
