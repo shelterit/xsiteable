@@ -23,7 +23,7 @@
     
     <div id="intranet">Intranet</div>
             
-    <div id="login-box">
+    <div id="login-box" style="display:none;">
         <div id="login-box-inner">
             <form action="#" method="post">
                 <input name="f:xs-login-username" title="Username" /><br />
