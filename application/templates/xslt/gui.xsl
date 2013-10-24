@@ -318,8 +318,15 @@
             <script type="text/javascript">
                 $('#<xsl:value-of select="$inp" />').menu ();
                 $('#<xsl:value-of select="$inp" />-button').hover ( function () { 
-                    // $(".xs-context-menu").slideUp('fast'); 
+                    
                     $('#<xsl:value-of select="$inp" />').slideDown('fast'); 
+                    $('#<xsl:value-of select="$inp" />').slideDown('fast'); 
+                    
+                    $('#<xsl:value-of select="$inp" />')
+                       .mouseenter( function() { begin_menu_timer(); })
+                       .mouseleave( function() { end_menu_timer(); })
+                    ;                    
+                    
                     $(document).click(function (e) { 
                         $(".xs-context-menu").slideUp('fast'); 
                         $(document).off('click');
