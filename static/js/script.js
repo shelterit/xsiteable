@@ -200,16 +200,24 @@ var global_menu_timer = 0 ;
 
 function go_menu ( inp ) {
     $(inp).menu();
+    $(inp)
+        .hover ( function () { begin_menu_timer(); })
+       .mouseleave ( function() { $('.xs-context-menu').slideUp('fast');  }) 
+    ;
     $(inp + '-button').hover ( function () { 
-        begin_menu_timer();
-        //alert('z');
+
+        // begin_menu_timer();
         $(inp).slideDown('fast'); 
+        
         $(document).click(function (e) { 
             $('.xs-context-menu').slideUp('fast'); 
             $(document).off('click');
         });
+        begin_menu_timer();
     }).mouseleave( function() {
-        $(inp).slideUp('slow'); 
+        end_menu_timer();
+        // $(inp).slideUp('slow'); 
+        // alert('a');
     }) ;
 }
 
@@ -218,7 +226,7 @@ function begin_menu_timer () {
 }
 
 function end_menu_timer () {
-    global_menu_timer = setTimeout ( function () { $(".xs-context-menu").slideUp('slow'); }, 2000 ) ;
+    global_menu_timer = setTimeout ( function () { $(".xs-context-menu").slideUp('slow'); }, 1000 ) ;
 }
 
 function create_new_page () {
