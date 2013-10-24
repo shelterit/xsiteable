@@ -55,9 +55,9 @@
                     
                     <div style="margin:0;padding:0;margin-bottom:25px;">
                         <a id="open-button" href="{$dir/docs_web}{$doc/home_directory}/{$doc/uid}.{$doc/extension}" style="margin:0;padding:0;">
-                            <div style="float:left;width:58%;height:60px;text-align:center;">
-                                <div style="font-size:1.2em;font-weight:bold;">Open document</div>
-                                <div style="font-size:0.8em;padding-top:3px;">Open the original document for reading or printing.</div>
+                            <div style="float:left;width:58%;height:80px;text-align:center;">
+                                <div style="font-size:1.1em;font-weight:bold;">Open&#160;document</div>
+                                <div style="font-size:0.8em;padding-top:3px;">Open the original document for reading or printing</div>
                                 </div>
                             <img src="{$dir/static}/images/icons/{$doc/icon}" alt="" width="20%" style="margin:0;padding:5px 3px 5px 0;float:right;" />
                         </a>
@@ -73,7 +73,7 @@
                         <div id="content-meta-1" class="" style="margin:0;padding:0;">
 
                         <div style="margin:18px 10px;padding:10px 13px;text-align:center;vertical-align:middle;background-color:green !important;" class="ui-widget ui-state-default ui-corner-all">
-                            <span class="ui-button-text" style="font-size:1.1em;color:#36a">Document&#160;ID&#160;<b style="font-size:1.3em;">{$doc/id}</b></span>
+                            <span class="ui-button-text" style="font-size:1.1em;color:#555">Document&#160;ID&#160;<b style="font-size:1.3em;">{$doc/id}</b></span>
                         </div>                            
                             
                             <tm:list-members context="xs_assoc_owner" title="Owner" id-link="profile" />
