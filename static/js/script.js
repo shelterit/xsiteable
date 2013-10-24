@@ -196,6 +196,16 @@ $(function(){
 
 })(jQuery);
 
+var global_menu_timer = 0 ;
+
+function begin_menu_timer () {
+    clearTimeout ( global_menu_timer ) ;
+}
+
+function end_menu_timer () {
+    global_menu_timer = setTimeout ( 3000, $(".xs-context-menu").slideUp('fast') ) ;
+}
+
 function create_new_page () {
     $( "#dialog-form-new-page" ).dialog( "open" );
 }
