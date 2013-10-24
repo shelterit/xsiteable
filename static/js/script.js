@@ -198,12 +198,27 @@ $(function(){
 
 var global_menu_timer = 0 ;
 
+function go_menu ( inp ) {
+    $(inp).menu();
+    $(inp + '-button').hover ( function () { 
+        begin_menu_timer();
+        //alert('z');
+        $(inp).slideDown('fast'); 
+        $(document).click(function (e) { 
+            $('.xs-context-menu').slideUp('fast'); 
+            $(document).off('click');
+        });
+    }).mouseleave( function() {
+        $(inp).slideUp('slow'); 
+    }) ;
+}
+
 function begin_menu_timer () {
     clearTimeout ( global_menu_timer ) ;
 }
 
 function end_menu_timer () {
-    global_menu_timer = setTimeout ( 3000, $(".xs-context-menu").slideUp('fast') ) ;
+    global_menu_timer = setTimeout ( function () { $(".xs-context-menu").slideUp('slow'); }, 2000 ) ;
 }
 
 function create_new_page () {
