@@ -43,19 +43,19 @@ $(function(){
         xs_widgets.make_sortable_admin() ;
 
         $('#adm-ctrl-login').toggle( function () {
-            $(this).text('Hide login <<') ;
             $('#login-box').slideDown('fast') ;
+            $(this).text('Hide login <<') ;
         }, function () {
-            $(this).text('Login >>') ;
             $('#login-box').slideUp('fast') ;
+            $(this).text('Login >>') ;
         }) ;
 
-        $('xs-ctrl-msg').toggle( function ( ev ) {
+        $('#xs-ctrl-msg').toggle( function ( ev ) {
             $(this).text('Hide <<') ;
-            $('xs-msg').slideDown('fast') ;
+            $('#xs-msg').slideDown('fast') ;
         }, function () {
             $(this).text('Show >>') ;
-            $('xs-msg').slideUp('fast') ;
+            $('#xs-msg').slideUp('fast') ;
         }) ;
         
         $('#adm-ctrl-page').toggle( function ( ev ) {
@@ -82,6 +82,7 @@ $(function(){
             $(this).text('Show widget manager >>') ;
             $('#admin-widgets').slideUp('fast') ;
         }) ;
+        
         $('.show-hide').css({
             "color": "blue",
             "font-style": "underline",
