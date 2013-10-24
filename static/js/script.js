@@ -41,7 +41,10 @@ $(function(){
 
         // If any admin widgets are around, bind them, too!
         xs_widgets.make_sortable_admin() ;
+        
+});
 
+$(function(){
         $('#adm-ctrl-login').toggle( function () {
             $('#login-box').slideDown('fast') ;
             $(this).text('Hide login <<') ;
@@ -100,6 +103,9 @@ $(function(){
         
     
         
+});
+
+$(function(){
 
         $.extend($.gritter.options, {
             position: 'top-right', // possibilities: bottom-left, bottom-right, top-left, top-right
