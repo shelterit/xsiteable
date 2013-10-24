@@ -348,7 +348,7 @@ body,img,p { font-size:0.9em; }
 /* End Colors */
 
 
-
+.xs-context-menu { z-index:999999999; }
 
 #admin-wrapper { 
     width:auto;background-color:#f66e00;padding:2px 10px;
