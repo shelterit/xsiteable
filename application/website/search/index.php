@@ -219,6 +219,13 @@ class xs_action_instance extends xs_Action_Webpage {
                     ) ;
                     // echo '.' ;
                     
+                } else {
+                    
+                    $result[$uid] = array (
+                        'id' => $topic['id'],
+                        'title' => isset ( $topic['label'] ) ? $topic['label'] : '-title not found-',
+                        'url' => $home_directory . "/{$uid}.html",
+                    ) ;
                 }
             }
 
@@ -229,7 +236,7 @@ class xs_action_instance extends xs_Action_Webpage {
 
         $this->glob->page->total_time = sprintf ( "%01.3f", $end_time - $start_time ) ;
 
-        echo "<pre>" ; print_r ( $result ) ; echo "</pre>" ; die() ;
+        // echo "<pre>" ; print_r ( $result ) ; echo "</pre>" ; die() ;
 
         $this->glob->stack->add ( 'xs_result', $result ) ;
         // $this->glob->stack->add ( 'xs_result_score', $score ) ;
