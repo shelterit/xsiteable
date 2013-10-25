@@ -119,15 +119,15 @@ iframe#ifrm {
 
         .selected { margin:0;padding:0;background-color:#dededf;border:solid 1px #aaa; }
 
-#xsBarOuter { background-color:#ccc;height:70px; }
+#xsBarOuter { background-color:#ccc;height:28px; }
 #xsBarInner { 
-    height:70px !important;
+    height:28px !important;
     background-image:none;
     padding:8px 8px;
 }
 
 #intranet {
-    position:absolute;font-size:2em;margin-top:30px;margin-left:10px;color:#ede;
+    display:none;position:absolute;font-size:2em;margin-top:30px;margin-left:10px;color:#ede;
 }
 
 #xsFooter { clear:both;background-color:#fff;margin-top:30px; }
