@@ -295,11 +295,12 @@
                     <xsl:with-param name="position" select="$position" />
                     <xsl:with-param name="max" select="$max" />
             </xsl:call-template></xsl:variable>
-
+            
+<!--
             <button id="{$inp}-button" class="ui-button ui-widget ui-state-default ui-corner-all" style="padding:1px 2px;margin:2px 3px;width:24px;height:18px;z-index:999999;" role="button" aria-disabled="false" title="Menu">
                 <a style="margin:0;padding:0;" href="#"><span class="ui-button-icon-primary ui-icon ui-icon-triangle-1-s"></span></a>
             </button>
-            
+-->            
             <ul id="{$inp}" class="xs-context-menu" style="border:solid 2px #999;margin-top:20px;display:none;position:absolute;">
                 <xsl:choose>
                     <xsl:when test="$this = 'true'">
@@ -316,7 +317,7 @@
             </ul>
             
             <script type="text/javascript">
-                go_menu ( '#<xsl:value-of select="$inp" />' ) ;
+                go_menu ( '<xsl:value-of select="$inp" />' ) ;
             </script>
         </xsl:template>
         
