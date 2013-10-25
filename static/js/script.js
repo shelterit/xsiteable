@@ -199,15 +199,15 @@ $(function(){
 var global_menu_timer = 0 ;
 
 function go_menu ( inp ) {
-    $(inp).menu();
-    $(inp)
-        .hover ( function () { begin_menu_timer(); })
+    $('#'+inp).menu();
+    $('#'+inp)
+       .hover ( function () { begin_menu_timer(); })
        .mouseleave ( function() { $('.xs-context-menu').slideUp('fast');  }) 
     ;
-    $(inp + '-button').hover ( function () { 
+    $('#tab-' + inp).hover ( function () { 
 
-        // begin_menu_timer();
-        $(inp).slideDown('fast'); 
+        begin_menu_timer();
+        $('#'+inp).slideDown('fast'); 
         
         $(document).click(function (e) { 
             $('.xs-context-menu').slideUp('fast'); 
@@ -226,7 +226,7 @@ function begin_menu_timer () {
 }
 
 function end_menu_timer () {
-    global_menu_timer = setTimeout ( function () { $(".xs-context-menu").slideUp('slow'); }, 1000 ) ;
+    global_menu_timer = setTimeout ( function () { $(".xs-context-menu").slideUp('slow'); }, 1500 ) ;
 }
 
 function create_new_page () {
