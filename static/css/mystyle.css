@@ -31,8 +31,10 @@
     height:auto;padding-left:30px;margin-top:20px;
 }
 
-.context-menu {
-    height:auto;padding-left:30px;margin-top:20px;
+.xs-context-menu {
+    height:auto;padding-left:30px;margin-top:33px !important;
+    display:none;position:absolute;
+    border:solid 2px #999;
 }
 
 .sub-menu {
@@ -136,7 +138,7 @@ iframe#ifrm {
 }
 
 #utilities {
-    width:60%;margin:0;padding:0;padding-right:10px;text-align:right;margin-top:50px;right:0;
+    width:340px;margin:0;padding:0;padding-right:10px;text-align:right;margin-top:50px;right:0;
     position:absolute;
 }
 #search, #phone { margin:0;padding:15px;float:right; }
