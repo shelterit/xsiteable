@@ -301,7 +301,9 @@
                 <a style="margin:0;padding:0;" href="#"><span class="ui-button-icon-primary ui-icon ui-icon-triangle-1-s"></span></a>
             </button>
 -->            
-            <ul id="{$inp}" class="xs-context-menu" style="border:solid 2px #999;margin-top:20px;display:none;position:absolute;">
+            <!-- <span style="" class="ui-icon-triangle-1-s">zzz</span> -->
+            
+            <ul id="{$inp}-menu" class="xs-context-menu" style="border:solid 2px #999;margin-top:20px;display:none;position:absolute;">
                 <xsl:choose>
                     <xsl:when test="$this = 'true'">
                         <xsl:call-template name="levely">
