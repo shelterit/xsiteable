@@ -135,9 +135,17 @@ iframe#ifrm {
 
 #banner { background-color:#c0ced9;margin:0;padding:0;padding-top:15px; }
 
-#utilities {margin:0;padding:0;padding-right:10px;width:50%;text-align:right;margin-top:-28px;float:right;}
-#search, #phone { margin:0;padding:0;float:right; }
-#search form { margin:0;padding:0; }
+#utilities { z-index:1000;position:absolute;top:40px;right:5px;margin:0 !important;}
+#search, #phone { margin:0 !important;padding:0 !important;float:right; }
+#search form, #phone form { margin:0 !important;padding:0 !important; }
+
+#phone form button { display:none; }
+#search form button { margin:0;margin-left:4px; }
+
+#phone form input { width:130px;margin-right:10px; }
+#search form input { width:130px; }
+
+
 
 .as-input { 
    background:#edc;
