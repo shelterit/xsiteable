@@ -259,8 +259,9 @@ body,img,p { font-size:0.9em; }
     /* line-height: 30px; */
 }
 #columns .widget .widget-head h3 {
-    padding: 0 5px;margin:0;font-size:0.9em;font-weight:normal;
+    padding: 3px 12px;margin:0 !important;font-size:0.9em;font-weight:normal;
     float: left;
+    line-height:20px !important;
 }
 #columns .widget .widget-content {
     /* background-color: #fff; */
