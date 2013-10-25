@@ -268,7 +268,7 @@
                         </xsl:otherwise>
                     </xsl:choose>
                     <xsl:if test="count(*) != 0">
-                        <ul>
+                        <ul class="submenu">
                             <xsl:call-template name="levely">
                                 <xsl:with-param name="level" select="$level + 1" />
                             </xsl:call-template>
@@ -303,7 +303,7 @@
 -->            
             <!-- <span style="" class="ui-icon-triangle-1-s">zzz</span> -->
             
-            <ul id="{$inp}-menu" class="xs-context-menu" style="border:solid 2px #999;margin-top:20px;display:none;position:absolute;">
+            <ul id="{$inp}-menu" class="xs-context-menu" style="margin-top:20px;padding:2px;display:none;">
                 <xsl:choose>
                     <xsl:when test="$this = 'true'">
                         <xsl:call-template name="levely">
@@ -321,6 +321,7 @@
             <script type="text/javascript">
                 go_menu ( '<xsl:value-of select="$inp" />' ) ;
             </script>
+            
         </xsl:template>
         
         <xsl:template match="nut:context-menu">
