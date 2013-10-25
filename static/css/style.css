@@ -182,10 +182,10 @@ small { font-size:85%; }
 strong, th { font-weight: bold; }
 
 td, td img { vertical-align:top; } 
-p,h1,h2,h3,h4,h5,h6 { padding:0;margin:0.4em 0;font: 500 18px/24px "freight-sans-pro", Helvetica, Arial, Sans-Serif; }
+p,h1,h2,h3,h4,h5,h6 { padding:0;margin:0.4em 0; }
 
 ul, ol { margin:0.9em 0;margin-left:0.4em; }
-h1,h2,h3,h4,h5,h6 { color:#234;text-transform:capitalize;font-weight:bold;margin-top:0.9em; }
+h1,h2,h3,h4,h5,h6 { color:#234;font-weight:bold;margin-top:0.9em; }
 h1 { font-size:1.5em; }
 h2 { font-size:1.3em;font-weight:bold; }
 h3 { font-size:1.2em;font-weight:bold; }
