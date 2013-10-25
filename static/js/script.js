@@ -209,7 +209,7 @@ function go_menu ( inp ) {
     // ;
     $(tab).on('mouseenter', function () { 
 
-        $(this).css({'border': 'solid 1px red'});
+        // $(this).css({'border': 'solid 1px red'});
         // begin_menu_timer();
         $(menu).slideDown('fast'); 
         
@@ -219,7 +219,7 @@ function go_menu ( inp ) {
         });
         // begin_menu_timer();
     }).on('mouseleave', function() {
-        $(this).css({'border': 'solid 1px blue'});
+        // $(this).css({'border': 'solid 1px blue'});
         $(menu).slideUp('fast'); 
         // end_menu_timer();
         // $(inp).slideUp('slow'); 
