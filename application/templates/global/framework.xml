@@ -16,8 +16,8 @@
                     <nut:for-each select="$menu/main">
                         <li id="tab-menu-{$item/@name}" class="ui-state-default ui-corner-top{#if $rest/concept=$item/@path ' ui-tabs-selected ui-state-active'}">
                             <nut:if value-of="$item/@popup" unlike="''"><a target="_blank" href="{$item/@popup}">{$item/@label}</a></nut:if>
-                            <nut:if value-of="$item/@popup" like="''"><a href="{$dir/home}/{$item/@path}">{$item/@label}</a></nut:if>
-                            <nut:if count="*" unlike="0"><nut:create-menu for="menu-{$item/@name}" /></nut:if>
+                            <nut:if value-of="$item/@popup" like="''"><a href="{$dir/home}/{$item/@path}">{$item/@label}<nut:if count="*" unlike="0">&#160;<span style="display:inline !important" class="ui-button-icon-primary ui-icon ui-icon-triangle-1-s">&#160;&#160;&#160;</span></nut:if></a></nut:if>
+                            <nut:if count="*" unlike="0"><nut:create-menu for="tab-menu-{$item/@name}" /></nut:if>
                         </li>
                     </nut:for-each>
                 </ul>
