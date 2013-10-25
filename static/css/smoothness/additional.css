@@ -135,7 +135,7 @@ iframe#ifrm {
 
 #banner { background-color:#c0ced9;margin:0;padding:0;padding-top:15px; }
 
-#utilities { z-index:1000;position:absolute;top:40px;right:5px;margin:0 !important;}
+#utilities { z-index:1000;margin:0 !important;margin-top:42px !important;}
 #search, #phone { margin:0 !important;padding:0 !important;float:right;vertical-align:top; }
 #search form, #phone form { margin:0 !important;padding:0 !important; }
 
