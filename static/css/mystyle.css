@@ -32,7 +32,7 @@
 }
 
 .xs-context-menu {
-    height:auto;padding-left:30px;margin-top:33px !important;
+    height:auto;padding-left:30px;margin-top:45px !important;
     display:none;position:absolute;
     border:solid 2px #999;
 }
@@ -144,6 +144,9 @@ iframe#ifrm {
 #search, #phone { margin:0;padding:15px;float:right; }
 #search form, #phone form { margin:0;padding:0; }
 
+  .ui-menu { width: 250px !important;font-size:13px !important;margin-top:10px; }
+  .ui-menu-item { width: 89% !important; }
+  .ui-menu-item a { width: 100% !important; }
 
 
 #floatsearch {position:absolute;font-size:10px;top:58px;width:190px;height:24px;padding:0 10px 10px 5px;margin:0; }
