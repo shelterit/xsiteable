@@ -19,7 +19,7 @@
                     topic-id="$profile/id"
                     id="$profile/id"
                     class="color-gray">
-                        My name is <nut:value-of select="$item/name" />, and my email is <a href="mailto:{$item/email}" style="font-style:underline;cursor:pointer;"><nut:value-of select="$item/email" /></a>.
+                        My name is <nut:value-of select="$item/label" />, and my email is <a href="mailto:{$item/email}" style="font-style:underline;cursor:pointer;"><nut:value-of select="$item/email" /></a>.
                 </nut:widget>
 
                 <!-- <div>E-mail: <a href="mailto:{$item/email}" style="color:blue;font-style:underline;cursor:pointer;"><nut:value-of select="$item/email" /></a></div> -->
