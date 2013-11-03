@@ -1,6 +1,6 @@
 <?php
 
-class xs_action_instance extends xs_Action {
+class xs_action_instance extends \xs\Action {
 
     function ___action () {
 
@@ -21,7 +21,7 @@ class xs_action_instance extends xs_Action {
             
             $topic = null ;
             foreach ( $topic_id_lut as $idx => $t )
-                $topic = new xs_TopicMaps_Topic ( $t ) ;
+                $topic = new \xs\TopicMaps\Topic ( $t ) ;
             
             $topic->inject ( array ( 'next_review_date' => $this->glob->request->next_review_date ) ) ;
             print_r ( $topic ) ;

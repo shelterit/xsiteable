@@ -1,6 +1,6 @@
 <?php
 
-    class xs_module_layout extends xs_EventStack_Plugin {
+    class xs_module_layout extends \xs\Events\Module {
 
         public $meta = array (
             'name' => 'Layout module',

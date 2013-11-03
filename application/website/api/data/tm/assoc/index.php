@@ -1,6 +1,6 @@
 <?php
 
-class xs_action_instance extends xs_Action {
+class xs_action_instance extends \xs\Action {
 
     function ___action () {
 
@@ -8,13 +8,13 @@ class xs_action_instance extends xs_Action {
         // header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
         // header('Content-type: application/json');
 /*
-        $assoc = new xs_TopicMaps_Assoc (
+        $assoc = new \xs\TopicMaps\Assoc (
            $this->glob->tm->query_assoc ( array ( 
                'id' => $this->glob->request->id 
            ) )
         ) ;
         
-        $assoc = new xs_TopicMaps_Assoc (
+        $assoc = new \xs\TopicMaps\Assoc (
            $this->glob->tm->query_assoc ( array ( 
                'type' => $this->_type->_has_owner, 
                'member_id' => $id 
@@ -147,7 +147,7 @@ class xs_action_instance extends xs_Action {
             $a = $this->glob->tm->query_assoc ( array ( 
                     'id' => $assoc_id,
                 ) ) ;
-            $assoc = new xs_TopicMaps_Assocs ( $a ) ;
+            $assoc = new \xs\TopicMaps\Assocs ( $a ) ;
             
             
             

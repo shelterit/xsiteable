@@ -3,7 +3,7 @@
 /*
  */
 
-    class xs_module_email extends xs_Action {
+    class xs_module_email extends \xs\Events\Plugin {
 
         public $meta = array (
             'name' => 'Email module',

@@ -1,7 +1,7 @@
 <?php
 
    
-class xs_widget_data_control_assoc_list extends xs_Action_Widget_Controller {
+class xs_widget_data_control_assoc_list extends \xs\Action\WidgetController {
 
     // Generic metadata
     public $meta = array(
@@ -57,7 +57,7 @@ class xs_widget_data_control_assoc_list extends xs_Action_Widget_Controller {
             'member_id' => $assocmembertopic,
             'return_members' => true
         ) ) ;
-        $o = new xs_TopicMaps_Assocs ( $oa ) ;
+        $o = new \xs\TopicMaps\Assocs ( $oa ) ;
         
         // debug_r ( $oa, 'Assocs Array result' ) ;
         // debug_r ( $o, 'Assocs Object representation' ) ;

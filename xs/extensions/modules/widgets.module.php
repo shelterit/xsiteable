@@ -11,7 +11,7 @@
  * xs_EventStack_Module
  */
 
-    class xs_module_widgets extends xs_Action {
+    class xs_module_widgets extends \xs\Action\Generic {
 
         public $metadata = array (
             'name' => 'Widgets module',
@@ -227,9 +227,9 @@
 
                                         // debug_r ( $res ) ;
 
-                                        $pp = new xs_Properties ( $res['properties'] ) ;
-                                        $ss = new xs_Properties ( $res['settings'] ) ;
-                                        $tt = new xs_Properties ( $res['technical'] ) ;
+                                        $pp = new \xs\Store\Properties ( $res['properties'] ) ;
+                                        $ss = new \xs\Store\Properties ( $res['settings'] ) ;
+                                        $tt = new \xs\Store\Properties ( $res['technical'] ) ;
 
                                         $topic = $_topic ;
 
@@ -418,9 +418,9 @@
                             $res = $this->inject_to_dummy ( $inst ) ;
 
                             // debug_r($res);
-                            $pp = new xs_Properties ( @$res['properties'] ) ;
-                            $ss = new xs_Properties ( @$res['settings'] ) ;
-                            $tt = new xs_Properties ( @$res['technical'] ) ;
+                            $pp = new \xs\Store\Properties ( @$res['properties'] ) ;
+                            $ss = new \xs\Store\Properties ( @$res['settings'] ) ;
+                            $tt = new \xs\Store\Properties ( @$res['technical'] ) ;
 
                             $widget_controller->_add_instance ( $controller_name, array (
                                 '_p' => $pp, '_s' => $ss, '_t' => $tt
@@ -457,7 +457,7 @@
                         $this->glob->request->_set ( '_controller_name', $controller_name ) ;
                         $this->glob->request->_set ( '_instance_id', $instance_id ) ;
 
-                        $this->glob->widget_output = new xs_Action_Webpage () ;
+                        $this->glob->widget_output = new \xs\Action\Webpage () ;
                         $this->glob->widget_output->_do_output () ;
 
                         // echo $this->glob->widget_output->get () ;
@@ -598,7 +598,7 @@
                     if ( isset ( $z[$a[0]] ) ) {
                         
                         $t = $z[$a[0]] ;
-                        // $t = new xs_TopicMap_Topic ( $z ) ;
+                        // $t = new \xs\TopicMap\Topic ( $z ) ;
                         $t['_widget_index'] = $ser ;
                         $t['who'] = $this->glob->user->id ;
                         debug_r ( $t ) ;

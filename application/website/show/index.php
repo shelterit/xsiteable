@@ -1,6 +1,6 @@
 <?php
 
-class xs_action_instance extends xs_Action_Webpage {
+class xs_action_instance extends \xs\Action\Webpage {
 
     public $page = array(
         'title' => "Show document",
@@ -203,7 +203,7 @@ class xs_action_instance extends xs_Action_Webpage {
 
 
         // comments?
-        $comments = new xs_TopicMaps_Collection (
+        $comments = new \xs\TopicMaps\Collection (
            $this->glob->tm->query ( array ( 'parent' => $id, 'type1' => $this->_type->_comment ), false )
         ) ;
 

@@ -81,13 +81,13 @@
         
         if ( isset ( $_REQUEST['dsn'] ) && isset ( $_REQUEST['un'] ) && isset ( $_REQUEST['pw'] ) ) {
             
-            $test = new PDO ( $_REQUEST['dsn'], $_REQUEST['un'], $_REQUEST['pw'] ) ; 
+            $test = new \PDO ( $_REQUEST['dsn'], $_REQUEST['un'], $_REQUEST['pw'] ) ; 
 
             try {
                 
-                $test->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $test->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
                 
-                $dm = new xs_TopicMaps_Datamodel ( $test ) ;
+                $dm = new \xs\TopicMaps\Datamodel ( $test ) ;
 
                 file_put_contents ( 'application/datastore/_data_backup.sql', $dm->backupData ( 'application/datastore/_data_backup.sql' ) ) ;
 

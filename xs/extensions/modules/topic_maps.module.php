@@ -1,9 +1,9 @@
 <?php
 
-    class xs_module_topic_maps extends xs_Action {
+    class xs_module_topic_maps extends \xs\Action\Generic {
 
         public $meta = array (
-            'name' => 'Pages module',
+            'name' => 'Topic Maps module',
             'version' => '1.0',
             'author' => 'Alexander Johannesen',
             'author_link' => 'http://shelter.nu/',
@@ -72,7 +72,7 @@
             if ( isset ( $input['filter'] ) ) 
                 $filter = $input['filter'] ;
             
-            $t = new xs_TopicMaps_Assoc ( 
+            $t = new \xs\TopicMaps\Assoc ( 
                 $this->glob->tm->query_assoc ( array ( 
                     'type' => $type, 
                     'member_id' => $id 
@@ -142,11 +142,11 @@
             
             // debug_r ( $keys ) ;
             // create a cache
-            $this->cache = new xs_Cache ( 'type_cache_'.$hash, array ( 'time' => '1 week', 
+            $this->cache = new \xs\Cache\Cache ( 'type_cache_'.$hash, array ( 'time' => '1 week', 
                 'cache_dir' => $this->glob->config['framework']['cache_directory'] ), $this->glob ) ;
             
             if ( $alias ) 
-                $this->cache_alias = new xs_Cache ( 'type_cache_alias_'.$hash_alias, array ( 'time' => '1 week', 
+                $this->cache_alias = new \xs\Cache\Cache ( 'type_cache_alias_'.$hash_alias, array ( 'time' => '1 week', 
                     'cache_dir' => $this->glob->config['framework']['cache_directory'] ), $this->glob ) ;
             
             // what is the filename?

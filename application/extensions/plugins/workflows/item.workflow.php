@@ -1,6 +1,6 @@
 <?php
 
-    class xs_workflow_item extends xs_Action {
+    class xs_workflow_item extends \xs\Action\Generic {
 
         public $metadata = array (
             'name' => 'ADOdb database abstraction plugin',

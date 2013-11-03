@@ -1,6 +1,6 @@
 <?php
 
-class xs_widget_feed extends xs_Action_Widget_Controller {
+class xs_widget_feed extends \xs\Action\WidgetController {
 
     // Generic metadata
     public $meta = array(
@@ -41,7 +41,7 @@ class xs_widget_feed extends xs_Action_Widget_Controller {
 
     function GET_content ( $args = null, $name = null ) {
         
-        $html = new html_helper () ;
+        $html = new \xs\Gui\Html () ;
 
         $menu = array ( 'index' => 'Update feed' ) ;
 

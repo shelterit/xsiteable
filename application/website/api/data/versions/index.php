@@ -1,6 +1,6 @@
 <?php
 
-class xs_action_instance extends xs_Action {
+class xs_action_instance extends \xs\Action {
 
     private $base_folder = null ;
     private $base_uri = null ;
@@ -116,7 +116,7 @@ class xs_action_instance extends xs_Action {
         
         
         // die() ;
-        // $o = new xs_DocumentManager_Document ( $doc['original_path'], null ) ;
+        // $o = new \xs\DocumentManager\Document ( $doc['original_path'], null ) ;
         // debug_r($o);
         // $o->final_path = $this->dms->get_dir_structure ( $o->uid, null, true ) ;
         // $o->final_file = $o->final_path . '/' . $uid . '.' . $extension ;

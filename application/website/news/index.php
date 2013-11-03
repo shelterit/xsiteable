@@ -1,6 +1,6 @@
 <?php
 
-    class xs_action_instance extends xs_Action_Webpage {
+    class xs_action_instance extends \xs\Action\Webpage {
 
         // Local shortcut to the Topic Maps database
         private $db = false ;
@@ -68,7 +68,7 @@
 
                         case 'POST' :
 
-                            $news_item = new xs_TopicMaps_Topic () ;
+                            $news_item = new \xs\TopicMaps\Topic () ;
 
                             $fields = $this->glob->request->__get_fields () ;
 
@@ -191,7 +191,7 @@
 
 
                     // Get a news item of that id
-                    $collection = new xs_TopicMaps_Collection (
+                    $collection = new \xs\TopicMaps\Collection (
                        $this->db->query ( array ( 'id' => $id ) )
                     ) ;
 
@@ -239,11 +239,11 @@
                     } else {
 
                         // Get a news item of that id
-                        $comments = new xs_TopicMaps_Collection (
+                        $comments = new \xs\TopicMaps\Collection (
                            $this->db->query ( array ( 'parent' => $id, 'type1' => $this->_type->_comment, 'sort_by' => 'm_c_date ASC' ), false )
                         ) ;
 
-                        $comments->resolve_topics ( xs_TopicMaps::$resolve_author ) ;
+                        $comments->resolve_topics ( \xs\TopicMaps\Engine::$resolve_author ) ;
 
                         $this->glob->stack->add ( 'xs_comments', $comments ) ;
                     }

@@ -1,6 +1,6 @@
 <?php
 
-class xs_widget_latest_activity extends xs_Action_Widget_Controller {
+class xs_widget_latest_activity extends \xs\Action\WidgetController {
 
     // Generic metadata
     public $meta = array(
@@ -231,12 +231,12 @@ class xs_widget_latest_activity extends xs_Action_Widget_Controller {
 
     function GET_content ( $args = null, $name = null ) {
         
-        $html = new html_helper () ;
+        // $html = new html_helper () ;
 
         $menu = array ( 'index' => 'Update' ) ;
 
         return $this->prepare ( 
-           $html->create_simple_widget ( 'latest_activity',  $menu, $name ) 
+           $this->glob->html_helper->create_simple_widget ( 'latest_activity',  $menu, $name ) 
         ) ;
     }
 

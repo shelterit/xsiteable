@@ -56,7 +56,7 @@ class _convert extends _admin {
 
     function this_action () {
 
-        $dm = new xs_DocumentManager () ;
+        $dm = new \xs\DocumentManager () ;
 
         
         

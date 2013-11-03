@@ -1,6 +1,6 @@
 <?php
 
-class xs_RestService extends xs_Core {
+class xs_RestService extends \xs\Core {
 
     private $config = null ;
     private $http = null ;

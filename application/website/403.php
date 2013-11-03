@@ -1,6 +1,6 @@
 <?php
 
-    class xs_action_instance_error extends xs_Action_Webpage {
+    class xs_action_instance_error extends \xs\Action\Webpage {
 
         public $page = array (
             'title' => "Error : Forbidden (403)",

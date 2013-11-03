@@ -1,6 +1,6 @@
 <?php
 
-class xs_DocumentManager_Document extends xs_Properties {
+class xs_DocumentManager_Document extends \xs\Store\Properties {
 
     public $uid = '' ;
     

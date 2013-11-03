@@ -1,6 +1,7 @@
 <?php
 
-    class xs_module_action extends xs_Action {
+
+    class xs_module_action extends \xs\Action\Generic {
         
         public $meta = array (
             'name' => 'Action module',

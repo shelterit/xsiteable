@@ -5,7 +5,7 @@
  * main menu.
  */
 
-    class xs_plugin_iframe extends xs_Action {
+    class xs_plugin_iframe extends \xs\Action\Generic {
         
         public $meta = array (
             'name' => 'iframe plugin',
@@ -34,7 +34,7 @@
                 
                 if (  isset ( $this->glob->website['main'][$uri]['@iframe'] ) ) {
                 
-                    $inst = new xs_Action_Webpage () ;
+                    $inst = new \xs\Action\Webpage () ;
 
                     // add 'page', 'widgets' and 'menus' events just after the 'XS_DISPATCH' event
                     $inst->_add_event ( 'XS_DISPATCHER', 'XS_PAGE' ) ;

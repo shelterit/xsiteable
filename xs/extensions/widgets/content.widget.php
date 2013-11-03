@@ -1,6 +1,6 @@
 <?php
 
-    class xs_widget_content extends xs_Action_Widget_Controller {
+    class xs_widget_content extends \xs\Action\WidgetController {
         
         public $meta = array (
             'name' => 'Content widget',

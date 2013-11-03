@@ -2,7 +2,7 @@
 
     // A service that drives all manners of search and retreival
 
-    class xs_module_generic_content extends xs_EventStack_Module {
+    class xs_module_generic_content extends \xs\Events\Module {
 
         public $meta = array (
             'name' => 'Generic Content module',

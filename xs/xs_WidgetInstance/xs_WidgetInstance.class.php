@@ -1,6 +1,6 @@
 <?php
 
-    class  xs_WidgetInstance extends xs_Properties {
+    class  xs_WidgetInstance extends \xs\Store\Properties {
 
         public $id = null ;
         public $s = null ;
@@ -17,12 +17,12 @@
         function __construct ( $id ) {
             parent::__construct() ;
             $this->id = $id ;
-            $this->s  = new xs_Properties () ;
-            $this->p  = new xs_Properties () ;
-            $this->o  = new xs_Properties () ;
-            $this->_s  = new xs_Properties () ;
-            $this->_p  = new xs_Properties () ;
-            $this->_o  = new xs_Properties () ;
+            $this->s  = new \xs\Store\Properties () ;
+            $this->p  = new \xs\Store\Properties () ;
+            $this->o  = new \xs\Store\Properties () ;
+            $this->_s  = new \xs\Store\Properties () ;
+            $this->_p  = new \xs\Store\Properties () ;
+            $this->_o  = new \xs\Store\Properties () ;
         }
 
     }

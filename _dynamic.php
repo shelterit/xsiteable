@@ -4,7 +4,7 @@
     require_once ( '_framework.php' ) ;
     
     // Create the application stack
-    $xs_stack = new xs_EventStack () ;
+    $xs_stack = new \xs\EventStack () ;
 
     // Fill it with the default stack events
     $xs_stack->create_event_framework (

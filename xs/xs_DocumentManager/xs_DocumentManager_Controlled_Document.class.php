@@ -1,6 +1,6 @@
 <?php
 
-class xs_DocumentManager_Controlled_Document extends xs_Properties {
+class xs_DocumentManager_Controlled_Document extends \xs\Store\Properties {
 
     // the UID of the document
     public $uid = null ;

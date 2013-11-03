@@ -239,7 +239,7 @@ function security_group_lookup ( $group ) {
     if (is_object($group))
         $group = $group->value ;
 
-    xs_Core::$glob->log->add ( "User: group_lookup [$group]" ) ;
+    \xs\Core::$glob->log->add ( "User: group_lookup [$group]" ) ;
     $w = $xs_stack->glob->user->inGroup ( $group ) ;
 
     return $w ;
@@ -254,7 +254,7 @@ function user_lookup ( $user ) {
     if (is_object($user))
         $user = $user->value ;
 
-    xs_Core::$glob->log->add ( "User: user_lookup [$user]" ) ;
+    \xs\Core::$glob->log->add ( "User: user_lookup [$user]" ) ;
     $w = $xs_stack->glob->user->isUser ( $user ) ;
 
     return $w ;
@@ -290,14 +290,13 @@ function widget ( $controller_name = 'not given', $function = 'no what', $name =
     $s = simplexml_load_string ( "<span>$p</span>" ) ;
     $z = dom_import_simplexml ( $s ) ;
 
-    xs_Core::$glob->log->add ( "core.func.widget: done" ) ;
+    \xs\Core::$glob->log->add ( "core.func.widget: done" ) ;
   
     return $z ;
 }
 
 function widget_properties ( $widget, $id ) {
     global $xs_stack ;
-    // xs_Core::$glob->log->add ( "core.func.widget_properties: [$widget]" ) ;
     // $instance = $xs_stack->get ( $widget ) ;
     $instance = $xs_stack->get_instance ( $id ) ;
     if ( ! $instance ) return null ;
@@ -306,7 +305,6 @@ function widget_properties ( $widget, $id ) {
 
 function widget_settings ( $widget, $id ) {
     global $xs_stack ;
-    // xs_Core::$glob->log->add ( "core.func.widget_settings: [$widget]" ) ;
     $instance = $xs_stack->get_instance ( $id ) ;
     if ( ! $instance ) return null ;
     // $instance = $xs_stack->get ( $widget ) ;
@@ -315,7 +313,6 @@ function widget_settings ( $widget, $id ) {
 
 function widget_property ( $widget, $property, $id ) {
     global $xs_stack ;
-    // xs_Core::$glob->log->add ( "core.func.widget_property: [$widget][$property]" ) ;
     $instance = $xs_stack->get_instance ( $id ) ;
     if ( ! $instance ) return null ;
     $v = $instance->get_property ( $property ) ;
@@ -367,7 +364,7 @@ function _dom_array ( $array = array () ) {
 function plugin_get ( $plugin, $path ) {
     global $xs_stack ;
     
-    xs_Core::$glob->log->add ( "core.func.plugin_get: [$plugin][$path]" ) ;
+    \xs\Core::$glob->log->add ( "core.func.plugin_get: [$plugin][$path]" ) ;
     $p = $xs_stack->get ( $plugin ) ;
 
     if ( is_object ( $p ) ) {
@@ -441,7 +438,7 @@ function gui_actions ( $event ) {
     //echo "<pre>$xml</pre>" ;
     $doc->loadXml((string)$xml);
 
-    xs_Core::$glob->log->add ( "3. core.func.gui_actions: [$l] / END" ) ;
+   \xs\Core::$glob->log->add ( "3. core.func.gui_actions: [$l] / END" ) ;
     return $doc;
 
 }

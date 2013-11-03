@@ -1,6 +1,6 @@
 <?php
 
-class xs_action_instance extends xs_Action_Webpage {
+class xs_action_instance extends \xs\Action\Webpage {
 
     public $page = array(
         'title' => "Keywords"
@@ -91,30 +91,6 @@ class xs_action_instance extends xs_Action_Webpage {
         ) ) ;
 
 
-
-
-        /*
-
-
-        // Send them off to our tag-cloud service
-        $tagcloud = new xs_RestService (
-            XS_TAGCLOUD_SERVICE,
-            array (
-                'base' => $this->glob->dir->home . '/keyword' . $urladd,
-                'max'  => 200,
-                'list' => $x
-            )
-        ) ;
-
-        $tagcloud->POST() ;
-
-        $this->glob->stack->add ( 'xs_content', array (
-            'keywords' => $tagcloud->getString()
-        ) ) ;
-
-
-*/
-
         $final = array () ;
 
         $cmd = unserialize(file_get_contents('application/datastore/cmd.arr'));
@@ -148,7 +124,7 @@ class xs_action_instance extends xs_Action_Webpage {
         $max   = (int) $this->glob->request->__fetch ( 'max', '10' ) ;
         if ( $max < 1 ) $max = 10 ;
 
-        $pager = new xs_Paginator ( count($final), $max, $start ) ;
+        $pager = new \xs\Data\Paginator ( count($final), $max, $start ) ;
 
         $this->glob->page->current_page = $pager->getCurrentPage() ;
         $this->glob->page->total = count ( $final ) ;

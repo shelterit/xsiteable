@@ -4,7 +4,7 @@ global $XS_THIS ;
 include $XS_THIS.'/application/website/admin/_admin.php' ;
 
 
-class xs_action_instance extends xs_Action {
+class xs_action_instance extends \xs\Action {
 
     public $metadata = array(
         'name' => "en:Admin",

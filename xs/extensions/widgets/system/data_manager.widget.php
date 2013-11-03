@@ -5,7 +5,7 @@
  * registered various data sources and queries. Handy for admin purposes.
  */
 
-class xs_widget_data_manager extends xs_Action_Widget_Controller {
+class xs_widget_data_manager extends \xs\Action\WidgetController {
 
     public $meta = array (
         'name' => 'Data and XS Manager widget',
@@ -35,7 +35,7 @@ class xs_widget_data_manager extends xs_Action_Widget_Controller {
 
     function ___this () {
         if ($this->html === null )
-            $this->html = new html_helper () ;
+            $this->html = new \xs\Gui\Html () ;
     }
 
     // Get the widget initial content

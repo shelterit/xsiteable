@@ -1,6 +1,6 @@
 <?php
 
-    class xs_module_tags extends xs_EventStack_Module {
+    class xs_module_tags extends \xs\Events\Module {
 
         public $meta = array (
             'name' => 'Tags module',
@@ -236,7 +236,7 @@
                                 'type' => $this->_type->has_tag, 
                                 'member_id' => $tag_id,
                         ) ) ;
-                        $t = new xs_TopicMaps_Assocs ( $q ) ;
+                        $t = new \xs\TopicMaps\Assocs ( $q ) ;
                         $t->inject ( array ( 'type' => $this->_type->has_tag ) ) ;
                         $t->member_resolve () ;
                         
@@ -276,7 +276,7 @@
                                 'type' => $this->_type->has_controlled_tag, 
                                 'member_id' => $tag_id,
                         ) ) ;
-                        $t = new xs_TopicMaps_Assocs ( $q ) ;
+                        $t = new \xs\TopicMaps\Assocs ( $q ) ;
                         $t->inject ( array ( 'type' => $this->_type->has_controlled_tag ) ) ;
                         $t->member_resolve () ;
                         

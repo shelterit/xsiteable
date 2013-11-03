@@ -1,6 +1,6 @@
 <?php
 
-class xs_action_instance extends xs_Action {
+class xs_action_instance extends \xs\Action {
 
     function ___action () {
 

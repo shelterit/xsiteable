@@ -1,6 +1,6 @@
 <?php
 
-class xs_action_instance extends xs_Action_Webpage {
+class xs_action_instance extends \xs\Action\Webpage {
 
     public $page = array(
         'title' => 'Search'
@@ -136,7 +136,7 @@ class xs_action_instance extends xs_Action_Webpage {
         }
         
 
-        $pager = new xs_Paginator ( count($score), 10 ) ;
+        $pager = new \xs\Data\Paginator ( count($score), 10 ) ;
 
         $this->glob->page->current_page = $pager->getCurrentPage() ;
         $this->glob->page->total = count ( $score ) ;

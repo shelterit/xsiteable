@@ -1,6 +1,6 @@
 <?php
 
-    class xs_module_comments extends xs_EventStack_Module {
+    class xs_module_comments extends \xs\Events\Module {
 
         public $meta = array (
             'name' => 'Comments module',
@@ -35,14 +35,14 @@
         function get_for_topic ( $id ) {
             
             // Get a forum item of that id
-            $comments = new xs_TopicMaps_Collection (
+            $comments = new \xs\TopicMaps\Collection (
                 $this->glob->tm->query ( array ( 
                     'parent' => $id, 
                     'type1' => $this->_type->_comment 
                 ), false )
             ) ;
 
-            $comments->resolve_topics ( xs_TopicMaps::$resolve_author ) ;
+            $comments->resolve_topics ( \xs\TopicMaps\Engine::$resolve_author ) ;
             
             return $comments ;
         }

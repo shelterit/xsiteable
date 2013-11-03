@@ -1,6 +1,6 @@
 <?php
 
-    class xs_type_tag extends xs_Type {
+    class xs_type_tag extends \xs\Semantics\Type {
         
         public $meta = array (
             'name' => 'Tags',

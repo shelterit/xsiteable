@@ -7,7 +7,7 @@
  * 
  */
 
-class xs_widget_user_manager extends xs_Action_Widget_Controller {
+class xs_widget_user_manager extends \xs\Action\WidgetController {
 
     public $meta = array (
         'name' => 'User Manager widget',

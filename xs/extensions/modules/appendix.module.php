@@ -1,16 +1,6 @@
 <?php
 
-/*
- * array ( 'tid' => 3445, 'uid' => 'sb5t5et5n6ybae4t4', 'type' => 23 )
- * 
- * 
- * 
- */
-
-
-
-
-    class xs_module_appendix extends xs_Action {
+    class xs_module_appendix extends \xs\Action\Generic {
         
         public $meta = array (
             'name' => 'Appendix module',

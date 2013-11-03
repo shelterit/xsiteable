@@ -1,8 +1,5 @@
 <?php
 
-    // error_reporting(-1);
-    ini_set("display_errors", 1);
-    
     if ( ! file_exists ( '.installed') ) {
         
         // Include the install and diag page, if needed
@@ -12,24 +9,16 @@
         die () ;
     }
     
-    // Include the basic xSiteable framework
-    require_once ( '_framework.php' ) ;
-    xs_Core::$glob->log->add ( 'Included framework' ) ;
-
-    // Set the version number for our app
-    xs_Core::$app_version = '1.0' ;
-
-    // Simple, crude but efficient logging class
-    require_once ( 'application/classes/KLogger.php' ) ;
-
-    // Sugar and spice
-    require_once ( 'application/classes/human_dates.php' ) ;
-    xs_Core::$glob->log->add ( 'Included local classes' ) ;
-
-    // We also need SimplePie
+    // We need SimplePie, so get its autoloader first
     require_once ( 'lib/simplepie/autoloader.php' ) ;
     
-    
+    // Include the basic xSiteable framework
+    require_once ( '_framework.php' ) ;
+    \xs\Core::$glob->log->add ( 'Included framework' ) ;
+
+    // Set the version number for our app
+    \xs\Core::$app_version = '1.0' ;
+
     
     
     /*
@@ -42,20 +31,19 @@
      */
 
     // Create the application stack
-    $xs_stack = new xs_EventStack () ;
+    $xs_stack = new \xs\Events\EventStack () ;
 
     // Fill it with the default stack events
     $xs_stack->create_event_framework (
         $xs_stack->get_standard_framework()
     ) ;
     
-    xs_Core::$glob->log->add ( 'Event stack primed and ready!' ) ;
+    \xs\Core::$glob->log->add ( 'Event stack primed and ready!' ) ;
 
     // Find and initiate all plugins and modules
     $xs_stack->init () ;
-    xs_Core::$glob->log->add ( 'Event stack has initiated all plugins and modules' ) ;
+    \xs\Core::$glob->log->add ( 'Event stack has initiated all plugins and modules' ) ;
 
     // Start the fun!
     $xs_stack->action () ;
-
  

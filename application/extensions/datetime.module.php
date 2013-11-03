@@ -3,7 +3,7 @@
    // This module provides an API for dealing with dates, times, and date ranges.
    // It creates lists, averages, and so on, useful for archives, news, blogs, etc.
 
-    class xs_module_datetime extends xs_Action {
+    class xs_module_datetime extends \xs\Events\Module {
 
         public $meta = array (
             'name' => 'DateTime module',

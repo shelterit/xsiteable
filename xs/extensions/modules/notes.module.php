@@ -1,6 +1,6 @@
 <?php
 
-    class xs_module_notes extends xs_EventStack_Module {
+    class xs_module_notes extends \xs\Events\Module {
 
         public $meta = array (
             'name' => 'Notes module',

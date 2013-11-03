@@ -8,7 +8,7 @@
  *         failed, not sure why.
  */
 
-    class xs_module_menu extends xs_Action_Resource {
+    class xs_module_menu extends \xs\Events\Module {
 
         public $meta = array (
             'name' => 'Pages module',

@@ -1,6 +1,6 @@
 <?php
 
-    class xs_module_scheduler extends xs_Action {
+    class xs_module_scheduler extends \xs\Events\Module {
 
         public $meta = array (
             'name' => 'Scheduler module',
@@ -57,7 +57,7 @@
             
         }
         
-        function ___output () {
+        function ___output_disabled () {
             
         // function ___post_scheduler () {
 

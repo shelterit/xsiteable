@@ -1,7 +1,7 @@
 <?php
 
 
-class xs_widget_document_manager extends xs_Action_Widget_Controller {
+class xs_widget_document_manager extends \xs\Action\WidgetController {
 
     public $meta = array (
         'name' => 'Document Register',
@@ -25,7 +25,7 @@ class xs_widget_document_manager extends xs_Action_Widget_Controller {
     function ___this () {
 
         // We could use some help around here
-        $this->html = new html_helper () ;
+        $this->html = new \xs\Gui\Html () ;
 
         // This query is all the users
         $this->docs = $this->glob->data->register_query (
@@ -68,7 +68,7 @@ class xs_widget_document_manager extends xs_Action_Widget_Controller {
         $output = $this->glob->request->_output ;
 
         // renderer
-        $render = html_helper::RENDER_HTML ;
+        $render = \xs\Gui\Html::RENDER_HTML ;
         
         // table configuration options
         $conf = array ( 
@@ -151,11 +151,11 @@ class xs_widget_document_manager extends xs_Action_Widget_Controller {
             'type' => $this->_type->has_owner,
         ) ) ;
         
-        $f = new xs_TopicMaps_Assocs ( $lut ) ;
+        $f = new \xs\TopicMaps\Assocs ( $lut ) ;
         
         // debug_r ( $lut ) ;
         /*
-        $f = new xs_TopicMaps_Assocs ( $lut ) ;
+        $f = new \xs\TopicMaps\Assocs ( $lut ) ;
         $o = $f->get_other_members_of_member_id ( ) ;
         debug_r ( $f ) ;
         $docs = $f->get_members_of_type ( $this->_type->_document ) ;

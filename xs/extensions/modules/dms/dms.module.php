@@ -3,7 +3,7 @@
 require '_lib_files.php' ;
 require '_lib_db.php' ;
 
-class xs_module_dms extends xs_Action {
+class xs_module_dms extends \xs\Action\Generic {
     
     // the unique identifier for the xSiteable Document Control Manager
     private $uid = 'xs_module_dms' ;
@@ -146,10 +146,7 @@ class xs_module_dms extends xs_Action {
         
         // make a quick shorthand for the type (saving to look it up all the time)
         define ( 'DOCUMENT', $this->_type->_document ) ;
-        
-        // $this->lut_s = new xs_DocumentManager_LUT () ;
-        // $this->lut_c = new xs_DocumentManager_LUT () ;
-        
+
     }
     
     function health_check ( $safe_mode = false ) {
@@ -586,7 +583,7 @@ class xs_module_dms extends xs_Action {
                  
                 // new object
                 $this->spidered_documents_objects[$counter] = 
-                        new xs_DocumentManager_Document ( $path, $fstat ) ;
+                        new \xs\DocumentManager\Document ( $path, $fstat ) ;
 
                 // fill the look-up table
                 $this->lut_s->add ( $counter, 
@@ -871,7 +868,7 @@ class xs_module_dms extends xs_Action {
         
         $this->phaser ( 'Match spidered files against the database' ) ;
         
-        $profile = new xs_Profiler () ;
+        $profile = new \xs\Stats\Profiler () ;
         
         $count = 0 ;
         $max = count ( $this->document_objects ) ;
@@ -1590,7 +1587,7 @@ class xs_module_dms extends xs_Action {
     
     function clean_and_harvest ( $doc, $appendix ) {
         
-        $profiler = new xs_Profiler () ;
+        $profiler = new \xs\Stats\Profiler () ;
         
         if ( $this->html2text == null )
             $this->html2text = new html2text () ;
@@ -1929,7 +1926,7 @@ class xs_module_dms extends xs_Action {
                  $path = $topic['original_path'] ;
              
             // new object
-            $doc = new xs_DocumentManager_Document ( $path, $fstat, $topic ) ;
+            $doc = new \xs\DocumentManager\Document ( $path, $fstat, $topic ) ;
             // $doc->attach_topic ( $topic ) ;
 
             // if ( isset ( $topic['relative_path'] ) )
@@ -2029,8 +2026,8 @@ class xs_module_dms extends xs_Action {
             'cache_dir' => $this->glob->config['framework']['cache_directory'] 
         ) ;
         
-        $lut = new xs_Cache ( 'preamble_lut_relative', $config, $this->glob ) ;
-        $all = new xs_Cache ( 'preamble_all_docs', $config, $this->glob ) ;
+        $lut = new \xs\Cache\Cache ( 'preamble_lut_relative', $config, $this->glob ) ;
+        $all = new \xs\Cache\Cache ( 'preamble_all_docs', $config, $this->glob ) ;
 
         $lut->reset () ;
         $all->reset () ;
@@ -2044,7 +2041,7 @@ class xs_module_dms extends xs_Action {
             'cache_dir' => $this->glob->config['framework']['cache_directory'] 
         ) ;
         
-        $all = new xs_Cache ( 'preamble_all_docs', $config, $this->glob ) ;
+        $all = new \xs\Cache\Cache ( 'preamble_all_docs', $config, $this->glob ) ;
         if ( $all->has_expired () ) {
             
             $all->put ( $this->glob->tm->query ( 
@@ -2055,7 +2052,7 @@ class xs_module_dms extends xs_Action {
 
             
             
-        $lut = new xs_Cache ( 'preamble_lut_relative', $config, $this->glob ) ;
+        $lut = new \xs\Cache\Cache ( 'preamble_lut_relative', $config, $this->glob ) ;
         if ( ! $this->lut_relative || count ( $this->lut_relative ) == 0 ) {
         
             if ( $lut->has_expired () ) {
@@ -2077,7 +2074,7 @@ class xs_module_dms extends xs_Action {
             'cache_dir' => $this->glob->config['framework']['cache_directory'] 
         ) ;
   
-        $lut = new xs_Cache ( 'preamble_lut_relative', $config, $this->glob ) ;
+        $lut = new \xs\Cache\Cache ( 'preamble_lut_relative', $config, $this->glob ) ;
         if ( ! $this->lut_relative || count ( $this->lut_relative ) == 0 ) {
         
             if ( $lut->has_expired () ) {
@@ -2459,7 +2456,7 @@ class xs_module_dms extends xs_Action {
         if ( $this->_meta->uri == $this->uri_docs ) {
 
             // Ok, create a new action controller for the page we'll show
-            $page = new xs_Action_Webpage () ;
+            $page = new \xs\Action\Webpage () ;
 
             // Inject this file path (so, not the path of where the class
             // is defined, but where this module is located
@@ -2483,7 +2480,7 @@ class xs_module_dms extends xs_Action {
                 // echo "<pre style='background-color:green;'>" ; var_dump ( $doc ) ; echo "</pre>" ;
                 // echo "<pre style='background-color:red;'>" ; var_dump ( $controlled ) ; echo "</pre>" ;
 
-                $topic = new xs_TopicMaps_Topic ( $doc ) ;
+                $topic = new \xs\TopicMaps\Topic ( $doc ) ;
 
                 if ( $controlled !== 'true' ) {
                     $topic->set ( 'controlled', 'true' ) ;

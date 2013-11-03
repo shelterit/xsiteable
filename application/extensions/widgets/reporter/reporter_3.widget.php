@@ -1,6 +1,6 @@
 <?php
    
-class xs_widget_reporter_3 extends xs_Action_Widget_Controller {
+class xs_widget_reporter_3 extends \xs\Action\WidgetController {
 
     public $meta = array(
         'name' => 'Reporter widget 3',

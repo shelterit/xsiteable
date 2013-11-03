@@ -1,6 +1,6 @@
 <?php
 
-class _admin extends xs_Action {
+class _admin extends \xs\Action\Generic {
 
     public $source = null ;
     public $target = null ;

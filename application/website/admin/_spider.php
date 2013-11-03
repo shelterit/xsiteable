@@ -50,22 +50,7 @@ class _spider extends _admin {
     }
 
     function this_action () {
-        
-        /*
-        $dm = new xs_DocumentManager () ;
-        $dm->spider () ;
-        
-        echo "<pre>" ;
-        // print_r ( $dm->spidered_documents ) ;
-        
-        $dm->find_documents_in_db () ;
-        echo "</pre>" ;
-        
-        die () ;
-        
-         * 
-         */
-        
+
         
         
         

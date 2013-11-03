@@ -1,7 +1,7 @@
 <?php
 
    
-class xs_widget_data_control_latest_list extends xs_Action_Widget_Controller {
+class xs_widget_data_control_latest_list extends \xs\Action\WidgetController {
 
     // Generic metadata
     public $meta = array(
@@ -55,7 +55,7 @@ class xs_widget_data_control_latest_list extends xs_Action_Widget_Controller {
         // debug($oa);
         // debug_r ( array ( 'comment'=>$this->_type->_comment, 'page'=>$this->_type->_page, 'news'=>$this->_type->_news, 'forum'=>$this->_type->_forum, 'document'=>$this->_type->_document ) ) ;
         
-        $topics = new xs_TopicMaps_Collection ( $oa ) ;
+        $topics = new \xs\TopicMaps\Collection ( $oa ) ;
         
         // resolve some topics in that query result
         $topics->resolve_topics ( array (
@@ -79,7 +79,7 @@ class xs_widget_data_control_latest_list extends xs_Action_Widget_Controller {
         $arr = array () ;
 
         foreach ( $topics->topics as $topic_id => $topic_object ) {
-            $topic = new xs_Properties ( $topic_object->get_as_array () ) ;
+            $topic = new \xs\Store\Properties ( $topic_object->get_as_array () ) ;
             $when = '0' ;
             $topic->op = 'n/a' ;
             if ( (int) $topic->m_c_who == $topicid ) { $when = $topic->m_c_date ; $topic->op = 'Create' ; }

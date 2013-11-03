@@ -1,6 +1,6 @@
 <?php
 
-    class xs_WebPage extends xs_Properties {
+    class xs_WebPage extends \xs\Store\Properties {
 
         // Template to use for rendering the page
         private $template = '' ;

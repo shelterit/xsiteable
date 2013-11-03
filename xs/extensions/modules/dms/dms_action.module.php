@@ -1,6 +1,6 @@
 <?php
 
-class xs_module_dms_action extends xs_Action {
+class xs_module_dms_action extends \xs\Action\Generic {
     
     // the unique identifier for the xSiteable Document Control Manager
     private $uid = 'xs_module_dms_action' ;

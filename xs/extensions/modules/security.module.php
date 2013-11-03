@@ -4,7 +4,7 @@
     // and access rules, with heaps of the base code borrowed from
     // https://github.com/GeoffYoung/PHP-ACL/blob/master/class.acl.php
 
-    class xs_module_security extends xs_EventStack_Plugin {
+    class xs_module_security extends \xs\Events\Module {
 
         private $token_structure = 'security-website-pages' ;
         private $topics = null ;

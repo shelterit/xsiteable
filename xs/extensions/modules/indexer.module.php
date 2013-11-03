@@ -2,7 +2,7 @@
 
     // A service that drives all manners of search and retreival
 
-    class xs_module_indexer extends xs_EventStack_Module {
+    class xs_module_indexer extends \xs\Events\Module {
 
         public $meta = array (
             'name' => 'Indexer module',

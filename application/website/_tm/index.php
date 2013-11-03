@@ -1,6 +1,6 @@
 <?php
 	
-class xs_action_instance extends xs_Action_Webpage {
+class xs_action_instance extends \xs\Action\Webpage {
 
     public $page = array (
         'title' => 'Topic Maps Editor'
@@ -79,7 +79,7 @@ class xs_action_instance extends xs_Action_Webpage {
                             break ;
                         case 'POST' : 
                             
-                            $item = new xs_TopicMaps_Topic () ;
+                            $item = new \xs\TopicMaps\Topic () ;
 
                             $fields = $this->glob->request->__get_fields () ;
                             $v_fields = $this->glob->request->__get_fields ( 'k:' ) ;
@@ -126,9 +126,9 @@ class xs_action_instance extends xs_Action_Webpage {
 
                     $topics = $tm->query ( array ( 'id' => $id ), true ) ;
                     
-                    $t = new xs_TopicMaps_Collection ( $topics ) ;
-                    $t->resolve_topics ( xs_TopicMaps::$resolve_type ) ;
-                    $t->resolve_topics ( xs_TopicMaps::$resolve_parent ) ;
+                    $t = new \xs\TopicMaps\Collection ( $topics ) ;
+                    $t->resolve_topics ( \xs\TopicMaps\Engine::$resolve_type ) ;
+                    $t->resolve_topics ( \xs\TopicMaps\Engine::$resolve_parent ) ;
                     // debug_r ( $t ) ;
                     $this->glob->stack->add ( 'xs_topics', $t->__get_array () ) ;
 
@@ -139,7 +139,7 @@ class xs_action_instance extends xs_Action_Webpage {
                     $this->set_template ('topics') ;
 
                     $this->glob->page->per_page = 15 ;
-                    $pager = new xs_Paginator ( $total_topics, $this->glob->page->per_page ) ;
+                    $pager = new \xs\Data\Paginator ( $total_topics, $this->glob->page->per_page ) ;
                     $this->glob->page->current_page = $pager->getCurrentPage() ;
                     $this->glob->stack->add ( 'xs_result_pages', $pager->getPages() ) ;
 

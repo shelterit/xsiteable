@@ -1,6 +1,6 @@
 <?php
 
-class xs_widget_document_control extends xs_Action_Widget_Controller {
+class xs_widget_document_control extends \xs\Action\WidgetController {
 
     // Generic metadata
     public $meta = array(
@@ -27,7 +27,7 @@ class xs_widget_document_control extends xs_Action_Widget_Controller {
     function ___init () {
 
         // We could use some help around here
-        $this->html = new html_helper () ;
+        $this->html = new \xs\Gui\Html () ;
     }
 
     function ___modules () {
@@ -95,7 +95,7 @@ class xs_widget_document_control extends xs_Action_Widget_Controller {
         $id = $this->glob->request->document_control_id ;
 
         // renderer
-        $render = html_helper::RENDER_HTML ;
+        $render = \xs\Gui\Html::RENDER_HTML ;
         
         // all modes deals with places, so just fetch it
         $all_documents = $this->glob->data->get ( 'document-control-all' ) ;

@@ -2,7 +2,7 @@
 
 // require_once ( XS_DIR_APP . '/classes/TmSql.class.php' ) ;
     
-class xs_widget_bookmark extends xs_Action_Widget_Controller {
+class xs_widget_bookmark extends \xs\Action\WidgetController {
 
     public $meta = array(
         'name' => 'bookmark widget',

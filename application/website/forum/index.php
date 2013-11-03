@@ -1,6 +1,6 @@
 <?php
 
-    class xs_action_instance extends xs_Action_Webpage {
+    class xs_action_instance extends \xs\Action\Webpage {
 
         // Local shortcut to the Topic Maps database
         private $db = false ;
@@ -68,7 +68,7 @@
 
                         case 'POST' :
 
-                            $forum_item = new xs_TopicMaps_Topic () ;
+                            $forum_item = new \xs\TopicMaps\Topic () ;
 
                             $fields = $this->glob->request->__get_fields () ;
 
@@ -192,7 +192,7 @@
 
 
                     // Get a forum item of that id
-                    $collection = new xs_TopicMaps_Collection (
+                    $collection = new \xs\TopicMaps\Collection (
                        $this->db->query ( array ( 'id' => $id ) )
                     ) ;
 

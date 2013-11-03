@@ -6,39 +6,46 @@
      *
      */
 
-     define ( 'XS_ROOT_ID', '---' ) ;
+     use \xs\Basic\Properties ;
+     use \xs\Stats\Profiler ;
 
-     define ( 'XS_PAGE_DB_IDENTIFIER', 'core-content-page' ) ;
+    // quick defines
+
+    define ( 'XS_ROOT_ID', '---' ) ;
+    define ( 'XS_PAGE_DB_IDENTIFIER', 'core-content-page' ) ;
+    define ( 'XS_DATE', "Y-m-d H:i:s" ) ;
+    define ('I', DIRECTORY_SEPARATOR ) ;
     
-     define ( 'XS_DATE', "Y-m-d H:i:s" ) ;
+    // error reporting set to full; set to none in production environments
+    ini_set("display_errors", 1);
+    
+     // Yes, we use sessions. So sue me.
+     @session_start() ;
 
      // Start timing of, well, everything!
      $xs_profiling_start = microtime ( true ) ;
-
-     // Include the core class
-     require_once ( __DIR__.'/xs/core.class.php' ) ;
+     
+     // Set up the static part of our core class
+     require_once ( __DIR__.I.'xs'.I.'Core.class.php' ) ;
+     
+     // register our autoloader
+     require_once ( __DIR__.I.'xs'.I.'Autoloader.class.php' ) ;
+     // spl_autoload_register ( array ( new \xs\Autoloader(), 'autoload' ) ) ;
+     spl_autoload_register ( array ( new \xs\SplClassLoader(), 'loadClass' ) ) ;
+    
+    
 
      // Include other basic functions not done better in classes yet
-     require_once ( __DIR__.'/xs/core.functions.php' ) ;
+     require_once ( __DIR__.I.'xs'.I.'core.functions.php' ) ;
 
-     // register our autoloader
-     spl_autoload_register ( array ( new xs_Autoloader(), 'autoload' ) ) ;
      
      // Initialize file paths and the like
-     xs_Core::static_setup () ;
-
-     // Create a global registry / property object
-     xs_Core::$glob = new xs_Properties() ;
-     xs_Core::$glob_type = new xs_Properties() ;
+     \xs\Core::static_setup ( __DIR__ ) ;
 
      // Create a logger for performance and stuff
-     xs_Core::$glob->log = new xs_Profiler ( $xs_profiling_start ) ;
+     \xs\Core::$glob->log = new \xs\Stats\Profiler ( $xs_profiling_start ) ;
 
-     xs_Core::$glob->log->add ( 'Start including all framework files' ) ;
+     \xs\Core::$glob->log->add ( 'Start including all framework files' ) ;
 
-     xs_Core::$glob->log->add ( 'Includes done' ) ;
-
-
-     // Yes, we use sessions. So sue me.
-     @session_start() ;
+     \xs\Core::$glob->log->add ( 'Includes done' ) ;
 

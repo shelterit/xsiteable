@@ -1,7 +1,7 @@
 <?php
 
    
-class xs_widget_data_control_meta extends xs_Action_Widget_Controller {
+class xs_widget_data_control_meta extends \xs\Action\WidgetController {
 
     // Generic metadata
     public $meta = array(

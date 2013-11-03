@@ -5,7 +5,7 @@
      * prelimenary authentication and stuff like that, or go the full
      * authentication route by using a Authentication plugin in addition. */
 
-    class xs_plugin_ntlm extends xs_Action {
+    class xs_plugin_ntlm extends \xs\Action\Generic {
 
         private $debug = false ;
         private $headers = false ;

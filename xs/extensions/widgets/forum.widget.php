@@ -1,6 +1,6 @@
 <?php
 
-class xs_widget_forum extends xs_Action_Widget_Controller {
+class xs_widget_forum extends \xs\Action\WidgetController {
 
     // Generic metadata
     public $meta = array(

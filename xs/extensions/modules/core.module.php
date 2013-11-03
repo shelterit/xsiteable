@@ -1,6 +1,6 @@
 <?php
 
-    class xs_module_core extends xs_EventStack_Module {
+    class xs_module_core extends \xs\Events\Module {
 
         public $meta = array (
             'name' => 'Core module',
@@ -159,7 +159,7 @@
         }
 
         function ___init () {
-            $this->glob->config = new xs_Config ( @parse_ini_file ( xs_Core::$dir_app . '/configuration.ini', true ) ) ;
+            $this->glob->config = new \xs\Config\Ini ( parse_ini_file ( \xs\Core::$dir_app . '/configuration.ini', true ) ) ;
         }
 
         function ___globals () {
@@ -168,19 +168,20 @@
                 date_default_timezone_set ( $this->glob->config['website']['time-zone'] ) ;
             
             $this->glob->human_dates = new HumanRelativeDate () ;
-            $this->glob->logger      = new KLogger( XS_DIR_LOG, KLogger::INFO, xs_Core::$request_random_number ) ;
-            $this->glob->seclog      = new KLogger( XS_DIR_LOG.'/security', KLogger::INFO, xs_Core::$request_random_number ) ;
+            $this->glob->logger      = new KLogger( XS_DIR_LOG, KLogger::INFO, \xs\Core::$request_random_number ) ;
+            $this->glob->seclog      = new KLogger( XS_DIR_LOG.'/security', KLogger::INFO, \xs\Core::$request_random_number ) ;
             $this->glob->alerts      = array () ; // just an array for now
             $this->glob->website     = array () ;
-            $this->glob->page        = new xs_WebPage () ;
-            $this->glob->dir         = new xs_Properties () ;
-            $this->glob->data        = new xs_DataManager () ;
-            $this->glob->request     = new xs_Request () ;
-            $this->glob->breakdown   = new xs_Breakdown () ;
-            $this->glob->stack       = new xs_Stack () ;
-            $this->glob->user        = new xs_User () ;
-            $this->glob->session     = new xs_Session () ;
-            $this->glob->html_helper = new html_helper () ;
+            $this->glob->page        = new \xs\Store\Properties () ;
+            $this->glob->dir         = new \xs\Store\Properties () ;
+            $this->glob->data        = new \xs\Data\DataManager () ;
+            $this->glob->request     = new \xs\Http\Request () ;
+            $this->glob->breakdown   = new \xs\Http\Breakdown () ;
+            $this->glob->stack       = new \xs\Store\Stack () ;
+            $this->glob->user        = new \xs\Roles\User () ;
+            $this->glob->session     = new \xs\Store\Session () ;
+            $this->glob->html_helper = new \xs\Gui\Html () ;
+            // Note: The TopicMaps engine is initialised in ___datastore() ;
             $this->glob->log->add ( 'Core : Created globals' ) ;
         }
 
@@ -224,7 +225,7 @@
             ) ;
 
             // our main data source is the Topic Maps engine
-            $this->glob->tm = new xs_TopicMaps () ;
+            $this->glob->tm = new \xs\TopicMaps\Engine () ;
 
             $this->glob->log->add ( 'Core : Datastore setup' ) ;
         }
@@ -334,7 +335,7 @@
 
 
                 // Try to include the class path most likely
-                include ( xs_Core::$dir_app . '/' . $file )  ;
+                include ( \xs\Core::$dir_app . '/' . $file )  ;
 
                 // Instantiate it, and it will register its own methods
                 // to the event stack in its constructor
@@ -805,7 +806,7 @@
                 $sofar = 'website' ;
                 for ( $m=0; $m<$max-$n; $m++ )
                     $sofar .= '/'.$tokens[$m] ;
-                $r = pathinfo ( xs_Core::$dir_app . '/' . $sofar ) ;
+                $r = pathinfo ( \xs\Core::$dir_app . '/' . $sofar ) ;
                 // $debug=true; if ($debug) { echo "<pre>[" ; print_r ( $r ) ; echo "]</pre>" ; }
 
                 if ( isset ( $r['extension'] ) && $r['extension'] == 'html' ) {
@@ -833,7 +834,7 @@
             // Iterate through all suspected action class files, and bail out /
             // return the first one it finds (going from outer to inner)
 
-            $pre = xs_Core::$dir_app ;
+            $pre = \xs\Core::$dir_app ;
             
             foreach ( $this->ctrl_paths as $path ) {
                 $dir = $pre . '/' . $path ;
@@ -862,14 +863,14 @@
             if ( isset ( $this->glob->config['website']['show-instance'] ) && $this->glob->config['website']['show-instance'] )
             $ret .= '
                 <div style="float:left;margin-left:20px;">
-                    instance='.xs_Core::$request_random_number.'
+                    instance='.\xs\Core::$request_random_number.'
                 </div> ' ;
 
             if ( isset ( $this->glob->config['website']['show-version'] ) && $this->glob->config['website']['show-version'] )
             $ret .= '
                 <div style="float:left;margin-left:20px;">
-                    versions: xs='.xs_Core::$xs_version.'
-                    app='.xs_Core::$app_version.'
+                    versions: xs='.\xs\Core::$xs_version.'
+                    app='.\xs\Core::$app_version.'
                 </div> ' ;
             return $ret ;
         }

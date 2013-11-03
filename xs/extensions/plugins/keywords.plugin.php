@@ -5,7 +5,7 @@
  * 
  */
 
-    class xs_plugin_keywords extends xs_Action {
+    class xs_plugin_keywords extends \xs\Action\Generic {
 
         public $meta = array (
             'name' => 'keywords plugin',

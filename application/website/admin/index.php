@@ -1,7 +1,7 @@
 <?php
 
 // require_once ( XS_DIR_APP . '/classes/datamodel.php' ) ;
-require_once ( XS_DIR_LIB . '/spyc/spyc.php5' ) ;
+// require_once ( XS_DIR_LIB . '/spyc/spyc.php5' ) ;
 
 require '_admin.php' ;
 require '_spider.php' ;
@@ -11,7 +11,7 @@ require '_harvest.php' ;
 require '_update.php' ;
 require '_test.php' ;
 
-class xs_action_instance extends xs_Action_Webpage {
+class xs_action_instance extends \xs\Action\Webpage {
 
     public $page = array(
         'title' => "Admin",
@@ -124,7 +124,7 @@ class xs_action_instance extends xs_Action_Webpage {
                 
                 var_dump ( $m ) ;
 
-                $dm = new xs_TopicMaps_Datamodel ( $m ) ;
+                $dm = new \xs\TopicMaps\Datamodel ( $m ) ;
 
                 file_put_contents ( XS_DIR_APP . '/datastore/_data_backup.sql', $dm->backupData ( XS_DIR_APP . '/datastore/_data_backup.sql' ) ) ;
 
@@ -142,7 +142,7 @@ class xs_action_instance extends xs_Action_Webpage {
 
                 var_dump ( $m ) ;
                 
-                $dm = new xs_TopicMaps_Datamodel ( $m ) ;
+                $dm = new \xs\TopicMaps\Datamodel ( $m ) ;
 
                 file_put_contents ( XS_DIR_APP . '/datastore/_data_backup.sql', $dm->backupData ( XS_DIR_APP . '/datastore/_data_backup.sql' ) ) ;
 
@@ -158,7 +158,7 @@ class xs_action_instance extends xs_Action_Webpage {
 
                 $m = $this->glob->data->get_native_driver ( 'xs' ) ;
 
-                $dm = new xs_TopicMaps_Datamodel ( $m ) ;
+                $dm = new \xs\TopicMaps\Datamodel ( $m ) ;
                 $path = XS_DIR_APP . '/datastore/' . $this->glob->breakdown->id ;
                 $dm->backupData ( $path  ) ;
 

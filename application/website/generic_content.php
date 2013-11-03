@@ -1,6 +1,6 @@
 <?php
 
-    class xs_action_instance extends xs_Action_Webpage {
+    class xs_action_instance extends \xs\Action\Webpage {
 
         public $page = array (
             'title' => 'Generic content',
@@ -62,7 +62,7 @@
                 // debug_r ( $id ) ;
                 
                 /*
-                $t = new xs_TopicMaps_Assoc ( 
+                $t = new \xs\TopicMaps\Assoc ( 
                     $this->glob->tm->query_assoc ( array ( 
                         'type' => $this->_type->has_tag, 
                         'member_id' => $id 
@@ -71,7 +71,7 @@
                 $t->member_resolve () ;
                 $this->glob->stack->add ( 'xs_assoc_tags', $t->__get_array () ) ;
                 
-                $t = new xs_TopicMaps_Assoc ( 
+                $t = new \xs\TopicMaps\Assoc ( 
                     $this->glob->tm->query_assoc ( array ( 
                         'type' => $this->_type->has_controlled_tag, 
                         'member_id' => $id 

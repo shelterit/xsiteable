@@ -1,6 +1,6 @@
 <?php
 
-class xs_widget_csv extends xs_Action_Widget_Controller {
+class xs_widget_csv extends \xs\Action\WidgetController {
 
     public $meta = array (
         'name' => 'CSV Widget',
@@ -30,7 +30,7 @@ class xs_widget_csv extends xs_Action_Widget_Controller {
     function ___init () {
 
         // We could use some help around here
-        $this->html = new html_helper () ;
+        $this->html = new \xs\Gui\Html () ;
     }
     
 
@@ -56,7 +56,7 @@ class xs_widget_csv extends xs_Action_Widget_Controller {
         //$output = $this->glob->request->_output ;
 
         // renderer
-        $render = html_helper::RENDER_HTML ;
+        $render = \xs\Gui\Html::RENDER_HTML ;
 
         $this->query_id = 'csv-generic-' . urlencode($this->properties['url']) ;
 
