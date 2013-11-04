@@ -149,7 +149,7 @@ class SplClassLoader
                         isset ( \xs\Core::$glob ) &&
                         is_object ( \xs\Core::$glob->log ) 
                 )
-                    \xs\Core::$glob->log->add ( "__auto: [$fileName]" ) ;
+                    \xs\Core::$glob->log->add ( "__auto xs: [$fileName]" ) ;
             } else {
                 
                 echo "<div>xSiteable Autoloader : $fileName <b style='color:red'>not</b> found. [$className]</div>" ;
@@ -163,6 +163,7 @@ class SplClassLoader
             if ( file_exists ( $fileName ) ) {
                 // echo "Yay! There! " ;
                 require_once ( $fileName ) ;
+                \xs\Core::$glob->log->add ( "__auto : [$fileName]" ) ;
             } else {
                 echo "<div>xSiteable Autoloader : $fileName <b style='color:red'>not</b> found. [$className]</div>" ;
             }
