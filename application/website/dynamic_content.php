@@ -10,10 +10,10 @@
         private $resource_id = null ;
 
         function POST ( $arg = null ) {
-            echo "POST!" ;
+            // echo "POST!" ;
             $fields = $this->glob->request->__get_fields () ;
-            print_r ( $fields ) ;
-            die () ;
+            // print_r ( $fields ) ;
+            // die () ;
         }
         
         function ___action () {
