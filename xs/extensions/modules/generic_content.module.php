@@ -39,7 +39,7 @@
             // Gain control over a specific resource
             $this->_register_resource ( XS_MODULE, '_api/resources/content' ) ;
 
-            $this->tidy = new tidy;
+            $this->tidy = new \tidy;
         }
         
         function _http_action () {
