@@ -1,6 +1,6 @@
 <?php
 
-class xs_action_instance extends \xs\Action {
+class xs_action_instance extends \xs\Action\Generic {
 
     public $metadata = array(
         'name' => "en:Admin",
