@@ -1447,7 +1447,7 @@ group by
                                        'wrap'           => 200);
 
                             // Tidy
-                            $tidy = new tidy;
+                            $tidy = new \tidy;
                             $tidy->parseString($res[$parent_id]['pub_full'], $config, 'utf8');
                             $tidy->cleanRepair();
 
