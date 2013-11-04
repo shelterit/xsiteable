@@ -50,7 +50,7 @@
                     // Set the template of the page
                     $inst->_page->template = 'templates/pages/iframe' ;
 
-                    xs_Core::$glob->log->add ( "iframe.plugin: dispatched iFrame(".$uri.")" ) ;
+                    \xs\Core::$glob->log->add ( "iframe.plugin: dispatched iFrame(".$uri.")" ) ;
                     
                     return array ( 'iframe', $inst ) ;
                 }

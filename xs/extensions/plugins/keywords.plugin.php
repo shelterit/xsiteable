@@ -27,13 +27,13 @@
             $max = isset ( $param['max'] ) ? $param['max'] : null ;
             $base = isset ( $param['base'] ) ? $param['base'] : null ;
 
-            xs_Core::$glob->log->add ( "keywords.plugin: POST start" ) ;
+            \xs\Core::$glob->log->add ( "keywords.plugin: POST start" ) ;
 
             if ( ! is_array ( $list ) || count ( $list ) < 1 ) {
                 return "No input list of words." ;
             } else {
                 $ret = $this->createTagCloud ( $list, $max, $base ) ;
-                xs_Core::$glob->log->add ( "keywords.plugin: POST end" ) ;
+                \xs\Core::$glob->log->add ( "keywords.plugin: POST end" ) ;
                 return $ret ;
             }
         }

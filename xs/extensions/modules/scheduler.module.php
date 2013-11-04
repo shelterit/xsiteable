@@ -103,17 +103,17 @@
         
         function get_lock () {
             // echo "[get_lock]" ;
-            return @file_get_contents ( xs_Core::$dir_app . '/datastore/scheduler.lock' ) ;
+            return @file_get_contents ( \xs\Core::$dir_app . '/datastore/scheduler.lock' ) ;
         }
         
         function make_lock () {
             // echo "[make_lock]" ;
-            @file_put_contents ( xs_Core::$dir_app . '/datastore/scheduler.lock', serialize ( time ( 'now' ) ) ) ;
+            @file_put_contents ( \xs\Core::$dir_app . '/datastore/scheduler.lock', serialize ( time ( 'now' ) ) ) ;
         }
         
         function delete_lock () {
             // echo "[delete_lock]" ;
-            @unlink ( xs_Core::$dir_app . '/datastore/scheduler.lock' ) ;
+            @unlink ( \xs\Core::$dir_app . '/datastore/scheduler.lock' ) ;
         }
 
         function _get () {
