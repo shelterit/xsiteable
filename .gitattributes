@@ -6,6 +6,7 @@
 *.php text
 *.js text
 *.xml text
+*.xsl text
 *.html text
 *.css text
 *.ini text
