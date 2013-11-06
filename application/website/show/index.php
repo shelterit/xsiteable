@@ -207,7 +207,7 @@ class xs_action_instance extends \xs\Action\Webpage {
            $this->glob->tm->query ( array ( 'parent' => $id, 'type1' => $this->_type->_comment ), false )
         ) ;
 
-        $comments->resolve_topics ( xs_TopicMaps::$resolve_author ) ;
+        $comments->resolve_topics ( \xs\TopicMaps\Engine::$resolve_author ) ;
 
         $this->glob->stack->add ( 'xs_comments', $comments ) ;
 
