@@ -1,6 +1,8 @@
 <?php
 
-class xs_DocumentManager_LUT {
+namespace xs\DocumentManager ;
+
+class LUT {
 
     private $_lut = array () ;
     
