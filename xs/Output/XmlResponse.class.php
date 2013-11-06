@@ -50,7 +50,7 @@ class XmlResponse {
                 $this->add_item ( $i, $v ) ;
             $this->close ( $idx ) ;
 
-        } else if ( $inp instanceOf xs_TopicMaps_Collection ) {
+        } else if ( $inp instanceOf \xs\TopicMaps\Collection ) {
 
             $this->open ( $idx ) ;
             $this->add ( $inp->get_as_array () ) ;
