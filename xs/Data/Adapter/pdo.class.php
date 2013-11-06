@@ -119,7 +119,7 @@
                         $inst = $this->driver->prepare ( $query ) ;
                         $inst->execute() ;
 
-                        return $inst->fetchAll ( PDO::FETCH_ASSOC ) ;
+                        return $inst->fetchAll ( \PDO::FETCH_ASSOC ) ;
 
                     } catch ( exception $ex ) {
                         print_r ( $ex ) ;
