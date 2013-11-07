@@ -67,7 +67,7 @@ class xs_widget_user_manager extends \xs\Action\WidgetController {
         $output = $this->glob->request->_output ;
 
         // renderer
-        $render = html_helper::RENDER_HTML ;
+        $render = \xs\Gui\Html::RENDER_HTML ;
         
         // table configuration options
         $conf = array ( 
