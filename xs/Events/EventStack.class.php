@@ -104,12 +104,15 @@ class EventStack extends \xs\Core {
                 $this->_register_stack ( $event, '_INIT', $next ) ;
                 $this->_register_stack ( $event, '_CONFIG', $next ) ;
                 $this->_register_stack ( $event, '_ACTION', $next ) ;
+                $this->_register_stack ( $event, '_ACTION_END', $next ) ;
             }
             if ( is_array ( $next ) )
                 $this->create_event_framework ( $next, true ) ;
 
-            if ( $pre != 'XS_GUI' )
+            if ( $pre != 'XS_GUI' ) {
+                $this->_register_stack ( $event, '_FINAL', $next ) ;
                 $this->_register_stack ( $event, '_END', $next ) ;
+            }
         }
         
         if ( !$recurse )
