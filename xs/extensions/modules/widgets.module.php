@@ -65,7 +65,8 @@
 
         }
         
-        function ___register_functionality_end () {
+        function ___register_functionality_final () {
+            // debug_r ( 'hello' ) ;
             $this->_register_functionality( 'Widgets', 'widget:*' ) ;
             $this->_register_functionality( 'Collapse widgets', 'widget:collapse' ) ;
             $this->_register_functionality( 'Configure widget', 'widget:config' ) ;
