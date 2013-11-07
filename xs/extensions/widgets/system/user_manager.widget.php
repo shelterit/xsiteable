@@ -30,7 +30,7 @@ class xs_widget_user_manager extends \xs\Action\WidgetController {
     function ___this () {
 
         // We could use some help around here
-        $this->html = $this->glob->html ; // new html_helper () ;
+        $this->html = new \xs\Gui\Html () ;
 
         // This query is all the users
         $this->users = $this->glob->data->register_query (
