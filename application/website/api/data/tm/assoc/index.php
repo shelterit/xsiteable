@@ -53,7 +53,7 @@ class xs_action_instance extends \xs\Action\Generic {
             }
         }
         
-        $assoc_id_lut = $assoc_type_lut = $assoc_member_id_lut = null ;
+        $assoc_id_lut = $assoc_type_lut = $assoc_member_id_lut = array () ;
         
         $memtopics = $this->glob->tm->lookup_topics ( $items ) ;
         
