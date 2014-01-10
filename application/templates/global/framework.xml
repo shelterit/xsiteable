@@ -12,8 +12,6 @@
 
             <div class="ui-tabs ui-widget ui-widget-content" id="tabs" style="padding:0 !important;margin:0 !important;border:none !important;">
 
-  <style>
-  </style>
                 <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header">
                     <nut:for-each select="$menu/main">
                         <li id="tab-menu-{$item/@name}" class="ui-state-default ui-corner-top{#if $rest/concept=$item/@path ' ui-tabs-selected ui-state-active'}">
