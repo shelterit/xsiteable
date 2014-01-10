@@ -54,8 +54,8 @@ class xs_module_dms_action extends \xs\Action\Generic {
             case 'touch-dest-html' : 
                 $this->dms->_action_touch_dest_html ( $topics ) ;
                 break ;
-            case 'text' : 
-                echo 'text' ;
+            case 'reindex' : 
+                $this->dms->_action_reindex ( $topics ) ;
                 break ;
             case 'index' : 
                 echo 'index' ;
