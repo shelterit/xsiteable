@@ -200,6 +200,8 @@
                                         <li><input type="submit" id="touch-original-button" value="Redo all" /></li>
                                         <li><input type="submit" id="touch-dest-button" value="Redo html and txt" /></li>
                                         <li><input type="submit" id="touch-dest-html-button" value="Redo txt" /></li>
+                                        <li><input type="submit" id="touch-reindex-button" value="Reindex" /></li>
+                                        
                                     </ul>
                                 </div>
                             </div>
@@ -222,6 +224,9 @@
                                 }) ;
                                 $('#touch-dest-html-button').button().click(function(event) {
                                     do_this ( 'action=touch-dest-html') ;
+                                }) ;
+                                $('#touch-reindex-button').button().click(function(event) {
+                                    do_this ( 'action=reindex') ;
                                 }) ;
                             </js>
                             
