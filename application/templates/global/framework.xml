@@ -28,8 +28,8 @@
                 <!-- Here we go! All other templates run from here! -->
                 <nut:apply-templates select="$page/template" />
 
-                <div id="columns">
-                    <ul id="column0" class="column">
+                <div id="extra-columns">
+                    <ul id="extra-column0" class="column">
                         <nut:plugins event="XS_GUI_SECTION_DEBUG" />
                     </ul>
                 </div>
