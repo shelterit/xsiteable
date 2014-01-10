@@ -77,6 +77,12 @@ class xs_action_instance extends \xs\Action\Webpage {
 
                 break ;
 
+            case 'reindex' :
+                $dm = $this->_get_module ( 'dms' ) ;
+                $dm->_reindex () ;
+                die () ;
+                break ;
+
             case 'daily_process_health_safe' :
                 $dm = $this->_get_module ( 'dms' ) ;
                 $dm->health_check ( true ) ;

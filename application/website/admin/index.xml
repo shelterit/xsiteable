@@ -251,7 +251,7 @@
                                    <li><button onclick="xs_redirect('{$dir/home}/admin/daily_process_health/'+$('#pathfilter').val(),'wind')">Health-check</button> The real action version of the above.</li>
                                    <li><button onclick="xs_redirect('{$dir/home}/admin/daily_process_safe/'+$('#pathfilter').val(),'wind')">Daily process SAFE</button> Daily all-in-one spidering, converting, updating and indexing.</li>
                                    <li><button onclick="xs_redirect('{$dir/home}/admin/daily_process/'+$('#pathfilter').val(),'wind')">Daily process</button> The real action version of the above.</li>
-                                   <!-- <li><button onclick="xs_redirect('{$dir/home}/admin/daily_process_forced_harvest/'+$('#pathfilter').val(),'wind')">Forced harvest process</button>Forced harvest of all previews.</li> -->
+                                   <li><button onclick="xs_redirect('{$dir/home}/admin/reindex/'+$('#pathfilter').val(),'wind')">Re-index</button>Forced re-index of all documents.</li>
                                    <!--
                                    <hr/>
                                    <li><button onclick="xs_redirect('{$dir/home}/admin/spider/'+$('#pathfilter').val(),'wind')">Spider content</button>Finds all content.</li>
