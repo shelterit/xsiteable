@@ -39,6 +39,7 @@ class xs_action_instance extends \xs\Action\Webpage {
             $mode = 'document' ;
             
             $documents = $this->glob->tm->query ( array ( 'id' => $uid ) ) ;
+            // debug_r ( $documents ) ;
             
             if ( count ( $documents ) > 0 ) {
                 
