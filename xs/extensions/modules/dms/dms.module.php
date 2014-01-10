@@ -287,6 +287,74 @@ class xs_module_dms extends \xs\Action\Generic {
         
     }
     
+    function _reindex ( $safe_mode = false ) {
+        
+        $this->_clear_cache () ;
+        
+        echo "<html>\n<head>\n   <script src='{$this->glob->dir->js}/jquery-1.8.2.js' type='text/javascript'></script>\n</head>\n<body>" ;
+        
+        $this->safe_mode = $safe_mode ;
+        
+        if ( $this->safe_mode )
+            echo "<h2>Running in safe mode!</h2>" ;
+        
+        // make sure some things are set up first
+        $this->_preamble () ;
+        
+        // we're going to use the appendix (search engine)
+        $this->appendix = $this->_get_module ( 'appendix' ) ;
+        
+        // load the main index; we'll be making changes, for sure
+        $this->appendix->load_all_index () ;
+
+        $uids = array () ;
+        
+        // just a quick purge of the index to remove files no longer in action
+        foreach ( $this->all_documents as $topic_id => $doc ) {
+            $uid = trim ( substr ( $doc['name'], 9 ) ) ;
+            if ( strlen ( $uid ) == 32 ) {
+                $uids[$uid] = $topic_id ;
+            }
+        }
+
+        echo "<li>[".count($uids)."] UIDs in the database</li>" ;        
+        
+        $topics = $this->glob->tm->query ( array ( 'id' => $uids ) ) ;
+        
+        // debug_r ( $topics ) ;
+        
+        $docs = $this->objectify_topics ( $topics ) ;
+        
+        
+        // tell 'em what we're doing
+        $this->phaser ( 'Go through them all' ) ;
+        
+        
+        foreach ( $docs as $doc ) {
+            
+            echo "<div>" ;
+            $filename = $doc->file_dest_txt ;
+            echo $filename . " : " ;
+            if (file_exists($filename)) {
+                echo 'Yup. ' ;
+                $this->_process_index ( $doc ) ;
+                // $text = file_get_contents ( $filename ) ;
+                
+            } else {
+                echo 'Nope. ' ;
+            }
+            echo "</div>" ;
+        }
+        
+        // is it safe? Then save the index.
+        if ( ! $this->safe_mode )
+            $this->appendix->save_index () ;
+        
+        $this->phaser ( 'Done!' ) ;
+    }
+    
+    
+    
     function process_documents () {
         
         echo "\n<style> 
@@ -536,7 +604,7 @@ class xs_module_dms extends \xs\Action\Generic {
 
         foreach ($res as $word => $count )
             if ( $count > 2 ) {
-                $final[$word] = $word ;
+                $final[$word] = $count ;
                 if ( $count > $max ) $max = $count ;
                 $tot++ ;
             }
@@ -1385,7 +1453,7 @@ class xs_module_dms extends \xs\Action\Generic {
         }
         
         // get state of the various files associated with this document
-        $this->doc_get_state ( $doc ) ;
+        $doc = $this->doc_get_state ( $doc ) ;
         
         $this->process_documents () ;
         
@@ -1429,6 +1497,39 @@ class xs_module_dms extends \xs\Action\Generic {
         
         $this->phaser ( 'Done!' ) ;
         
+    }
+    
+    function _action_reindex ( $topics ) {
+        
+        $this->safe_mode = false ;
+        $this->_preamble () ;
+        
+        if ( $this->appendix == null )
+            $this->appendix = $this->_get_module ( 'appendix' ) ;
+        
+        // load the main index; we'll be making changes, for sure
+        $this->appendix->load_all_index () ;
+        
+        $this->document_objects = $this->objectify_topics ( $topics ) ;
+        
+        foreach ( $this->document_objects as $doc ) {
+            $uid = $doc->uid ;
+            $find = $this->appendix->find_by_uid ( $uid ) ;
+            debug_r ( $find ) ;
+            // debug_r ( $doc ) ;
+            $doc->action['touch']['dest'] .= "Re-index the document for searching. " ;
+        }
+        
+        // get state of the various files associated with this document
+        $this->doc_get_state ( $doc ) ;
+        
+        $this->process_documents () ;
+        
+        // is it safe? Then save the index.
+        if ( ! $this->safe_mode )
+            $this->appendix->save_index () ;
+        
+        $this->phaser ( 'Done!' ) ;
     }
 
     function _action_touch_dest_html ( $topics ) {
@@ -2210,7 +2311,8 @@ class xs_module_dms extends \xs\Action\Generic {
         }
         
         $documents = $this->glob->tm->query ( array ( 'id' => $ids ) ) ;
-
+        // print_r ( $documents ) ;
+        
         foreach ( $documents as $topic_id => $document ) {
             $uid = trim ( substr ( $document['name'], 9 ) ) ;
             $docs[$uid]['id'] = $document['id'] ;
