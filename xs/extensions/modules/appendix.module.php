@@ -25,11 +25,7 @@
 
         // Shortcut for our API
         private $resource_base = '_api/module/appendix' ;
-        
-        function ___modules () {
 
-        }
-        
         function get_total_count () {
             return count ( $this->idx ) ;
         }
@@ -43,7 +39,14 @@
             $this->idx_uid = array () ;
         }
         
+        function find_by_term ( $term ) {
+            if ( isset ( $this->idx[$term] ) )
+                return $this->idx[$term] ;
+            return array () ;
+        }
+        
         function find_by_uid ( $uid ) {
+            debug_r ( $this->idx_uid ) ;
             if ( isset ( $this->idx_uid[$uid] ) )
                 return $this->idx_uid[$uid] ;
             return array () ;
@@ -127,20 +130,21 @@
         
         
         
-        function add_term ( $term, $uid ) {
+        function add_term ( $term, $uid, $score = 1 ) {
             $term = (string) $term ;
-            // debug ( $term, $uid ) ;
+            // debug ( $term, $uid . ' - ' . $score ) ;
             if ( $uid !== null ) {
                 
                 if ( ! isset ( $this->idx[$term] ) )
                     $this->idx[$term] = array () ;
                 
                 if ( isset ( $this->idx[$term][$uid] ) )
-                    $this->idx[$term][$uid]++ ;
+                    $this->idx[$term][$uid]+= $score ;
                 else
-                    $this->idx[$term][$uid] = 1 ;
+                    $this->idx[$term][$uid] = $score ;
                 
-                $this->idx_uid[$uid][$term] = true ;
+                // echo "[$score] " ;
+                $this->idx_uid[$uid][$term] = $score ;
                 /*
                 if ( isset ( $this->idx_uid[$uid][$term] ) ) 
                     $this->idx_uid[$uid][$term]++ ;
@@ -156,9 +160,10 @@
         function add_terms ( $terms, $uid = null  ) {
             $count = 0 ;
             // echo "add_terms=[".count($terms)."] " ;
+            // debug_r ( $terms ) ;
             if ( is_array ( $terms ) )
-                foreach ( $terms as $term )
-                    if ( $this->add_term ( $term, $uid ) )
+                foreach ( $terms as $term => $score )
+                    if ( $this->add_term ( $term, $uid, $score ) )
                         $count++ ;
             return $count ;
         }
@@ -262,7 +267,7 @@
                     $terms++ ;
                     foreach ( $uids as $uid => $score ) {
                         $items++ ;
-                        $this->idx_uid[$uid][$term] = $uid ;
+                        $this->idx_uid[$uid][$term] = $score ;
                         /*
                         if ( isset ( $this->idx_uid[$uid][$term] ) )
                             $this->idx_uid[$uid][$term]++ ;
