@@ -381,12 +381,13 @@ body,img,p { font-size:0.9em; }
 .dragging-guides { 
     /* border-left:dotted 2px #999;border-bottom:dotted 2px #999;
                   background-color:#ddf;height:100px;padding:10px;min-height: 40px !important; */
-    padding:0 !important;background-color:#cde;
-    background:url('../images/animated-overlay.gif');
+    background-color:#cde;padding: 2px 0 !important;margin: 2px 0 !important;
+    background:url('../images/animated-overlay.gif');min-height: 40px !important;
+    height:100%;
     }
 .dragging-guides .widget { min-height:100px;border:solid 3px #fff; }
 
-.widget-placeholder { border: 2px dashed #999;margin:5px;padding:5px;background-color:#f7f8f9; }
+.widget-placeholder { border: 2px dashed #999;margin:5px;padding:5px;background-color:#f7f8f9;height:20px; }
 
 /* Columns section */
 #columns .column {
