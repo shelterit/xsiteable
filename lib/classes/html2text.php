@@ -330,7 +330,7 @@ class html2text
         foreach ( $chunks as $c => $t ) {
 
             // Run our defined search-and-replace
-            $res .= preg_replace($this->search, $this->replace, $t ) ;
+            $res .= @preg_replace($this->search, $this->replace, $t ) ;
 
         }
 
