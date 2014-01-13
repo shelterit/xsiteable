@@ -1515,7 +1515,7 @@ class xs_module_dms extends \xs\Action\Generic {
         foreach ( $this->document_objects as $doc ) {
             $uid = $doc->uid ;
             $find = $this->appendix->find_by_uid ( $uid ) ;
-            debug_r ( $find ) ;
+            // debug_r ( $find ) ;
             // debug_r ( $doc ) ;
             $doc->action['touch']['dest'] .= "Re-index the document for searching. " ;
         }
@@ -2052,7 +2052,7 @@ class xs_module_dms extends \xs\Action\Generic {
                 // $doc->update_relative () ;
                 // $doc->update_label () ;
 
-                if ( $this->glob->config['dms']['convert_additional_to_source'] && 
+                if ( isset ( $this->glob->config['dms']['convert_additional_to_source'] ) && 
                      $this->glob->config['dms']['convert_additional_to_source'] == true ) {
 
                     // echo " <div>Original file not found at original path. " ;
