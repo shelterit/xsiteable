@@ -46,7 +46,7 @@
         }
         
         function find_by_uid ( $uid ) {
-            debug_r ( $this->idx_uid ) ;
+            // debug_r ( $this->idx_uid ) ;
             if ( isset ( $this->idx_uid[$uid] ) )
                 return $this->idx_uid[$uid] ;
             return array () ;
