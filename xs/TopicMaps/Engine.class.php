@@ -88,19 +88,19 @@ class Engine extends \xs\Events\Plugin {
 
     }
 
-    function fetchAll ( $sql ) {
+    function fetchAll ( $sql, $debug = false ) {
 
         if ( ! $this->pdo ) return null ; 
         
-        if ( $this->debug ) echo "<div style='margin:10px;padding:10px;border:dotted 1px #999;'>[fetch_all, from ".debugPrintCallingFunction()."]" ;
-        if ( $this->debug ) echo "<pre style='background-color:#edd'>".print_r ( $sql, true )."</pre>" ;
+        if ( $this->debug || $debug ) echo "<div style='margin:10px;padding:10px;border:dotted 1px #999;'>[fetch_all, from ".debugPrintCallingFunction()."]" ;
+        if ( $this->debug || $debug ) echo "<pre style='background-color:#edd'>".print_r ( $sql, true )."</pre>" ;
 
         $inst = $this->pdo->prepare ( $sql ) ;
 
         $inst->execute() ;
         $ret = $inst->fetchAll ( \PDO::FETCH_ASSOC ) ;
         
-        if ( $this->debug ) {
+        if ( $this->debug || $debug ) {
             // echo "<pre style='background-color:green'>".print_r ( $ret, true )."</pre>" ;
             $dem = array () ;
             $max = 4 ;
@@ -116,7 +116,7 @@ class Engine extends \xs\Events\Plugin {
             }      
         }
         
-        if ( $this->debug ) echo "</div>" ;
+        if ( $this->debug || $debug ) echo "</div>" ;
         
         $this->add_to_cache ( $ret ) ;
         
@@ -167,12 +167,12 @@ class Engine extends \xs\Events\Plugin {
     }
 
     function lookup_labels ( $arr = array () ) {
-        if ( !$this->debug ) echo "<div style='margin:10px;padding:10px;border:dotted 1px green;'>[lookup_labels, from ".debugPrintCallingFunction()."]" ;
+        if ( $this->debug ) echo "<div style='margin:10px;padding:10px;border:dotted 1px green;'>[lookup_labels, from ".debugPrintCallingFunction()."]" ;
         if ( ! is_array ( $arr ) )
             $arr = array ( $arr => true ) ;
         $sql = "SELECT id,name,label FROM xs_topic WHERE label LIKE ( ".$this->_fieldNames($arr, true).") " ;
         $e = $this->fetchAll ( $sql ) ;
-        if ( !$this->debug ) echo "[$sql][".count($e)."] </div>" ;
+        if ( $this->debug ) echo "[$sql][".count($e)."] </div>" ;
         return $e ;
     }
 
@@ -240,6 +240,14 @@ class Engine extends \xs\Events\Plugin {
 
     function get_all_prop_for_topic ( $topic_id, $name ) {
         $sql = "SELECT id,parent,value FROM xs_property WHERE parent=$topic_id AND type_name = '$name'" ; 
+        return $this->fetchAll ( $sql ) ;
+    }
+    
+    function get_all_prop_for_topic_type ( $topic_type, $name ) {
+        // $sql = "SELECT id,parent,value FROM xs_property WHERE type_name = '$name'" ; 
+        // debug_r ( $this->fetchAll ( $sql ), $sql ) ;
+        $sql = "SELECT p.id,p.parent,p.value FROM xs_property AS p, xs_topic AS t WHERE t.type1 = {$topic_type} AND p.parent=t.id AND p.type_name = '{$name}'" ; 
+        // debug_r ( $this->fetchAll ( $sql ), $sql ) ;
         return $this->fetchAll ( $sql ) ;
     }
     
@@ -353,7 +361,7 @@ group by
         if ( $this->debug ) echo "<div style='margin:10px;padding:10px;border:solid 2px #999;'>[delete, from ".debugPrintCallingFunction()."]" ;
         
         foreach ( $arr as $topic_id ) {
-
+// debug_r ( $topic_id, 'delete' ) ;
             // delete all topics that are children of this topic
             $this->exec ( "DELETE FROM xs_topic WHERE parent = $topic_id" ) ;
 
@@ -1288,7 +1296,7 @@ group by
             $sql .= " LIMIT ".$in['limit'] ;
         }
 
-        // if ( $this->debug ) echo "<div style='padding:4px;margin:4px;background-color:yellow;'>query : [$sql]</div>" ;
+        // echo "<div style='padding:4px;margin:4px;background-color:yellow;'>query : [$sql]</div>" ;
 
         if ( isset ( $in['debug'] ) ) print_r($where, 'where');
         

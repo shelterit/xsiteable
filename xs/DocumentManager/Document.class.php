@@ -15,6 +15,9 @@ class Document extends \xs\Store\Properties {
     public $spidered_timestamp = 0 ;
     public $timestamp_db_property = 0 ;
     
+    public $history = null ;
+    
+    
     public $controlled = 'false' ;
     public $deleted = 'false' ;
     public $harvest = 'false' ;
@@ -117,6 +120,15 @@ class Document extends \xs\Store\Properties {
         $this->init ( $path, $fstat, $topic ) ;
     }
     
+    function load_history () {
+        if ( $this->history == null )
+            $this->history = new \xs\DocumentManager\History ( $this->path_dest . '/' . $this->uid . '.history' ) ;
+    }
+    
+    function save_history () {
+        $this->history->save () ;
+    }
+    
     function attach_topic ( $topic ) {
         $this->topic = $topic ;
         if ( isset ( $topic['name'] ) ) {
@@ -146,6 +158,8 @@ class Document extends \xs\Store\Properties {
             $p = explode ( 'document:', $topic['name'] ) ;
             if ( isset ( $p[1] ) )
                 $this->file_original_md5 = $this->uid = $p[1] ;
+        } else {
+            $topic['name'] = 'document:' . $this->uid ;
         }
         
         $this->relative_path = $this->relative_path ( $path ) ;
@@ -159,21 +173,25 @@ class Document extends \xs\Store\Properties {
             $this->controlled = $topic['controlled'] ;
         }
         
+        if ( isset ( $topic['source'] ) ) {
+            $this->source = $topic['source'] ;
+        }
+        
         $this->home_directory = $this->get_dir_structure ( $this->uid ) ;
         
         $info = pathinfo ( $path ) ;
         $this->filename = $info['filename'] ;
-        $this->extension = $info['extension'] ;
-                
-        $this->label = $this->create_label () ;
-
-        if ( isset ( $topic['label'] ) ) {
-            $this->label = $topic['label'] ;
+        $this->extension = isset ( $info['extension'] ) ? $info['extension'] : '' ;
+        if ( isset ( $topic['extension'] ) ) {
+            $this->extension = $topic['extension'] ;
         }
         
-        if ( isset ( $topic['id'] ) ) {
-            $this->db_id = $topic['id'] ;
-        }
+        $this->label = $this->create_label () ;
+
+        if ( isset ( $topic['label'] ) ) $this->label = $topic['label'] ;
+                
+        if ( isset ( $topic['id'] ) ) $this->db_id = $topic['id'] ;
+        
         
         if ( $fstat !== null ) {
             
