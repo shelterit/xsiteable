@@ -68,26 +68,30 @@
                             if ( isset ( $token[1] ) ) {
                                 // $users[$token[1]] = 'user:'.$token[1] ;
                                 $find = array () ;
-                                $names = array () ;
-                                $owners = $tm->get_assoc ( array (
-                                    'lookup' => $topic['id'],
-                                    'type' => $this->_type->has_owner,
-                                    'filter' => $this->_type->_user,
-                                ) ) ;
-                                foreach ( $owners['members'] as $member => $data )
-                                    $find[$member] = $member ;
-
-                                $authors = $tm->get_assoc ( array (
-                                    'lookup' => $topic['id'],
-                                    'type' => $this->_type->has_author,
-                                    'filter' => $this->_type->_user,
-                                ) ) ;
-                                foreach ( $authors['members'] as $member => $data )
-                                    $find[$member] = $member ;
                                 
-                                $name_finder = $this->glob->tm->lookup_topics ( $find ) ;
-                                foreach ( $name_finder as $t )
-                                    $users[$t['name']] = $t['name'] ;
+                                if ( $token[1] == 'owner' ) {
+                                    $owners = $tm->get_assoc ( array (
+                                        'lookup' => $topic['id'],
+                                        'type' => $this->_type->has_owner,
+                                        'filter' => $this->_type->_user,
+                                    ) ) ;
+                                    foreach ( $owners['members'] as $member => $data )
+                                        $find[$member] = $member ;
+                                }
+                                if ( $token[1] == 'owner' ) {
+                                $authors = $tm->get_assoc ( array (
+                                        'lookup' => $topic['id'],
+                                        'type' => $this->_type->has_author,
+                                        'filter' => $this->_type->_user,
+                                    ) ) ;
+                                    foreach ( $authors['members'] as $member => $data )
+                                        $find[$member] = $member ;
+                                }
+                                if ( count ( $find ) > 0 ) {
+                                    $name_finder = $this->glob->tm->lookup_topics ( $find ) ;
+                                    foreach ( $name_finder as $t )
+                                        $users[$t['name']] = $t['name'] ;
+                                }
                             }
                             break ;
                             
