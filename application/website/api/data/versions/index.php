@@ -22,25 +22,7 @@ class xs_action_instance extends \xs\Action\Generic {
 
         return $matches ;
     }
-    
-    function sync_file ( $file = array () ) {
-        
-        // debug_r ( $file ) ;
-    }
-    
-    function load_version_registry ( $path, $uid ) {
-        $ret = array () ;
-        $filename = $path. '/_registry_'.$uid.'.arr' ;
-        if ( is_file ( $filename ) )
-            $ret = @unserialize ( @file_get_contents ( $filename ) ) ;
-        $this->registry = $ret ;
-    }
-    
-    function save_version_registry ( $path, $uid ) {
-        $filename = $path. '/_registry_'.$uid.'.arr' ;
-        @file_put_contents ( $filename, serialize ( $this->registry ) ) ;
-    }
-    
+
     function change_state_draft ( $o, $draft_version, $mode ) {
         
         $state = '' ;
@@ -80,6 +62,13 @@ class xs_action_instance extends \xs\Action\Generic {
         
         $mode = $this->glob->request->__fetch ( 'mode', false ) ;
         $draft_version = $this->glob->request->__fetch ( 'draft_version', false ) ;
+        $draft = $this->glob->request->__fetch ( 'draft', false ) ;
+        
+        $pick_default = isset ( $this->glob->config['dms']['next_review_weeks'] ) ? $this->glob->config['dms']['next_review_weeks'] : 24 ;
+        $next_review_date_pick = $this->glob->request->__fetch ( 'next_review_date', $pick_default ) ;
+        $next_review_date = date ( "Y-m-d", strtotime ( "+{$next_review_date_pick} months" ) ) ;
+        
+        // debug_r ( $this->glob->request ) ;
         
         $result = array () ;
         
@@ -88,7 +77,7 @@ class xs_action_instance extends \xs\Action\Generic {
             $result = $this->glob->tm->query ( array ( 'id' => $id ) ) ;
         
         if ( $uid != '' )
-            $result = $this->glob->tm->query ( array ( 'name' => 'document:'.$uid ) ) ;
+            $result = $this->glob->tm->query ( array ( 'name' => array ( 'document:'.$uid, 'draft:'.$uid ) ) ) ;
         
         if ( count ( $result ) > 1 )
             echo "<p>Hmm, there are ".count($result)." versions of that document. Something odd.</p>" ;
@@ -101,11 +90,155 @@ class xs_action_instance extends \xs\Action\Generic {
             die () ;
         }
 
+        
+        
+        
         $objects = $this->dms->objectify_topics ( $result ) ;
 
         $doc = reset ( $objects ) ;
+        $topic = $doc->get_topic () ;
+
+        // just make sure we've got the history down pat
+        $doc->load_history () ;
         
-        $this->draw_document ( $doc ) ;
+        $versions  = $this->dms->get_versions ( $doc ) ;
+        $version = $this->dms->find_last_version ( $versions ) ;
+        
+        if ( $version == null ) 
+            $version = 0 ;
+        
+        $this_drafts  = $this->dms->get_drafts ( $doc, (int) $version + 1 ) ;
+
+        $last_draft = 0 ;
+        
+        if ( isset ( $doc->history->struct[$version]['drafts'] ) ) { 
+            
+            foreach ( $doc->history->struct[$version]['drafts'] as $draft_id => $d ) {
+                
+                $last_draft = $draft_id ;
+            }
+            
+        }
+        
+        // echo "<div>version=[$version] draft=[$draft] draft_version=[$draft_version] last_draft=[$last_draft] mode=[$mode]</div>" ;
+        
+        $deployment_state = '' ;
+        $deployment_state_value = '' ;
+        
+        if ( isset ( $topic['deployment_state'] ) ) 
+            $deployment_state = $topic['deployment_state'] ;
+        
+        if ( isset ( $topic['deployment_state_value'] ) ) 
+            $deployment_state_value = $topic['deployment_state_value'] ;
+        
+        // echo "deploy_state=[{$deployment_state}] deploy_state_value=[{$deployment_state_value}] " ;
+        
+        switch ( $mode ) {
+            
+            case 'promote' :
+                $topic['deployment_state'] = 'promoted' ;
+                $topic['deployment_state_value'] = $draft ;
+                
+                $doc->history->add_to_draft ( $version + 1, $draft, 'promoted', $this->glob->user->id ) ;
+                $doc->history->save() ;
+                
+                $this->glob->tm->update ( $topic ) ;
+                
+                $topic['_event'] = 'on_document_promoted' ;
+                $tmp = $this->_fire_event ( 'on_document_promoted', $topic ) ;
+
+                break ;
+                
+            case 'approve' :
+                $topic['deployment_state'] = 'approved' ;
+                $topic['deployment_state_value'] = $draft ;
+                
+                $doc->history->add_to_draft ( $version + 1, $draft, 'approved', $this->glob->user->id ) ;
+                $doc->history->save() ;
+                
+                $this->glob->tm->update ( $topic ) ;
+                
+                $topic['_event'] = 'on_document_approved' ;
+                $tmp = $this->_fire_event ( 'on_document_approved', $topic ) ;
+                
+                break ;
+                
+            case 'publish' :
+                
+                $tm = $this->_get_module ( 'topic_maps' ) ;
+                
+                $owners = $tm->get_assoc ( array (
+                    'lookup' => $topic['id'],
+                    'type' => $this->_type->has_owner,
+                    'filter' => $this->_type->_user,
+                ) ) ;
+                $own = array () ;
+                foreach ( $owners['members'] as $member => $data )
+                    $own[$member] = $member ;
+                // debug_r ( $own, 'owners' ) ;
+                
+                $authors = $tm->get_assoc ( array (
+                    'lookup' => $topic['id'],
+                    'type' => $this->_type->has_author,
+                    'filter' => $this->_type->_user,
+                ) ) ;
+                $auth = array () ;
+                foreach ( $authors['members'] as $member => $data )
+                    $auth[$member] = $member ;
+                // debug_r ( $auth, 'authors' ) ;
+                
+                $this->dms->draft_to_version_copy_file ( $doc, $draft ) ;
+                
+                $doc->history->add_to_version ( $version + 1, 'published', $this->glob->user->id ) ;
+                $doc->history->add_to_version ( $version + 1, 'has_owner', $own ) ;
+                $doc->history->add_to_version ( $version + 1, 'has_author', $auth ) ;
+                
+                $oldversion = $version ;
+                $newversion = $version + 1 ;
+                if ( $version == 0 )
+                    $oldversion = 1 ;
+                
+                $doc->history->copy_to_version_from_draft ( $newversion, $oldversion, $draft, 'published' ) ;
+                $doc->history->copy_to_version_from_draft ( $newversion, $oldversion, $draft, 'approved' ) ;
+                $doc->history->copy_to_version_from_draft ( $newversion, $oldversion, $draft, 'promoted' ) ;
+                $doc->history->copy_to_version_from_draft ( $newversion, $oldversion, $draft, 'created' ) ;
+                $doc->history->copy_to_version_from_draft ( $newversion, $oldversion, $draft, 'comment' ) ;
+                
+                $doc->history->save() ;
+                
+                $uid = '' ;
+                
+                if ( substr ( $topic['name'], 0, 6 ) == 'draft:' ) {
+                    $uid = substr ( $topic['name'], 6 ) ;
+                    $topic['name'] = 'document:'.$uid ;
+                    $topic['type1'] = $this->_type->doc ;
+                } else {
+                    $uid = substr ( $topic['name'], 9 ) ;
+                }
+                $topic['home_directory'] = $this->dms->get_dir_structure ( $uid ) ;
+
+                $topic['next_review_date'] = $next_review_date ;
+
+                $topic['_event'] = 'on_document_published' ;
+                $tmp = $this->_fire_event ( 'on_document_published', $topic ) ;
+                
+                // break ;
+                // note : no break ; a publish also resets the state
+                
+            case 'reset' :
+                $topic['deployment_state'] = '' ;
+                $topic['deployment_state_value'] = '' ;
+                
+                $this->glob->tm->update ( $topic ) ;
+                break ;
+        }
+        
+        
+        // attach the topic back into the document
+        $doc->attach_topic ( $topic ) ;
+        
+        // draw it all up
+        $this->draw_document ( $doc, $just_drafts ) ;
         
         die() ;
         
@@ -518,34 +651,435 @@ class xs_action_instance extends \xs\Action\Generic {
 
     }
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    function list_people ( $input = null ) {
+        $return = '' ;
+        if ( $input !== null ) {
+            $labels = $this->glob->tm->lookup_topics ( $input ) ;
+            foreach ( $labels as $idx => $item ) {
+                $return .= '<a href="'.$this->glob->dir->home.'/profile/'.$idx.'">'.$item['label'] . '</a>  ' ;
+            }
+        }
+        return $return ;
+    }
+    
     function draw_section ( $title, $space = false ) {
         if ( $space ) 
-            echo "<tr><td colspan='7'> </td></tr>" ;
-        echo "<tr><td colspan='7' class='section'>{$title}</td></tr>" ;
+            echo "<tr><td colspan='7' style='border:none;'> </td></tr>" ;
+        echo "<tr><td colspan='7' class='section ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all'>{$title}</td></tr>" ;
     }
     
-    function draw_column_heads () {
-        echo "<tr class='headlines'><td>version</td><td>age</td><td>size</td><td>uploader</td><td>owner</td><td>approver</td><td>controls</td></tr>" ;
+    function draw_column_heads ( $ret = false ) {
+        $str = "<tr class='headlines'><td>version</td><td>age</td><td>size</td><td>publisher</td><td>owner</td><td>approver</td><td>controls</td></tr>" ;
+        if ( $ret ) return $str ;
+        echo $str ;
     }
     
-    function draw_document ( $doc ) {
-        echo "<div><table width='100%' style='border:dotted 2px red;'>" ;
+    function draw_column_heads_draft ( $ret = false ) {
+        $str = "<tr class='headlines'><td>draft</td><td>age</td><td>size</td><td>uploader</td><td>comments</td><td colspan='2'>controls</td></tr>" ;
+        if ( $ret ) return $str ;
+        echo $str ;
+    }
+    
+    function draw_document ( $doc, $just_drafts = false ) {
         
-        $this->draw_section ( 'Draft version' ) ;
+        $topic = $doc->get_topic () ;
         
-        $this->draw_section ( 'Current version', true ) ;
+        // $stored = unserialize ( isset ( $topic['versions'] ) ? $topic['versions'] : '' ) ;
         
-        $this->draw_section ( 'Older versions', true ) ;
-        $this->draw_column_heads () ;
+        $versions  = $this->dms->get_versions ( $doc ) ;
+        $version = $this->dms->find_last_version ( $versions ) ;
         
-        foreach ( $doc->versions as $version ) {
-            
-            echo "<tr>
-                     <td colspan='7'>$version</td>
-                  </tr>" ;
+        // if ( $version == 0 || $version == null ) $version = 1 ;
+        
+        // $history = new \xs\DocumentManager\History ( $doc->path_dest . '/' . $doc->uid . '.history' ) ;
+        // debug_r ( $doc ) ;
+        
+        $is_controlled = $doc->controlled ;
+        // debug_r ( $is_controlled) ;
+        
+        if ( ! $just_drafts ) {
+            ?> <style>
+                .section { font-size:1.4em;padding:6px 20px; }
+                .headlines, .headlines td { background-color:#ddd;color:#000;font-style:italic; }
+                .func { font-size:1.2em;padding:7px 18px;color:#222;background-color:#f90; }
+                .func:hover { background-color:#fb2;color:#000; }
+                .cmd { color:blue;cursor:pointer;font-size:0.9em; }
+            </style> <?php
+            echo "<div style='padding:5px 15px;'><table width='100%' id='drafts'>" ;
         }
         
-        echo "</table></div>" ;
+        if ( $is_controlled !== 'false' ) {
+            
+            $this->draw_section ( 'Drafting area' ) ;
+            // debug ( $version ) ;
+
+            $this_drafts  = $this->dms->get_drafts ( $doc, (int) $version + 1 ) ;
+            // debug_r ( $this_drafts ) ;
+
+            if ( count ( $this_drafts ) < 1 ) {
+                echo "<tr> <td colspan='7'><i>No current drafts found.</i></td> </tr>" ;
+            } else {
+                $this->draw_column_heads_draft () ;
+            }
+
+            foreach ( $this_drafts as $draft_filename ) {
+
+                $version = $this->dms->filename_pick_version ( $draft_filename ) ;
+                $draft = $this->dms->filename_pick_draft ( $draft_filename ) ;
+
+                $this_draft = $draft ;
+
+                $d = array () ;
+
+                if ( isset ( $doc->history->struct[$version]['drafts'][$draft] ) )
+                    $d = $doc->history->struct[$version]['drafts'][$draft] ;
+
+                $path = $this->dms->draft_full_path ( $doc, $version, $draft ) ;
+                $stat = stat ( $path ) ;
+                $date = timed ( date ( "Y-m-d H:i:s", $stat['mtime'] ) ) ;
+                $size = filesize_formatted ( $stat['size'] ) ;
+                $uploader = $this->list_people ( isset ( $d['created'] ) ? $d['created'] : null ) ;
+
+                $comment = '' ;
+                if ( isset ( $d['comment'] ) ) {
+                    foreach ( $d['comment'] as $idx => $item ) {
+                        $comment  .= $idx . '  ' ;
+                    }
+                }
+
+                $deployment_state = '' ;
+                $deployment_state_value = '' ;
+
+                if ( isset ( $topic['deployment_state'] ) ) 
+                    $deployment_state = $topic['deployment_state'] ;
+
+                if ( isset ( $topic['deployment_state_value'] ) ) 
+                    $deployment_state_value = (int) $topic['deployment_state_value'] ;
+
+                $commands = '' ;
+
+                if ( $deployment_state == '' ) {
+                    $commands .= '<span class="cmd" onclick="promote_draft(\''.$version.'\',\''.$draft.'\');">Promote</span>' ; //  | <span class="nolink" onclick="reset_draft(\''.$version.'\',\''.$draft.'\');">Cancel</span>' ;
+                } else if ( $deployment_state == 'promoted' ) {
+                    if ( $draft == $deployment_state_value )
+                        $commands .= '<span class="cmd" onclick="approve_draft(\''.$version.'\',\''.$draft.'\');">Approve</span> | <span class="cmd" onclick="reset_draft(\''.$version.'\',\''.$draft.'\');"><i>Cancel</i></span>' ;
+                } else if ( $deployment_state == 'approved' ) {
+                    if ( $draft == $deployment_state_value )
+                        $commands .= '<span class="cmd" onclick="publish_draft(\''.$version.'\',\''.$draft.'\');">Publish</span> | <span class="cmd" onclick="reset_draft(\''.$version.'\',\''.$draft.'\');"><i>Cancel</i></span>' ;
+                }
+                $uri = $this->dms->get_dir_structure ( $doc->uid, @$this->glob->config['dms']['destination_uri'] ) .
+                        '/' . $this->dms->draft_filename ( $doc, $version, $draft );
+
+                echo "<tr>
+                        <td><a href='".$uri."'>draft {$draft}</a></td>
+                        <td>{$date}</td>
+                        <td>{$size}</td>
+                        <td>{$uploader}</td>
+                        <td>{$comment}</td>
+                        <td><div class='' id='draft-cmd-".$draft."'>{$commands}</div></td>
+                    </tr>" ;
+            }
+
+            if ( ! $just_drafts )
+                echo "</table>" ;
+        
+        }
+        // debug_r ( $versions, $version ) ;
+        // debug_r ( $this->dms->find_last_version ( $versions ), 'real_version' ) ;
+
+        // debug_r ( $this_drafts, $this_draft ) ;
+        // debug_r ( $this->dms->find_last_draft ( $version, $versions ), 'real_draft' ) ;
+
+        // debug_r ( $doc->history->struct, 'history' ) ;
+        
+        if ( ! $just_drafts ) {
+            
+            if ( $is_controlled !== 'false' ) {
+                echo "<div style=''>
+                    <button id='new-draft' type='button' class='func'>Upload new draft</button>
+                </div>" ;
+            }
+            
+            echo "<table style='width:100%'>" ;
+        
+            $this->draw_section ( 'Versions', true ) ;
+
+            if ( count ( $versions ) == 0 ) {
+                echo "<tr> <td><i>No other versions found.</i></td> </tr>" ;
+            } else {
+                $this->draw_column_heads () ;
+            }
+            
+            $versions = array_reverse ( $versions ) ;
+            
+            foreach ( $versions as $idx => $ver ) {
+                
+                $v = $this->dms->filename_pick_version ( $idx ) ;
+                $extra = '' ;
+                
+                if ( $v == $version ) {
+                    $extra = " style='background-color:#ec8;color:#530;'" ;
+                }
+                echo "<tr>";
+                
+                $d = array () ;
+                if ( isset ( $doc->history->struct[$v] ) )
+                    $d = $doc->history->struct[$v];
+
+                $commands = '' ;
+                
+                $path = $this->dms->version_full_path ( $doc, $v ) ;
+                $stat = stat ( $path ) ;
+                $date = timed ( date ( "Y-m-d H:i:s", $stat['mtime'] ) ) ;
+                $size = filesize_formatted ( $stat['size'] ) ;
+                $publisher = $this->list_people ( isset ( $d['published'] ) ? $d['published'] : null ) ;
+                $approver = $this->list_people ( isset ( $d['approved'] ) ? $d['approved'] : null ) ;
+                $owner = $this->list_people ( isset ( $d['has_owner'] ) ? $d['has_owner'] : null ) ;
+                
+                $comment = '' ;
+                if ( isset ( $d['comment'] ) ) {
+                    foreach ( $d['comment'] as $idx => $item ) {
+                        $comment  .= $idx . '  ' ;
+                    }
+                }
+                
+                $uri = $this->dms->get_dir_structure ( $doc->uid, @$this->glob->config['dms']['destination_uri'] ) .
+                       '/' . $this->dms->version_filename ( $doc, $v );
+
+                echo "<td".$extra."><a href='".$uri."'><b>$v";
+                if ( $v == $version ) echo " (latest)" ;
+                echo "</b></a></td>";
+                
+                $commands = '<span onclick="$(\'#d-'.$v.'\').toggle(\'slow\');" style="cursor:pointer;">drafts &gt;&gt;</span> ' ;
+                
+                echo "<td".$extra.">$date</td>";
+                echo "<td".$extra.">$size</td>";
+                echo "<td".$extra.">$publisher</td>";
+                echo "<td".$extra.">$owner</td>";
+                echo "<td".$extra.">$approver</td>";
+                echo "<td".$extra.">$commands</td>";
+
+                echo "</tr>" ;
+                
+                $this_drafts  = $this->dms->get_drafts ( $doc, $v ) ;
+                
+                $content = "<table width='100%'>" ;
+                $content .= $this->draw_column_heads_draft ( true ) ;
+                
+                foreach ( $this_drafts as $didx => $draft ) {
+                    
+                    $draft_no = $this->dms->filename_pick_draft ( $draft ) ;
+                    $d = array () ;
+                    if ( isset ( $doc->history->struct[$v]['drafts'][$draft_no] ) )
+                        $d = $doc->history->struct[$v]['drafts'][$draft_no] ;
+
+
+                    $path = $this->dms->draft_full_path ( $doc, $v, $draft_no ) ;
+                    $stat = stat ( $path ) ;
+                    $date = timed ( date ( "Y-m-d H:i:s", $stat['mtime'] ) ) ;
+                    $size = filesize_formatted ( $stat['size'] ) ;
+                    $uploader = $this->list_people ( isset ( $d['created'] ) ? $d['created'] : null ) ;
+
+                    $comment = '' ;
+                    if ( isset ( $d['comment'] ) ) {
+                        foreach ( $d['comment'] as $idx => $item ) {
+                            $comment  .= $idx . '  ' ;
+                        }
+                    }
+                    
+                    $uri = $this->dms->get_dir_structure ( $doc->uid, @$this->glob->config['dms']['destination_uri'] ) .
+                            '/' . $this->dms->draft_filename ( $doc, $v, $draft_no );
+                    
+                    $content .= "<tr>
+                        <td><a href='".$uri."'>draft {$draft_no}</a></td>
+                        <td>{$date}</td>
+                        <td>{$size}</td>
+                        <td>{$uploader}</td>
+                        <td>{$comment}</td>
+                        <td>&nbsp;</td>
+                    </tr>" ;
+
+                    
+                }
+                
+                $content .= "</table> <i style='font-size:0.9em;color:#666;'>(note: the last draft is sometimes the same but most often the next version)</i>" ;
+                
+                // $draft_no : ".print_r($d,true)."
+                echo "<tr id='d-{$v}' style='display:none;'>
+                        <td colspan='7'>$content</td>
+                    </tr>" ;
+
+            }
+
+            echo "</table></div>" ;
+        }
+        // debug_r ( $versions, $version ) ;
+        // debug_r ( $doc->history->struct, 'history' ) ;
+        
+        if ( $just_drafts )
+            return ;
+        
+        $this_uri = $this->glob->dir->_this ;
+?>
+    
+         <div id="new-draft-form-dialog" title="New draft" style="display:none;background-color:#eee;font-size:1.1em;">
+            <form id="new-draft-form" action="<?php echo $this->glob->dir->home ?>/api/data/files" method="post" enctype="multipart/form-data">
+            <div class="text ui-widget-content ui-corner-all" style="padding:10px;margin:10px;">
+                
+                <p style="margin:24px 0;font-size:1.1em;">
+                    <label for="myfile"><b>1.</b> select your draft file</label><br/>
+                    <input type="file" id="myfile" name="myfile"/>
+                </p>
+                
+                <p>
+                    <label for="f:comment"><b>2.</b> What are the changes?</label><br/>
+                    <textarea name="f:comment" style="width:100%;height:90px;"></textarea>
+                </p>
+                
+                <div class="progress">
+                    <div class="bar"></div >
+                    <div class="percent">0%</div >
+                </div>
+
+                <div id="status"></div>
+                <div id="uploadOutput"></div>
+
+
+                    <!-- <input type="hidden" name="_redirect" value="<?php echo $this_uri ?>" /> -->
+                    <input type="hidden" name="f:id" value="<?php echo $doc->db_id ?>" />
+                    <input type="hidden" name="f:upload_mode" value="draft" />
+                    <!-- <b>2.</b> <input id="" type="button" onclick="$('#new-draft-form').submit();" value="Upload!" /> -->
+       
+            </div>
+            </form>
+        </div>   
+        
+
+    <script>
+
+    $(document).ready ( function() {
+
+        $('#new-draft').click(function(){ 
+            $('#new-draft-form-dialog').dialog('open');
+            $('#myfile').change ( function (test) {
+                
+                enableOk ( '#new-draft-form-dialog', false ) ;
+                // $('button:eq(0)',$('#new-draft-form-dialog').dialog.buttons).button('disable');
+                
+                // get the file name, possibly with path (depends on browser)
+                var filename = $(this).val();
+
+                // Use a regular expression to trim everything before final dot
+                var extension = filename.replace(/^.*\./, '');
+
+                // Iff there is no dot anywhere in filename, we would have extension == filename,
+                // so we account for this possibility now
+                if (extension == filename) {
+                    extension = '';
+                } else {
+                    // if there is an extension, we convert to lower case
+                    // (N.B. this conversion will not effect the value of the extension
+                    // on the file upload.)
+                    extension = extension.toLowerCase();
+                }
+                if ( extension == '<?php echo $doc->extension ; ?>' ) {
+                    enableOk ( '#new-draft-form-dialog', true ) ;
+                    // $('button:eq(0)',$('#new-draft-form-dialog').dialog.buttons).button('enable');
+                } else {
+                    alert ( 'To upload, the extension of the original (which is <?php echo $doc->extension ; ?>) and the new one (' + extension + ') must be the same' ) ;
+                }
+            } ) ;
+        }) ;
+        function enableOk(finder,enable)
+        {
+            var dlgFirstButton = $(finder).find('button:first');
+
+            if (enable) {
+                dlgFirstButton.attr('disabled', '');
+                dlgFirstButton.removeClass('ui-state-disabled');
+            } else {
+                dlgFirstButton.attr('disabled', 'disabled');
+                dlgFirstButton.addClass('ui-state-disabled');
+            }
+        }
+        $('#new-draft-form-dialog').dialog({
+            height: 600, width: 630,
+            autoOpen: false, modal: true,
+            show: "explode", hide: "explode",
+            buttons: {
+                "Upload": function () {
+                    
+                    var bar = $('.bar');
+                    var percent = $('.percent');
+                    var status = $('#status');
+
+                    $('#new-draft-form').ajaxForm({
+                        beforeSend: function(test) {
+                            // alert(test);
+                            status.empty();
+                            var percentVal = '0%';
+                            bar.width(percentVal)
+                            percent.html(percentVal);
+                        },
+                        uploadProgress: function(event, position, total, percentComplete) {
+                            var percentVal = percentComplete + '%';
+                            bar.width(percentVal);
+                            percent.html(percentVal);
+                        },
+                        success: function(data) {
+                            var percentVal = '100%';
+                            bar.width(percentVal);
+                            percent.html(percentVal);
+                            
+            var $out = $('#uploadOutput');
+            $out.html('Form success handler received: <strong>' + typeof data + '</strong>');
+            if (typeof data == 'object' && data.nodeType)
+                data = elementToString(data.documentElement, true);
+            else if (typeof data == 'object')
+                data = objToString(data);
+            $out.append('<div><pre>'+ data +'</pre></div>');
+        
+                        },
+                        complete: function(xhr) {
+                                status.html(xhr.responseText);
+                        }
+                    }).submit(); 
+
+                    $(this).dialog('close') ;
+                    redraw_versions();
+                },
+                Cancel: function() { $(this).dialog('close'); }
+            }, close: function() { $(this).dialog('close') ;}
+        });
+
+     } );
+    
+
+    </script>
+<?php
     }
     
     

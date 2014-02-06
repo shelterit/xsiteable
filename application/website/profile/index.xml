@@ -19,8 +19,28 @@
                     topic-id="$profile/id"
                     id="$profile/id"
                     class="color-gray">
-                        My name is <nut:value-of select="$item/label" />, and my email is <a href="mailto:{$item/email}" style="font-style:underline;cursor:pointer;"><nut:value-of select="$item/email" /></a>.
+                        My name is <nut:value-of select="$item/label" />, and my email is 
+                        <nut:if value-of="$user/id" like="$profile/id">
+                            <form style="display:inline;padding:0;margin:0;" id="emailsaveform" action="{$dir/home}/api/data/tm/property">
+                                <input name="email" style='width:250px;' type='text' value='{$item/email}' />. 
+                                <button style='font-size:0.9em;padding:1px 4px;margin:0;'>save</button> 
+                                <input type="hidden" name="topic_id" value="{$profile/id}" /> 
+                                <span id='messenger' style='position:relative;width:80px;height:40px;border:solid 4px #abc;background-color:#def;color:#555;display:none;'>
+                                    Saved!
+                                </span>
+                            </form>
+                            <js>
+                                $('#emailsaveform').ajaxForm( function () {
+                                    $('#messenger').fadeIn('fast');
+                                    setTimeout ( function () { $('#messenger').fadeOut('slow'); }, 1000 );
+                                } );
+                            </js>
+                        </nut:if>
+                        <nut:if value-of="$user/id" unlike="$profile/id">
+                            <a href="mailto:{$item/email}" style="font-style:underline;cursor:pointer;"><nut:value-of select="$item/email" /></a>.
+                        </nut:if>
                 </nut:widget>
+                
 
                 <!-- <div>E-mail: <a href="mailto:{$item/email}" style="color:blue;font-style:underline;cursor:pointer;"><nut:value-of select="$item/email" /></a></div> -->
               

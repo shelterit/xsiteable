@@ -7,16 +7,16 @@
     <div id="columns">
 
         <ul id="column1" class="column" style="min-width:30%;width:39%;">
-                    <div id="col1" style="margin:10px 20px;">
-                        <ul>
-                            <li><a href="#col1-1" style="font-size:1.1em !important;">Folder structure</a></li>
-                        </ul>
-                        <div id="col1-1" style="margin:0;padding:0;">
-                            <div style="margin:0;padding:10px 0;">
-                                <nut:tree select="xs_tree" path="documents" />
-                            </div>
-                        </div>
+            <div id="col1" style="margin:10px 20px;">
+                <ul>
+                    <li><a href="#col1-1" style="font-size:1.1em !important;">Folder structure</a></li>
+                </ul>
+                <div id="col1-1" style="margin:0;padding:0;">
+                    <div style="margin:0;padding:10px 0;">
+                        <nut:tree select="xs_tree" path="documents" />
                     </div>
+                </div>
+            </div>
         </ul>
         
         <ul id="column2" class="column" style="min-width:30%;width:60%;">
@@ -32,6 +32,7 @@
                         
                         <nut:if allowed="document:control_tab" default="deny">
                             <button id="add-new" type="button">Add new document</button>
+                            <button id="tools" type="button">Tools</button>
                             <hr />
                         </nut:if>
                         
@@ -44,6 +45,17 @@
                             </div>
                         </nut:for-each>
 
+                        <nut:if allowed="document:control_tab" default="deny">
+                            <nut:for-each select="xs_current_folders_drafts/*">
+                                <div class="tree-item {$selected}" style="white-space:nowrap;">
+                                    <img src="{$dir/home}/static/images/icons/folder.gif" class="tree-icon" />
+                                    <a href="{$dir/home}/documents/{$item/name()}" style="text-decoration:none;">
+                                        {$item/.} (draft)
+                                    </a> 
+                                </div>
+                            </nut:for-each>
+                        </nut:if>
+
                         <ul>
                             <nut:if count="xs_tree_docs" unlike="0">
                                 <nut:if allowed="document:controlled?" default="deny">
@@ -53,9 +65,8 @@
                             
                             <nut:for-each select="xs_tree_docs/*">
                                 <li style="white-space: nowrap;">
-                                  
-                                    <img src="{$dir/images}/icons/{$item/extension}" alt="" width="16" style="padding-right:4px;" />&#160;<a href="{$dir/home}/documents/{$item/id}">{$item/label}</a>
-
+                                    
+                                    <img src="{$dir/images}/icons/{$item/extension}" alt="" width="16" style="padding-right:4px;" />&#160;<a href="{$dir/home}/documents/{$item/id}">{$item/label}</a><nut:if value-of="$item/source" like="''">&#160;<img title="Spidered / virtual file" src="{$dir/images}/icons/24x24/filesystems/folder_outbox.png" alt="" height="16" style="padding-right:4px;border:none;" /></nut:if>
                                     <nut:if allowed="document:controlled?" default="deny">
                                         <nut:if value-of="$item/controlled" like="''"><span style="float:right;">
                                             -
@@ -74,6 +85,31 @@
                                     </nut:if>
                                 </li>
                             </nut:for-each>
+                            
+                            <nut:for-each select="xs_tree_docs_drafts/*">
+                                <li style="white-space: nowrap;">
+                                    
+                                    <img src="{$dir/images}/icons/{$item/extension}" alt="" width="16" style="padding-right:4px;" />&#160;<a href="{$dir/home}/documents/{$item/id}" style="background-color:#efe;">{$item/label}&#160;&#160;&#160;&#160;&#160;<i>(draft)</i></a><nut:if value-of="$item/source" like="''">&#160;<img title="Spidered / virtual file" src="{$dir/images}/icons/24x24/filesystems/folder_outbox.png" alt="" height="16" style="padding-right:4px;border:none;" /></nut:if>
+                                    <nut:if allowed="document:controlled?" default="deny">
+                                        <nut:if value-of="$item/controlled" like="''"><span style="float:right;">
+                                            -
+                                        </span></nut:if>
+                                        <nut:if value-of="$item/controlled" like="'true'"><span style="float:right;">
+                                            <a id="controlled-{$item/uid}" href="#" onclick="ajax_flip_controlled('{$item/uid}');return false;">
+                                                <input type="checkbox" checked="checked" />
+                                            </a>
+                                        </span></nut:if>
+                                        <nut:if value-of="$item/controlled" like="'false'"><span style="float:right;">
+                                            <a id="controlled-{$item/uid}" href="#" onclick="ajax_flip_controlled('{$item/uid}');return false;">
+                                                <input type="checkbox" />
+                                            </a>
+                                        </span></nut:if>
+
+                                    </nut:if>
+                                </li>
+                            </nut:for-each>
+                            
+                            
                         </ul>
                     </div>
                 </div>
@@ -81,16 +117,21 @@
                 <nut:if allowed="document:control_tab" default="deny">
                     <div id="col2-2" style="margin:0;padding:0;">
 
-                        <form id="result-set"><fieldset> 
-                            With selected (currently disabled) <span style="margin-left:5px;"> 
-                                <button type="button" style="font-size:0.8em;" onclick="">Delete</button>
-                                |
+                        <form action="{$dir/home}/api/data/files" id="result-set" method="post"><fieldset> 
+                            With selected : <span style="margin-left:5px;"> 
+                                <button type="button" style="font-size:0.8em;" onclick="process_delete()">Delete</button>
+                                <!-- |
                                 <button type="button" style="font-size:0.8em;" onclick="">Controlled</button>
                                 <button type="button" style="font-size:0.8em;" onclick="">Uncontrolled</button>
                                 |
                                 <button type="button" style="font-size:0.8em;" onclick="">Tag</button>
-                                <button type="button" style="font-size:0.8em;" onclick="">Untag</button>
+                                <button type="button" style="font-size:0.8em;" onclick="">Untag</button> 
+                                -->
                             </span>
+                            
+                            <input name="f:cmd" value="process" type="hidden" />
+                            <input name="_redirect" value="{$dir/_this}" type="hidden" />
+                            
                         <table id="files-table" class="data-table">
                             <thead>
                                 <tr>
@@ -102,11 +143,38 @@
                             <tbody>
                                 <nut:for-each select="xs_tree_docs/*">
                                     <tr>
-                                        <td>
-                                            <input type='checkbox' value='{$item/uid}' id='id-{$item/uid}' name='check' />                                                        
+                                        <td style="width:30px;font-size:1.2em;">
+                                            <input type='checkbox' value='{$item/id}' name='check[]'  namez='id-{$item/id}' />                                                        
                                         </td>
                                         <td style="white-space:nowrap;">
-                                            <img src="{$dir/images}/icons/doc.png" alt="" width="16" style="padding-right:4px;" />&#160;<a href="{$dir/home}/documents/{$item/uid}" style="text-decoration:none;color:blue;">{$item/label}</a>
+                                            <img src="{$dir/images}/icons/doc.png" alt="" width="16" style="padding-right:4px;" />&#160;<a href="{$dir/home}/documents/{$item/uid}" style="text-decoration:none;color:blue;">{$item/label}</a><nut:if value-of="$item/source" like="''">&#160;<img title="Spidered / virtual file" src="{$dir/images}/icons/24x24/filesystems/folder_outbox.png" alt="" height="16" style="padding-right:4px;border:none;" /></nut:if>
+                                        </td>
+                                        <td style="text-align:center;vertical-align:middle;">
+
+                                            <nut:if value-of="$item/controlled" like="''"><span style="">
+                                                -
+                                            </span></nut:if>
+                                            <nut:if value-of="$item/controlled" like="'true'"><span style="">
+                                                <a id="controlledi-{$item/uid}" href="#" onclick="ajax_flip_controlled('{$item/uid}',1);return false;">
+                                                    <img src="{$dir/images}/icons/24x24/actions/button_ok.png" height="15" style="margin:0;padding:0;" title="Controlled" />
+                                                </a>
+                                            </span></nut:if>
+                                            <nut:if value-of="$item/controlled" like="'false'"><span style="">
+                                                <a id="controlledi-{$item/uid}" href="#" onclick="ajax_flip_controlled('{$item/uid}',1);return false;">
+                                                    <img src="{$dir/images}/icons/24x24/actions/exec.png" height="15" style="margin:0;padding:0;" title="Uncontrolled" />
+                                                </a>
+                                            </span></nut:if>
+
+                                        </td>
+                                    </tr>
+                                </nut:for-each>
+                                <nut:for-each select="xs_tree_docs_drafts/*">
+                                    <tr>
+                                        <td style="width:30px;font-size:1.2em;">
+                                            <input type='checkbox' value='{$item/id}' name='check[]'  namez='id-{$item/id}' />                                                        
+                                        </td>
+                                        <td style="white-space:nowrap;">
+                                            <img src="{$dir/images}/icons/doc.png" alt="" width="16" style="padding-right:4px;" />&#160;<a href="{$dir/home}/documents/{$item/uid}" style="text-decoration:none;color:blue;background-color:#efe;">{$item/label}&#160;&#160;&#160;&#160;&#160;<i>(draft)</i></a><nut:if value-of="$item/source" like="''">&#160;<img title="Spidered / virtual file" src="{$dir/images}/icons/24x24/filesystems/folder_outbox.png" alt="" height="16" style="padding-right:4px;border:none;" /></nut:if>
                                         </td>
                                         <td style="text-align:center;vertical-align:middle;">
 
@@ -141,21 +209,64 @@
             </div>
         </ul>
         
-        <div id="new-form" title="New document" style="display:none;background-color:#eee;">
-            <h1 style="text-align:center;width:100%;margin-bottom:15px;">You can either</h1>
-            <form action="{$dir/home}/api/data/files" method="post">
-            <div style="background-color:#fed !important;padding:10px;margin:10px;" class="text ui-widget-content ui-corner-all">
-                <label for="f:label"><b>a.</b> create a name for the new document</label><br />
-                <input id="new-input" type="text" name="f:label" style="font-size:1.1em;width:480px;" class="text ui-widget-content ui-corner-all" />
-                <input id="new-form-submit-button" type="submit" value="Create!" />
-            </div>
-            </form>
-            <h1 style="text-align:center;width:100%;margin-bottom:15px;">or</h1>
-            <form action="{$dir/home}/api/data/files" method="post">
-            <div class="text ui-widget-content ui-corner-all" style="background-color:#def !important;padding:10px;margin:10px;">
-                <label for="myfile"><b>b.</b> upload a file (and we'll get the title from the filename)</label><br/>
-                <input type="file" name="myfile"/><br/>
-                <input id="new-form-submit-button" type="submit" value="Upload!" />
+        <div id="dialog-delete-confirm" title="Delete these files?" style="display:none;">
+            <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>
+            This will <b>delete</b> <i style="color:#777;">(permanently)</i> the selected files. Are you sure?</p>
+        </div>
+        
+        <js>
+            function process_delete () {
+                $( "#dialog-delete-confirm" ).dialog({
+                    resizable: false,
+                    height:180,
+                    modal: true,
+                    buttons: {
+                        "Delete!": function() {
+                            $( this ).dialog( "close" );
+                            var input = $("<input/>")
+                                .attr("type", "hidden")
+                                .attr("name", "command").val("delete");
+                            $('#result-set').append($(input));
+                            $('#result-set').submit() ;
+                        },
+                        Cancel: function() {
+                            $( this ).dialog( "close" );
+                            return false;
+                        }
+                    }
+                }); 
+            }
+        </js>
+        
+        <div id="new-form" title="New document" style="display:none;background-color:#eee;font-size:1.1em;">
+            <form action="{$dir/home}/api/data/files" method="post" enctype="multipart/form-data">
+            <div class="text ui-widget-content ui-corner-all" style="padding:10px;margin:10px;">
+                
+                <p style="margin:24px 0;font-size:1.1em;">
+                    <label for="myfile"><b>1.</b> select a file (and we'll get the title from the filename)</label><br/>
+                    <input type="file" id="myfile" name="myfile"/>
+                </p>
+                
+                <p style="margin:24px 0;font-size:1.1em;">
+                    <label for="f:label" style="width:450px;"><b>2.</b> Adjust label</label><br />
+                    <input id="mylabel-slug" type="text" name="f:label" value="" style="width:100%;color:#555;" class="text ui-widget-content ui-corner-all" />
+                </p>
+                                    
+                <div style="margin:24px 0;font-size:1.1em;" class="show-hide">
+                    <div class="label-div">Advanced >></div>
+                    <div class="content-div" style="margin:0;padding:4px;border:dotted 2px #cde;font-size:0.9em;color:#555;display:none;">
+                        <label for="f:path">Adjust path <i style="font-size:0.9em;color:#777;">(if you don't know what this is, just ignore it)</i></label><br />
+                        <input id="myfile-path" type="text" name="f:path" value="{$page/relative_path}" style="width:100%;color:#555;background-color:#abc;" class="text ui-widget-content ui-corner-all" />
+                    </div>
+                </div>
+                
+                <p style="margin:24px 0;font-size:1.1em;">
+                    <input type="hidden" name="_redirect" value="{$dir/_this}" />
+                    <input type="hidden" name="f:upload_mode" value="document" />
+                    <b>3.</b> <input id="new-form-submit-button" type="submit" value="Upload!" />
+       
+                </p>
+                
             </div>
             </form>
         </div>   
@@ -164,6 +275,14 @@
     <js> 
 
     $(document).ready ( function() {
+    
+        $('#myfile').change ( function () {
+            var s = this.value ;
+            s = s.split('\\').pop();
+            $('#myfile-slug').val( string_to_slug(s) ) ;
+            $('#mylabel-slug').val( unslug ( s ) ) ;
+            // alert(unslug(s));
+        } ) ;
       
         setIframeHeight('ifrm', 1); window.onresize = function() { setIframeHeight('ifrm', 1); }
         
@@ -174,8 +293,12 @@
             $('#new-form').dialog('open') ;
         }) ;
         
+        $('#tools').button().click(function(event) {
+            window.location.href = xs_dir.home + '/documents/_tools';
+        }) ;
+        
         $('#new-form').dialog({
-            height: 450, width: 630,
+            height: 480, width: 630,
             autoOpen: false, modal: true,
             show: "explode", hide: "explode",
             buttons: {

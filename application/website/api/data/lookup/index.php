@@ -12,13 +12,14 @@ class xs_action_instance extends \xs\Action\Generic {
 
         $search = $this->glob->request->__fetch ( 'search', '' ) ;
         
+        // phpinfo();
+        
         if ( strlen ( $search ) < 1 ) {
-            echo @json_encode ( array ( array ( 'value' => '', 'name' => 'Type a bit more ...' ) ) ) ; 
+            php2js ( array ( array ( 'value' => '88', 'name' => 'Type a bit more ...' ) ) ) ; 
             die () ;
         }
         
         $in = $this->glob->breakdown->selector ;
-        
         $e = explode ( '|', $in ) ;
         $res = array () ;
         $error = array () ;
@@ -55,9 +56,16 @@ class xs_action_instance extends \xs\Action\Generic {
         foreach ( $items as $item )
             $r[] = array ( 'value' => $item['id'], 'name' => $item['label'] ) ;
         
-        echo @json_encode ( $r ) ;
-
+        // debug
+        // $r[] = array ( 'value' => 13, 'name' => 'Alex' ) ;
+        
+        // $r[] = array ( 'value' => 0, 'name' => print_r ( $query, true ) ) ;
+            
+        // echo json_encode ( $r ) ;
+        echo php2js ( $r ) ;
+        
         die();
 
     }
 }
+

@@ -302,7 +302,7 @@
 		
 		<!-- First character of input name -->
 		<xsl:variable name="literal" select="substring($sel, 1, 1)" />
-		
+
 		<xsl:choose>
 			
 			<!-- Generic text support -->

@@ -339,7 +339,7 @@
 							</xsl:apply-templates>
 						</xsl:if>
 					</xsl:when>
-					<xsl:when test="@contains">
+					<xsl:when test="@contains"><!-- [<xsl:value-of select="$select" />][<xsl:value-of select="$test" />]   -->
 						<xsl:if test="contains(normalize-space($select),normalize-space($test))">
 							<xsl:apply-templates>
 								<xsl:with-param name="data" select="$data" />

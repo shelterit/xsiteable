@@ -155,16 +155,6 @@ class xs_action_instance extends \xs\Action\Webpage {
                         $document['pub_format'] = 'true' ;
                     // debug ( $document['pub_format'] ) ;
                 }
-                if ( isset ( $this->glob->config['dms']['publish_in_pdf_except'] ) ) {
-                    $th = explode ( ',', $this->glob->config['dms']['publish_in_pdf_except'] ) ;
-                    foreach ( $th as $ex ) {
-                        // debug_r ( $ex, $ext ) ;
-                        if ( $ext == $ex ) {
-                            $document['pub_format'] = 'override' ;
-                            break ;
-                        }
-                    }
-                }
                 
                 $icon = '24x24/mimetypes/binary.png' ;
                 

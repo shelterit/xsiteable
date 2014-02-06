@@ -53,15 +53,31 @@
                 
 		<div id="rail">
                     
-                    <div style="margin:0;padding:0;margin-bottom:25px;">
-                        <a id="open-button" href="{$dir/docs_web}{$doc/home_directory}/{$doc/uid}.{$doc/extension}" style="margin:0;padding:0;">
-                            <div style="float:left;width:58%;height:80px;text-align:center;">
-                                <div style="font-size:1.1em;font-weight:bold;">Open&#160;document</div>
-                                <div style="font-size:0.8em;padding-top:3px;">Open the original document for reading or printing</div>
-                                </div>
-                            <img src="{$dir/static}/images/icons/{$doc/icon}" alt="" width="20%" style="margin:0;padding:5px 3px 5px 0;float:right;" />
-                        </a>
-                    </div>
+                    <nut:if value-of="$doc/name" contains="'draft:'">
+                        <div style="margin:4px;margin-bottom:30px;border:dotted 1px #999;padding:8px;background-color:#dfd;font-style:italic;">This is a draft. Use the Versions tab on your right to view and control drafted documents.</div>
+                    </nut:if>
+                    <nut:if value-of="$doc/name" contains="'document:'">
+                        <div style="margin:0;padding:0;margin-bottom:25px;">
+                           <nut:if value-of="$item/pub_format" like="'true'">
+                                <a id="open-button" href="{$dir/docs_web}{$doc/home_directory}/{$doc/uid}.{$doc/extension}{#if $doc/extension='pdf' '' '.pdf'}" style="margin:0;padding:0;">
+                                    <div style="float:left;width:58%;height:80px;text-align:center;">
+                                        <div style="font-size:1.1em;font-weight:bold;">Open&#160;document</div>
+                                        <div style="font-size:0.8em;padding-top:3px;">Open the original document for reading or printing</div>
+                                        </div>
+                                    <img src="{$dir/static}/images/icons/{$doc/icon}" alt="" width="20%" style="margin:0;padding:5px 3px 5px 0;float:right;" />
+                                </a>
+                           </nut:if>
+                           <nut:if value-of="$item/pub_format" unlike="'true'">
+                                <a id="open-button" href="{$dir/docs_web}{$doc/home_directory}/{$doc/uid}.{$doc/extension}" style="margin:0;padding:0;">
+                                    <div style="float:left;width:58%;height:80px;text-align:center;">
+                                        <div style="font-size:1.1em;font-weight:bold;">Open&#160;document</div>
+                                        <div style="font-size:0.8em;padding-top:3px;">Open the original document for reading or printing</div>
+                                        </div>
+                                    <img src="{$dir/static}/images/icons/{$doc/icon}" alt="" width="20%" style="margin:0;padding:5px 3px 5px 0;float:right;" />
+                                </a>
+                           </nut:if>
+                        </div>
+                    </nut:if>
                    
                     <div id="content-meta">
                         <ul>
@@ -122,11 +138,11 @@
                                 <table id="techtable" style="font-size:0.8em;display:none;">
                                     <tr>
                                         <td>uid</td>
-                                        <td><nut:value-of select="$doc/uid" /></td>
+                                        <td><a href="{$dir/home}/documents/{$doc/uid}"><nut:value-of select="$doc/uid" /></a></td>
                                     </tr>
                                     <tr>
                                         <td>topic_id</td>
-                                        <td><nut:value-of select="$doc/id" /></td>
+                                        <td><a href="{$dir/home}/_tm/topic/{$doc/id}"><nut:value-of select="$doc/id" /></a></td>
                                     </tr>
                                     <tr>
                                         <td>original_path</td>
@@ -155,55 +171,126 @@
 
                             
                             <nut:if allowed="document:controlled?" default="deny">
+                                
                                 <div style='font-weight:bold;font-size:0.9em;margin-top:15px;'>
-                                    <nut:if value-of="$item/controlled" like="''"><span style="float:right;">
-                                        -
-                                    </span></nut:if>
-                                    <nut:if value-of="$item/controlled" like="'true'"><span style="float:right;">
-                                        <a id="controlled-{$item/uid}" href="#" onclick="ajax_flip_controlled('{$item/uid}');return false;">
-                                            <input type="checkbox" checked="checked" />
-                                        </a>
-                                    </span></nut:if>
-                                    <nut:if value-of="$item/controlled" like="'false'"><span style="float:right;">
-                                        <a id="controlled-{$item/uid}" href="#" onclick="ajax_flip_controlled('{$item/uid}');return false;">
-                                            <input type="checkbox" />
-                                        </a>
-                                    </span></nut:if>
+                                    <span style="float:right;">
+                                        <input type="checkbox" id="xs-chk-{$item/id}-controlled" class="xs-bind" title="{$item/controlled}" />
+                                    </span>
                                     Document controlled?</div>
+                                    
                                 <nut:if value-of="$doc/extension" unlike="'pdf'">
                                 <div style='font-weight:bold;font-size:0.9em;margin-top:5px;'>
-                                    <nut:if value-of="$item/pub_format" like="''"><span style="float:right;">
-                                        -
-                                    </span></nut:if>
-                                    <nut:if value-of="$item/pub_format" like="'true'"><span style="float:right;">
-                                        <a id="pub_format-{$item/uid}" class='topic_radio' href="#" onclick="ajax_flip('pub_format','{$doc/id}');return false;">
-                                            <input type="checkbox" checked="checked" />
-                                        </a>
-                                    </span></nut:if>
-                                    <nut:if value-of="$item/pub_format" like="'false'"><span style="float:right;">
-                                        <a id="pub_format-{$item/uid}" href="#" onclick="ajax_flip('pub_format','{$doc/id}');return false;">
-                                            <input type="checkbox" />
-                                        </a>
-                                    </span></nut:if>
+                                    
+                                    <span style="float:right;">
+                                        <input type="checkbox" id="xs-chk-{$item/id}-pub_format" class="xs-bind" title="{$item/pub_format}" />
+                                    </span>
+
                                     Publish in PDF format?</div>
                                 </nut:if>
                             </nut:if>
                             
                             <hr />
                             
-                            <h6>Action</h6>
-                            <div class="show-hide">
-                                <div class="label-div">Show >></div>
-                                <div class="content-div" style="margin:0;padding:10px;margin-bottom:10px;border:dotted 2px #999;font-size:0.9em;color:#555;display:none;">
-                                    <div>You can;</div>
-                                    <ul>
-                                        <li><input type="submit" id="touch-original-button" value="Redo all" /></li>
-                                        <li><input type="submit" id="touch-dest-button" value="Redo html and txt" /></li>
-                                        <li><input type="submit" id="touch-dest-html-button" value="Redo txt" /></li>
-                                        <li><input type="submit" id="touch-reindex-button" value="Reindex" /></li>
-                                        
-                                    </ul>
-                                </div>
+                            <h6>Actions</h6>
+                            <div>
+                                <ul style="margin:0 0 0 14px;padding:2px 0 0 5px;">
+                                    <!--
+                                    <nut:if value-of="$item/controlled" like="'true'">
+                                        <li>
+                                            <button type="button" id="action-update" onclick="$('#action-update-container').dialog('open');">Update</button>
+                                            <div id="action-update-container" title="Update document">
+                                                <form action="{$dir/home}/api/data/files" method="post" enctype="multipart/form-data">
+                                                <fieldset>
+
+                                                    <label for="myfile"><b>1.</b> Select your file</label><br/>
+                                                    <input type="file" name="myfile"/><br/>
+                                                    <br/>
+                                                    <input type="hidden" name="f:mode" value="draft" />
+                                                    <input type="hidden" name="f:id" value="{$doc/id}" />
+                                                    <input type="hidden" name="f:filename" value="{$doc/item}" />
+
+                                                    <label for="f:comment"><b>2.</b> What are the changes?</label><br/>
+                                                    <textarea name="f:comment" style="width:100%;height:90px;"></textarea>
+                                                    <br/>
+
+                                                    <div class="progress">
+                                                        <div class="bar"></div>
+                                                        <div class="percent">0%</div>
+                                                    </div>
+
+                                                    <input class="submit-button" type="submit" value="Upload updated version!" style="display:none;" />
+
+                                                </fieldset>
+                                                </form>
+                                            </div>  
+                                            <js>
+                                                $('#action-update-container').dialog({
+                                                    height: 400, width: 500,
+                                                    autoOpen: false, modal: true,
+                                                    show: "explode", hide: "explode",
+                                                    buttons: {
+                                                        "Upload": function() { $('#draft-submit-button').click() ; },
+                                                        Cancel: function() { $(this).dialog('close'); }
+                                                    }, close: function() { $(this).dialog('close') ;}
+                                                });
+                                            </js>
+                                        </li>
+                                    </nut:if>
+                                    -->
+                                    
+                                        <li>
+                                            <button type="button" id="action-move" onclick="$('#action-move-container').dialog('open');">Move</button>
+                                            <div id="action-move-container" title="Move document">
+                                                <form action="{$dir/home}/api/data/files" method="post">
+                                                <fieldset>
+
+                                                    <label for="f:path"><b>1.</b> Select where to move your file to</label><br/>
+                                                    
+                                                    <input name="f:path" style="width:100%;margin:3px 15px;" value="{$doc/relative_path}" /><br/><br/>
+                                                    
+                                                    <input type="hidden" name="f:id" value="{$doc/id}" />
+                                                    <input type="hidden" name="f:filename" value="{$doc/item}" />
+
+                                                    <label for="f:comment"><b>2.</b> Make some comment about why</label><br/>
+                                                    <textarea name="f:comment" style="width:100%;height:90px;"></textarea>
+                                                    <br/>
+
+                                                    <input name="f:cmd" value="process" type="hidden" />
+                                                    <input name="_redirect" value="{$dir/_this}" type="hidden" />
+                            
+                                                    <input class="submit-button" type="submit" value="test" style="display:none;" />
+                                                    
+                                                </fieldset>
+                                                </form>
+                                            </div>  
+                                            <js>
+                                                $('#action-move-container').dialog({
+                                                    height: 500, width: 600,
+                                                    autoOpen: false, modal: true,
+                                                    show: "explode", hide: "explode",
+                                                    buttons: {
+                                                        "Move": function() { $(this).find('.submit-button').click() ; },
+                                                        Cancel: function() { $(this).dialog('close'); }
+                                                    }, close: function() { $(this).dialog('close') ;}
+                                                });
+                                            </js>
+                                        </li>
+                                    
+                                    
+                                    <li class="show-hide">
+                                        <div class="label-div">More >></div>
+                                        <div class="content-div" style="margin:0;padding:8px;margin-bottom:8px;border:dotted 2px #999;font-size:0.9em;color:#555;display:none;">
+                                            <div>You can also;</div>
+                                            <ul style="margin:0 0 0 14px;padding:2px 0 0 5px;">
+                                                <li><input type="submit" id="touch-original-button" value="Redo all" /></li>
+                                                <li><input type="submit" id="touch-dest-button" value="Redo html and txt" /></li>
+                                                <li><input type="submit" id="touch-dest-html-button" value="Redo txt" /></li>
+                                                <li><input type="submit" id="touch-reindex-button" value="Reindex" /></li>
+
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
                             <js>var docid = '{$doc/id}' ; </js>
                             <js>
@@ -342,12 +429,125 @@
                             
                             <div id="draft-publish-confirm" title="Publish draft as new version?" style="display:none;">
                                 <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>
-                                This will <b>publish</b> the approved draft to become a new <b>version</b> of the current document. Are you sure?</p>
+                                This will <b>publish</b> the approved draft to become a new <b>version</b> of the current document.</p>
+                                <h5><b>1.</b> Review date</h5>
+                                <p>Set the next review date for this document to <select id="xs-next-review-date-submit" name="f:next_review_date">
+                                    <option value="6">6 months</option>
+                                    <option value="12">1 year</option>
+                                    <option value="24" selected="selected">2 years</option>
+                                    <option value="36">3 years</option>
+                                    <option value="48">4 years</option>
+                                </select> from now.</p>
+                               
+                                <nut:if value-of="$item/extension" unlike="'pdf'">
+                                <nut:if value-of="$item/pub_format" like="'true'">
+                                    
+                                    <h5><b>2.</b> Required PDF upload</h5>
+                                    <p>This document require that you publish as a PDF. Please upload a PDF version of the approved document about to be published.</p>
+                                    <form id="publish-upload" action="{$dir/home}/api/data/files" method="post" enctype="multipart/form-data">
+                                    <fieldset>
+
+                                        <input type="hidden" name="f:mode" value="published-format" />
+                                        <input type="hidden" name="f:id" value="{$doc/id}" />
+                                        <input type="hidden" name="f:filename" value="{$doc/item}" />
+
+                                        <div id="pubuploadsection">
+                                            <input type="file" id="pubfile" name="myfile"/><br/>
+                                            <div id="puberror" style="display:none;padding:10px;margin:10px 0;border:solid 4px #ddd;background-color:#fdd;"></div>
+                                            <br/>
+
+                                            <div id="pub-progress">
+                                                <div class="bar"></div>
+                                                <div class="percent">0%</div>
+                                            </div>
+
+                                            <input id="publish-upload-button" type="submit" value="Upload PDF version!" style="display:none;" />
+
+                                            <div id="pub-info" style="">
+                                            </div>
+                                        </div>
+                                        
+                                    </fieldset>
+                                    </form>
+                                    
+                                    <div id="publish-submit" style="display:none;padding:10px;margin:10px 0;border:solid 4px #ddd;background-color:#dfd;">
+                                        <p>All prerequisits are in order; we are ready to publish the new document.</p>
+                                        <p style="text-align:center;margin-top:20px;">
+                                            <input class="publish-submit-button" type="button" value="Publish!" />
+                                        </p>
+                                    </div>
+                                    
+                                    <js>
+                                        var phome = $('#pub-progress') ;
+                                        var pbar = $(phome,'.bar');
+                                        var ppercent = $(phome,'.percent');
+
+                                        $('#publish-upload').ajaxForm({
+
+                                            beforeSend: function() {
+                                                // phome.empty();
+                                                var percentVal = '0%';
+                                                pbar.width(percentVal)
+                                                ppercent.html(percentVal);
+                                                $('#publish-upload-button').hide('slow') ;
+                                            },
+                                            uploadProgress: function(event, position, total, percentComplete) {
+                                                var percentVal = percentComplete + '%';
+                                                pbar.width(percentVal)
+                                                ppercent.html(percentVal);
+                                            },
+                                            complete: function(xhr) {
+                                            $('#pub-info').html(xhr.responseText);
+                                            // alert('done');
+                                            }
+                                        });
+                                        $('#pubfile').change ( function (test) {
+
+                                            // get the file name, possibly with path (depends on browser)
+                                            var filename = $(this).val();
+
+                                            // Use a regular expression to trim everything before final dot
+                                            var extension = filename.replace(/^.*\./, '');
+
+                                            // Iff there is no dot anywhere in filename, we would have extension == filename,
+                                            // so we account for this possibility now
+                                            if (extension == filename) {
+                                                extension = '';
+                                            } else {
+                                                // if there is an extension, we convert to lower case
+                                                // (N.B. this conversion will not effect the value of the extension
+                                                // on the file upload.)
+                                                extension = extension.toLowerCase();
+                                            }
+                                            // alert(extension);
+                                            if ( extension == 'pdf' ) {
+                                                $('#publish-upload-button').show('slow') ;
+                                                $('#puberror').hide('slow') ;
+                                            } else {
+                                                $('#publish-upload-button').hide('slow') ;
+                                                $('#puberror').html ( "<b>Note!</b> Extension of uploaded file must be PDF." ) ;
+                                                $('#puberror').show('slow') ;
+                                            }
+                                        } ) ;
+                                    </js>
+                                </nut:if>
+                                
+                                <nut:if value-of="$item/pub_format" like="'override'">
+                                        <p style="text-align:center;margin-top:90px;">
+                                            <input class="publish-submit-button" type="button" value="Publish!" />
+                                        </p>
+                                </nut:if>
+                                </nut:if>
+                                <nut:if value-of="$item/extension" like="'pdf'">
+                                        <p style="text-align:center;margin-top:90px;">
+                                            <input class="publish-submit-button" type="button" value="Publish!" />
+                                        </p>
+                                <!-- <nut:if value-of="$item/pub_format" unlike="'true'"> -->
+                                </nut:if>
                             </div> 
                             
                             <div id="new-version" style="display:none;">
                             </div>
-
                         </div>
                         
                     </nut:if>
@@ -401,7 +601,7 @@
         function promote_draft ( draft_version, draft ) {
             $( "#draft-promote-confirm" ).dialog({
                 resizable: false,
-                height:190,
+                height:250,
                 modal: true,
                 buttons: {
                     "Promote!": function() {
@@ -424,7 +624,7 @@
         function approve_draft ( draft_version, draft ) {
             $( "#draft-approve-confirm" ).dialog({
                 resizable: false,
-                height:190,
+                height:250,
                 modal: true,
                 buttons: {
                     "Approve!": function() {
@@ -445,21 +645,27 @@
             });
         }
         function publish_draft ( draft_version, draft ) {
+            $('.publish-submit-button').click ( function () {
+                $.ajax( {
+                    type: "GET",
+                    url: xs_dir.home + '/api/data/versions',
+                    data: { id: doc_id, mode: 'publish', just_drafts: true, 
+                        draft_version: draft_version, draft: draft,
+                        next_review_date: $('#xs-next-review-date-submit').val() },
+                    success: function( response ) { 
+                        location.reload ( true ); 
+                        $('#publish-submit').html ( response ) ;
+                    },
+                    fail: function ( response ) { alert ( 'Hmm. Something went wrong.' ) ; }
+                } );                                                    
+                // $( "#draft-publish-confirm" ).dialog('close');
+            } );
             $( "#draft-publish-confirm" ).dialog({
                 resizable: false,
-                height:190,
+                height:500,
+                width: 500,
                 modal: true,
                 buttons: {
-                    "Publish!": function() {
-                        $( this ).dialog( "close" );
-                        $.ajax( {
-                            type: "GET",
-                            url: xs_dir.home + '/api/data/versions',
-                            data: { id: doc_id, mode: 'publish', just_drafts: true, draft_version: draft_version, draft: draft },
-                            success: function( response ) { $('#drafts').html ( response ) ;},
-                            fail: function ( response ) { $('#drafts').html ( 'Hmm. Something went wrong.' ) ; }
-                        } );                                                    
-                    },
                     Cancel: function() {
                         $( this ).dialog( "close" );
                         return false;
@@ -482,6 +688,7 @@
         setIframeHeight('ifrm', 1); window.onresize = function() { setIframeHeight('ifrm', 1); }
         $('#open-button').button();  // $('#open-button').button();
         $("#bookmark" ).button({ icons: { primary: "ui-icon-gear" } }) ;
+        
         var tabs = $('#content-pdf').tabs();
         var meta = $('#content-meta').tabs();
         
@@ -489,6 +696,9 @@
 
         var bar = $('.bar');
         var percent = $('.percent');
+        
+        
+
         
         $('#draft-upload-form form').ajaxForm({
         
@@ -571,6 +781,10 @@
 }
 
 #content-meta .smallcontent {margin-top:0;}
+
+.publish-submit-button {
+   width:100px;height:50px;font-size:1.3em !important;
+}
 
 </style>
     

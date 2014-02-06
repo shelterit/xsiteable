@@ -59,6 +59,8 @@
                 
                 $this->glob->stack->add ( 'xs_comments', $comments->get_for_topic ( $id ) ) ;
 
+                $this->glob->stack->add ( 'xs_document', $this->_topic ) ;
+            
                 // debug_r ( $id ) ;
                 
                 /*
@@ -104,11 +106,13 @@
             ) ) ;
             $this_count = substr_count ( $this_topic['name'], '|' ) ;
             // debug ( $this->_type->_page ) ;
+            
             // debug_r ( $data ) ;
             
             $res = array () ;
             foreach ( $data as $idx => $topic ) {
-                if ( $topic['id'] !== $this_topic['id'] ) {
+                // echo "[{$topic['id']} / {$this_topic['id']}]   " ;
+                if ( $topic['id'] != $this_topic['id'] ) {
                     $count = substr_count ( $topic['name'], '|' ) ;
                     // echo "[$this_count / $count]" ;
                     // print_r ( $topic ) ;
@@ -117,6 +121,8 @@
                         $res[$href] = htmlentities($topic['label']) ;
                 }
             }
+            // debug_r ( $res ) ;
+            
             if ( count ( $res ) > 0 )
                 $this->found_sub = $res ;
             

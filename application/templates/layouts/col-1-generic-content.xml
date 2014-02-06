@@ -32,9 +32,36 @@
             <td class="marg invisible-table">
                 
                 <nut:import template="snippets/tags/generic_tag_control" />
-
                 
-               <!-- <hr /> [<nut:value-of select="$page/id" />] -->
+                <nut:if allowed="document:control_tab" default="deny">
+                    
+                    <h3>Technical</h3>
+                    <div>
+                        <button type="button" id="tech-show" 
+                            onclick="$('#techtable').show('slow');$(this).hide();$('#tech-hide').show();">Show</button>
+                        <button type="button" id="tech-hide" href="#" 
+                            onclick="$('#techtable').hide('slow');$(this).hide();$('#tech-show').show();" 
+                            style="display:none;">Close</button>
+                    </div>
+                    <table id="techtable" style="font-size:0.8em;display:none;">
+                        <tr>
+                            <td>name</td>
+                            <td><nut:value-of select="$doc/name" /></td>
+                        </tr>
+                        <tr>
+                            <td>topic_id</td>
+                            <td><a href="{$dir/home}/_tm/topic/{$doc/id}"><nut:value-of select="$doc/id" /></a></td>
+                        </tr>
+                        <tr>
+                            <td>slug</td>
+                            <td><nut:value-of select="$doc/slug" /></td>
+                        </tr>
+                        <tr>
+                            <td>date</td>
+                            <td><nut:value-of select="$doc/date" /></td>
+                        </tr>
+                    </table>
+                </nut:if>                    
             </td>
         </tr>
     </table>

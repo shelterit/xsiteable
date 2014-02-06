@@ -39,6 +39,8 @@ class xs_action_instance extends \xs\Action\Webpage {
                 return ;
             }
             
+            // debug_r ( $topic ) ;
+            
             if ( ! isset ( $topic['email'] ) ) {
                 $domain = isset ( $this->glob->config['user_management']['profile_email_domain'] ) 
                    ? $this->glob->config['user_management']['profile_email_domain']
@@ -103,8 +105,11 @@ class xs_action_instance extends \xs\Action\Webpage {
             
             $this->current_id = $id ;
             
+            $topics = $this->glob->tm->query ( array ( 'id' => $id ) ) ;
+            $topic = reset ( $topics ) ;
+            
             $this->glob->stack->add ( 'xs_profile', 
-                    array_merge ( $this->glob->user->__getArray(), array ('id' => $this->current_id) ) 
+                    array_merge ( $this->glob->user->__getArray(), $topic ) 
             ) ;
         }
         /*

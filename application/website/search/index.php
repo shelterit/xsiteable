@@ -53,6 +53,8 @@ class xs_action_instance extends \xs\Action\Webpage {
         $appendix->load_index_from_terms ( $terms ) ;
         
         $found = $appendix->find ( $terms ) ;
+        // debug_r ( $terms ) ;
+        // debug_r ( $found ) ;
         
         $this->glob->log->add ( 'search : loaded indeces and merged, terms found.' ) ;
 
@@ -108,6 +110,7 @@ class xs_action_instance extends \xs\Action\Webpage {
 
         $result = array () ;
         $changes = false ;
+        // debug_r ( $lut ) ;
         
         $max = count ( $relative_paths ) ;
 
@@ -152,6 +155,7 @@ class xs_action_instance extends \xs\Action\Webpage {
         $this->glob->log->add ( 'search : About to trawl them for snippets of text, second pass' ) ;
 
         $base_folder = $this->glob->config['dms']['destination_folder'] ;
+
 
         foreach ( $score as $uid => $points ) {
             
@@ -217,10 +221,7 @@ class xs_action_instance extends \xs\Action\Webpage {
                         // 'raw' => $co,
                         'tags' => $e
                     ) ;
-                    // echo '.' ;
-                    
                 } else {
-                    
                     $result[$uid] = array (
                         'id' => $topic['id'],
                         'title' => isset ( $topic['label'] ) ? $topic['label'] : '-title not found-',

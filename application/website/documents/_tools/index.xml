@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template xmlns:nut="http://schema.shelter.nu/nut">
+
+       <nut:import template="global/breadcrumbs" />
+
+    <div id="columns">
+
+        <nut:if allowed="document:control_tab" default="deny">
+        <ul id="column1" class="column" style="min-width:95%;width:99%;">
+            <div id="col1" style="margin:10px 20px 0 0;">
+                <ul>
+                    <li><a href="#col1-1" style="font-size:1.1em !important;">Control</a></li>
+                </ul>
+                <div id="col1-1" style="margin:0;padding:0;">
+                    <form id="search_form" action="#">
+                    <div class="filter">
+                        Include
+                        <label for="controlled">Controlled</label>
+                        <input type="checkbox" name="controlled" />
+                        <label for="pdf">PDF published</label>
+                        <input type="checkbox" name="pdf" />
+                    </div>
+                    <!-- <div class="sorting">
+                        <label for="date">Sort by</label>
+                        <select name="date">
+                            <option value="label">Title</option>
+                            <option value="extension">Document type</option>
+                            <option value="id">Document ID</option>
+                            <option value="relative_path" selected="selected">Document path</option>
+                            <option value="m_c_when">Creation date</option>
+                            <option value="m_p_when">Publication date</option>
+                            <option value="m_u_when">Last update</option>
+                            <option value="next_review_date">Next review date</option>
+                        </select>
+                        <label for="order">Sort direction</label>
+                        <select name="order">
+                            <option value="asc" selected="selected">Ascending</option>
+                            <option value="desc">Descending</option>
+                        </select>
+                        <label for="order">Documents per page</label>
+                        <select name="order">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100" selected="selected">100</option>
+                            <option value="150">150</option>
+                            <option value="200">200</option>
+                        </select>
+                    </div> -->
+                    </form>
+                    <div class="content">
+                        
+<table cellpadding="0" cellspacing="0" border="0" class="display" id="datatable">
+	<thead>
+		<tr>
+			<th style="width:1%;">ID</th>
+			<th style="width:30%;">Title</th>
+			<th style="width:8%;">Type</th>
+			<th style="width:30%;">Path</th>
+			<th style="width:3%;">Created</th>
+			<th style="width:3%;">Published</th>
+			<th style="width:3%;">Updated</th>
+			<th style="width:3%;">Reviewed</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td colspan="8" class="dataTables_empty">Loading data from server</td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<th>ID</th>
+			<th>Title</th>
+			<th>Type</th>
+			<th>Path</th>
+			<th>Created</th>
+			<th>Published</th>
+			<th>Updated</th>
+			<th>Reviewed</th>
+		</tr>
+	</tfoot>
+</table>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </ul>
+        <js> 
+            $(document).ready ( function() {
+                $('#col1').tabs(); 
+                $(document).ready(function() {
+                    $('#datatable').dataTable( {
+                        "bProcessing": true,
+                        "bServerSide": true,
+                        "bJQueryUI": true,
+                        "sAjaxSource": xs_dir.home + "/api/data/tm/documents",
+                         "sPaginationType": "full_numbers",
+                         "bPaginate": true
+                    } );
+                } );
+            });
+        </js>
+        </nut:if>
+    </div>
+
+</nut:template>
