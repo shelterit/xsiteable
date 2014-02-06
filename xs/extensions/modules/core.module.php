@@ -49,7 +49,7 @@
             
             'news' => '_news_item',
             'forum' => '_forum_item',
-            'page' => '_page',
+            // 'page' => '_page',
             'comment' => '_comment',
             'test' => '_test',
             'user' => '_user',
