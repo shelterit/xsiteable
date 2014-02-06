@@ -1,3 +1,69 @@
+var xs_bind = {
+        jQuery : $,
+        __me: null,
+        __init: false,
+        
+        // Default options
+        options: {
+        },
+
+        // Settings (visual construct of the widget)
+        settings: {
+        },
+
+        // Properties of all sorts (serializable)
+        properties: {
+        },
+
+        // Properties of all sorts (serializable)
+        technical: {
+        },
+
+        // 'Create' gets called only once per instance
+        _create: function () {
+            this.__me = this ;
+        },
+
+        // 'Init' will be called when needed
+        _init: function () {
+            // Generic shortcut to the widget
+            var opt = this.options ;
+            var me = this.__me.element ;
+            
+            if ( me ) {
+                var mystr = $(me).attr('id') ;
+                var value = $(me).attr('title') ;
+                var myarr = mystr.split("-");
+                var dir_base = xs_dir.home + '/api/data/tm/property' + '?topic_id=' + myarr[2] + '&property=' + myarr[3] ;
+                if ( myarr[1] == 'chk' ) {
+                   if ( value == 'checked' || value == 'yes' || value == 'true' || value == '1' ) {
+                       $(me).attr('checked', true);
+                   } else {
+                       $(me).attr('checked', false);
+                   }
+                   $(me).change ( function () {
+                        if ( $(me).attr('checked') == 'checked' ) {
+                            $.get( dir_base + '&value=true', function(data) {
+                                $(me).attr('checked', true );
+                                // $('#tmpfeedback').html(data);
+                            });
+                        } else {
+                            $.get( dir_base + '&value=false', function(data) {
+                                $(me).attr('checked', false );
+                                // $('#tmpfeedback').html(data);
+                            });
+                        }
+                   } );
+                }
+                // alert ( myarr[1] ) ;
+                // alert ( myarr[2] ) ;
+                // alert ( myarr[3] ) ;
+            }
+        }
+    
+} ;
+jQuery.widget( "ui.xs_bind", xs_bind );
+
 $(function(){
 
         
@@ -21,6 +87,9 @@ $(function(){
         // When using JS enabled tabs
         $('#tabs-disabled').tabs();
 
+        // Dialog Link
+        $('.xs-bind').xs_bind();
+        
         // Dialog
         $('#dialog').dialog({autoOpen: false, width: 600, buttons: {
             "Ok": function() {$(this).dialog("close");},
@@ -86,7 +155,7 @@ $(function(){
             $('#admin-widgets').slideUp('fast') ;
         }) ;
         
-        $('.show-hide').css({
+        $('.show-hide .label-div').css({
             "color": "blue",
             "font-style": "underline",
             "font-size": "0.9em",
@@ -351,9 +420,9 @@ function xs_generic_content ( id ) {
             // alert ( $('#jQueryPostItForm').html() ) ;
         }
         
-function ajax_flip ( prop, id ) {
+function ajax_flip ( that, prop, id ) {
     // var state
-    dir = xs_dir.home + '/_api/data/topic/prop' + '?id=' + id + '&state=' + state ;
+    dir = xs_dir.home + '/api/data/tm/property' + '?topic_id=' + id + '&property=' + property + '&value=' + value ;
     
 }
 
@@ -410,6 +479,16 @@ function menu ( who ) {
     $(who).addClass('selected') ;
 }
 
+function cmd ( topic_id, draft, here ) {
+    alert(topic_id);
+    $.ajax( {
+        type: "GET",
+        url: xs_dir.home + '/api/data/tm/property',
+        data: { topic_id: topic_id, draft: draft },
+        success: function( response ) { $('#drafts').html ( response ) ;},
+        fail: function ( response ) { $('#drafts').html ( 'Hmm. Something went wrong.' ) ; }
+    } );         
+}
 
 // Generic functions of various kinds
 function xs_search () {
