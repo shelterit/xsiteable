@@ -120,8 +120,11 @@ class xs_widget_data_control_latest_list extends \xs\Action\WidgetController {
                     ) ) ;
                     $t = reset ( $oa ) ;
                     // $test = $this->glob->tm->lookup_topics ( array ( $t['name'] ) ) ;
-                    if ( $t )
+                    if ( $t ) {
                         $arr[$when]['where_to'] = $t['name'] ;
+                        if ( $t['name'] == 'user' )
+                            $arr[$when]['where_to'] = 'profile' ;
+                    }
                 }
             }
             
@@ -151,7 +154,7 @@ class xs_widget_data_control_latest_list extends \xs\Action\WidgetController {
                 if ( isset ( $topic['parent_label'] ) )
                     $topic['label'] = $topic['parent_label'] ;
                 if ( isset ( $arr[$when]['where_to'] ) )
-                    $href = $this->glob->dir->home.'/'.$arr[$when]['where_to'].'/'.$topic['parent_id'].'?f:_item=view#comment-'.$topic['id'] ;
+                    $href = $this->glob->dir->home.'/'.$arr[$when]['where_to'].'/'.$topic['parent_id'].'?f:_item=view#comment-'.$topic['id'] ;   
             }
             
             // if ( $where == 'documents' )
