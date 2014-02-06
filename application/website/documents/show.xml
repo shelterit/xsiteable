@@ -41,8 +41,8 @@
                         <nut:if allowed="document:versions_tab" default="deny">
                             <div id="content-pdf-3" style="margin:0;padding:0;">
                                 <div id="status" style="display:none;padding:40px;border:solid 1px #999;"></div>
-                                <button onclick='redraw_versions();'>Update list</button>
-                                <button onclick='redraw_drafts();'>Update drafts</button>
+                                <!-- <button onclick='redraw_versions();'>Update list</button>
+                                <button onclick='redraw_drafts();'>Update drafts</button> -->
                                 <div id="versions" style="padding-bottom:10px;"></div>  
                                 <js> $(document).ready(function(){redraw_versions();}); </js>
                             </div>
