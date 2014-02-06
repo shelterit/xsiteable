@@ -557,7 +557,7 @@
 
 
 	</div> 
-        <div id="results"  style="displays:none;"></div>
+        <div id="results"  style="display:none;"></div>
 
     <nut:if value-of="$request/_comment" like="'true'">
         <js>autotab = 1 ; </js>
