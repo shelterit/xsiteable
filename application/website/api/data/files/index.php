@@ -16,7 +16,7 @@ class xs_action_instance extends \xs\Action\Generic {
         $fields = $this->glob->request->__get_fields () ;
         $base_folder = @$this->glob->config['dms']['destination_folder'] ;
         
-        $pick_default = isset ( $this->glob->config['dms']['next_review_weeks'] ) ? $this->glob->config['dms']['next_review_weeks'] : 24 ;
+        $pick_default = isset ( $this->glob->config['dms']['next_review_months'] ) ? $this->glob->config['dms']['next_review_months'] : 24 ;
         $next_review_date_pick = $this->glob->request->__fetch ( 'next_review_date', $pick_default ) ;
         $next_review_date = date ( "Y-m-d", strtotime ( "+{$next_review_date_pick} months" ) ) ;
         
