@@ -96,6 +96,16 @@
 
                             <tm:list-members context="xs_assoc_author" title="Author" id-link="profile" />
 
+                            <hr />
+                            
+                            <div style="padding:0 0 0 10px;">
+                            <h6>Next review date</h6> 
+                            <div style="padding-bottom:10px;">
+                                <input value="{$doc/next_review_date}" disabled="disabled" /> 
+                                <div style="font-size:0.8em;color:#777;">(<span id="days-away-show"></span>)</div>
+                            </div> 
+                            </div>
+
                             <tm:list-members context="xs_assoc_controlled_tags" title="Part of collection" id-link="tags/_controlled" id="label" />
 
                             <div class="mini-suggest" style="margin:10px;padding-bottom:10px;border-top:solid 1px #ccc;border-bottom:solid 1px #ccc;">
@@ -361,6 +371,7 @@
                                     $('#my_awesome_reviewdate').change ( function() {
                                         var v = $('#next_review_date').val();
                                         $('#days-away').text(days_ago(v) + ' days away');
+                                        $('#days-away-show').text(days_ago(v) + ' days away');
                                         $.ajax( {
                                             type: "GET",
                                             url: $('#my_awesome_reviewdate' ).attr( 'action' ),
@@ -371,6 +382,7 @@
                                     } );
                                     var v = $('#next_review_date').val();
                                     $('#days-away').text(days_ago(v) + ' days away');
+                                    $('#days-away-show').text(days_ago(v) + ' days away');
                                 } );
 
                             </js>
