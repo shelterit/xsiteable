@@ -144,6 +144,8 @@ class xs_widget_data_control_latest_list extends \xs\Action\WidgetController {
                     $arr[$when]['parent_id'] = substr ( $arr[$when]['parent_name'], 9 ) ;
             } // else $arr[$when]['where'] = '' ;
             */
+            
+            
             $where = $final ;
             if ( isset ( $arr[$when]['where'] ) )
                 $where = $arr[$when]['where'] ;
