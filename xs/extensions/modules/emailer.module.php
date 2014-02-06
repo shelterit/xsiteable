@@ -31,6 +31,8 @@
             if ( $topic == null )
                 return ;
             
+            $tm = $this->_get_module ( 'topic_maps' ) ;
+            
             $event = isset ( $topic['_event'] ) ? $topic['_event'] : '' ;
             // debug_r ( $topic ) ;
             // debug_r ( $this->config ) ;
@@ -62,6 +64,33 @@
                                 $users[$this->glob->user->id] = 'user:'.$this->glob->user->id ;
                             break ;
                             
+                        case 'document' :
+                            if ( isset ( $token[1] ) ) {
+                                // $users[$token[1]] = 'user:'.$token[1] ;
+                                $find = array () ;
+                                $names = array () ;
+                                $owners = $tm->get_assoc ( array (
+                                    'lookup' => $topic['id'],
+                                    'type' => $this->_type->has_owner,
+                                    'filter' => $this->_type->_user,
+                                ) ) ;
+                                foreach ( $owners['members'] as $member => $data )
+                                    $find[$member] = $member ;
+
+                                $authors = $tm->get_assoc ( array (
+                                    'lookup' => $topic['id'],
+                                    'type' => $this->_type->has_author,
+                                    'filter' => $this->_type->_user,
+                                ) ) ;
+                                foreach ( $authors['members'] as $member => $data )
+                                    $find[$member] = $member ;
+                                
+                                $name_finder = $this->glob->tm->lookup_topics ( $find ) ;
+                                foreach ( $name_finder as $t )
+                                    $users[$t['name']] = $t['name'] ;
+                            }
+                            break ;
+                            
                         case 'role' :
                             $c = $this->glob->config['user_roles'] ;
                             if ( isset ( $c[$token[1]] ) ) {
@@ -75,7 +104,9 @@
                     }
                 }
                 
+                // debug_r ( $users, 'users' ) ;
                 $user_topics = $this->glob->tm->query ( array ( 'name' => $users ) ) ;
+                // debug_r ( $user_topics, 'users' ) ;
                 
                 
                 foreach ( $user_topics as $user ) {
