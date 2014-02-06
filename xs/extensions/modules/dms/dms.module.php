@@ -9,7 +9,7 @@ class xs_module_dms extends \xs\Action\Generic {
     private $uid = 'xs_module_dms' ;
     
     // are we running in safe mode? (safe=no reaction)
-    private $safe_mode = false ;
+    public $safe_mode = false ;
     
     // if types are to be defined and used
     protected $___register_types = array ( 
@@ -125,6 +125,18 @@ class xs_module_dms extends \xs\Action\Generic {
     
     private $appendix = null ;
     
+    function __construct () {
+        
+        parent::__construct () ;
+        
+        // this class owns and deals with these events
+        $this->_register_event ( XS_MODULE, 'on_document_new' ) ;
+        $this->_register_event ( XS_MODULE, 'on_document_update' ) ;
+        $this->_register_event ( XS_MODULE, 'on_document_assign' ) ;
+        $this->_register_event ( XS_MODULE, 'on_document_promote' ) ;
+        $this->_register_event ( XS_MODULE, 'on_document_approve' ) ;
+        $this->_register_event ( XS_MODULE, 'on_document_publish' ) ;
+    }
     
     function ___modules () {
         
@@ -132,7 +144,7 @@ class xs_module_dms extends \xs\Action\Generic {
         $this->_register_resource ( XS_MODULE, $this->resource_base . '/controlled' ) ;
         
         // register a few actions against a given type
-        // $this->_register_action ( 'add', $this->_type->_document, 'add_document' ) ;
+        // $this->_register_action ( 'add', DOCUMENT, 'add_document' ) ;
         
         $this->base_folder = @$this->glob->config['dms']['destination_folder'] ;
         $this->base_uri = @$this->glob->config['dms']['destination_uri'] ;
@@ -145,7 +157,10 @@ class xs_module_dms extends \xs\Action\Generic {
         $this->lib_db = new dms_lib_db ( $this->glob ) ;
         
         // make a quick shorthand for the type (saving to look it up all the time)
-        define ( 'DOCUMENT', $this->_type->_document ) ;
+        define ( 'DOCUMENT', $this->_type->doc ) ;
+        
+        // debug_r ( $this->_type->doc ) ;
+        // debug_r ( $this->_type ) ;
 
     }
     
@@ -603,7 +618,7 @@ class xs_module_dms extends \xs\Action\Generic {
         $tot = 0 ;
 
         foreach ($res as $word => $count )
-            if ( $count > 2 ) {
+            if ( $count > 0 ) {
                 $final[$word] = $count ;
                 if ( $count > $max ) $max = $count ;
                 $tot++ ;
@@ -612,6 +627,7 @@ class xs_module_dms extends \xs\Action\Generic {
         
         // get the appendix module
         $appendix = $this->_get_module ( 'appendix' ) ;
+        
         
         // first, delete old references
         $count = $appendix->delete_by_uids ( array ( $doc->uid => $doc->uid ) ) ;
@@ -1032,9 +1048,9 @@ class xs_module_dms extends \xs\Action\Generic {
                         // $topic = $find_topic[$identity] ;
                         $topic = $this->all_documents[$identity] ;
 
-                        $type = isset ( $topic['type1'] ) ? $topic['type1'] : $this->_type->_document ;
+                        $type = isset ( $topic['type1'] ) ? $topic['type1'] : DOCUMENT ;
                         if ( (int) $type == 0 ) 
-                            $type = $this->_type->_document ;
+                            $type = DOCUMENT ;
                         
                         // inject some more info from the topic into the copied file object
                         $doc->inject ( array (
@@ -1097,7 +1113,7 @@ class xs_module_dms extends \xs\Action\Generic {
                 $arr = array (
                     'label' => $doc->label,
                     'name' => 'document:' . $doc->uid,
-                    'type1' => $this->_type->_document,
+                    'type1' => DOCUMENT,
                     'original_path' => $doc->file_original,
                     'relative_path' => $doc->relative_path,
                     'final_path' => $doc->file_dest,
@@ -1276,7 +1292,7 @@ class xs_module_dms extends \xs\Action\Generic {
             
             
             $old_count = count ( $this->lut_relative ) ;
-            $this->lut_relative = $this->lib_db->find_db_properties ( 'relative_path' ) ;
+            $this->lut_relative = $this->lib_db->find_db_properties ( DOCUMENT, 'relative_path' ) ;
             $new_count = count ( $this->lut_relative ) ;
             echo "<p style='border:solid 3px orange;margin:5px 0;'>Old relative_path count=[{$old_count}], new count=[{$new_count}]</p>" ;
             
@@ -1471,7 +1487,7 @@ class xs_module_dms extends \xs\Action\Generic {
         $this->_preamble () ;
         
         if ( $this->appendix == null )
-            $this->appendix = $this->_get_module ( 'appendix' ) ;
+             $this->appendix = $this->_get_module ( 'appendix' ) ;
         
         // load the main index; we'll be making changes, for sure
         $this->appendix->load_all_index () ;
@@ -1869,8 +1885,8 @@ class xs_module_dms extends \xs\Action\Generic {
         echo "Type is '".$topic['type1']."'. " ;
             
         if ( (int) $topic['type1'] == 0 ) {
-            $topic['type1'] = $this->_type->_document ;
-            echo "Fixed document type (from '0' to '".$this->_type->_document."'. " ;
+            $topic['type1'] = DOCUMENT ;
+            echo "Fixed document type (from '0' to '".DOCUMENT."'. " ;
             $profiler->add ( 'fixed document type' ) ;
         }
         */
@@ -2026,6 +2042,7 @@ class xs_module_dms extends \xs\Action\Generic {
              if ( isset ( $topic['original_path'] ) ) 
                  $path = $topic['original_path'] ;
              
+
             // new object
             $doc = new \xs\DocumentManager\Document ( $path, $fstat, $topic ) ;
             // $doc->attach_topic ( $topic ) ;
@@ -2146,24 +2163,22 @@ class xs_module_dms extends \xs\Action\Generic {
         if ( $all->has_expired () ) {
             
             $all->put ( $this->glob->tm->query ( 
-                array ( 'name:like' => 'document:%', 'type' => $this->_type->_document ) 
+                array ( 'name:like' => 'document:%', 'type' => DOCUMENT ) 
             ) ) ;
-        } else
-            $this->all_documents = $all->get () ;
+            
+        } 
+        $this->all_documents = $all->get () ;
 
             
             
         $lut = new \xs\Cache\Cache ( 'preamble_lut_relative', $config, $this->glob ) ;
         if ( ! $this->lut_relative || count ( $this->lut_relative ) == 0 ) {
         
-            if ( $lut->has_expired () ) {
+            if ( $lut->has_expired () )
+                $lut->put ( $this->lib_db->find_db_properties ( DOCUMENT, 'relative_path' ) ) ;
 
-                $lut->put ( $this->lib_db->find_db_properties ( 'relative_path' ) ) ;
-                // echo 'p' ;
-            } else {
-                $this->lut_relative = $lut->get () ;
-                // echo 'c' ;
-            }
+            $this->lut_relative = $lut->get () ;
+
         }
  
     }
@@ -2178,14 +2193,11 @@ class xs_module_dms extends \xs\Action\Generic {
         $lut = new \xs\Cache\Cache ( 'preamble_lut_relative', $config, $this->glob ) ;
         if ( ! $this->lut_relative || count ( $this->lut_relative ) == 0 ) {
         
-            if ( $lut->has_expired () ) {
+            if ( $lut->has_expired () )
+                $lut->put ( $this->lib_db->find_db_properties ( DOCUMENT, 'relative_path' ) ) ;
 
-                $lut->put ( $this->lib_db->find_db_properties ( 'relative_path' ) ) ;
-                // echo 'p' ;
-            } else {
-                $this->lut_relative = $lut->get () ;
-                // echo 'c' ;
-            }
+            $this->lut_relative = $lut->get () ;
+
         }
  
     }
@@ -2208,15 +2220,15 @@ class xs_module_dms extends \xs\Action\Generic {
         }
         
         // get all documents from the database
-        $this->all_documents = $this->glob->tm->query ( array ( 'name:like' => 'document:%', 'type' => $this->_type->_document ) ) ;
+        $this->all_documents = $this->glob->tm->query ( array ( 'name:like' => 'document:%', 'type' => DOCUMENT ) ) ;
         
         // find all items in the db that has a relative path
         if ( ! $this->lut_relative || count ( $this->lut_relative ) == 0 )
-            $this->lut_relative = $this->lib_db->find_db_properties ( 'relative_path' ) ;
+            $this->lut_relative = $this->lib_db->find_db_properties ( DOCUMENT, 'relative_path' ) ;
         
         // check the database for all documents with paths
         if ( ! $this->lut_db || count ( $this->lut_db ) == 0 )
-            $this->lut_db = $this->lib_db->find_db_properties ( 'original_path' ) ;
+            $this->lut_db = $this->lib_db->find_db_properties ( DOCUMENT, 'original_path' ) ;
         
         foreach ( $this->lut_db as $topic_id => $item )
             $this->lut_db_tmp[$topic_id] = $item['value'] ;
@@ -2227,19 +2239,19 @@ class xs_module_dms extends \xs\Action\Generic {
         
         // check the database for all documents with paths
         if ( ! $this->lut_uid || count ( $this->lut_uid ) == 0 )
-            $this->lut_uid = $this->lib_db->find_db_properties ( 'uid' ) ;
+            $this->lut_uid = $this->lib_db->find_db_properties ( DOCUMENT, 'uid' ) ;
         // echo "<p>Found <b>[".count($this->lut_db)."]</b> 'original_path's in the database.</p>" ;
         // echo "<pre>".print_r($this->lut_db,true)."</pre>" ;
         
         // find all things with a timestamp property (not timestamps of topics)
         if ( ! $this->lut_timestamp  || count ( $this->lut_timestamp ) == 0 )
-            $this->lut_timestamp = $this->lib_db->find_db_properties ( 'timestamp' ) ;
+            $this->lut_timestamp = $this->lib_db->find_db_properties ( DOCUMENT, 'timestamp' ) ;
         // echo "<p>Found <b>[".count($this->lut_timestamp)."]</b> timestamps in the database.</p>" ;
         // echo "<pre>".print_r($this->lut_timestamp,true)."</pre>" ;
         
         // check the database for all controlled documents
         if ( ! $this->lut_ctrl  || count ( $this->lut_ctrl ) == 0 )
-            $this->lut_ctrl = $this->lib_db->find_db_properties ( 'controlled' ) ;
+            $this->lut_ctrl = $this->lib_db->find_db_properties ( DOCUMENT, 'controlled' ) ;
         // echo "<p>Found <b>[".count($this->lut_ctrl)."]</b> controlled items in the database.</p>" ;
         // echo "<pre>".print_r($this->lut_ctrl,true)."</pre>" ;
         
@@ -2258,14 +2270,12 @@ class xs_module_dms extends \xs\Action\Generic {
         $this->phase++ ;
         echo "<div style='background-color:#ccc;border:solid 8px orange;margin:20px 0;padding:10px;font-size:1.2em;'> Phase {$this->phase}: $phaser </div> " ;
     }
-
-    function create_tree ( $current_path, $last = '' ) {
+    
+    function create_tree_list ( $incoming, $current_path, $last = '' ) {
         
-        // a few data points we need
-        $this->_preamble_browse () ;
-        
-        // arrays to fill with joy!
-        $index = $subs = $docs = $ids = array () ;
+        $index = array () ;
+        $subs = array () ;
+        $ids = array () ;
         
         // incoming current position
         $la = urldecode ( trim ( $last ) ) ;
@@ -2273,8 +2283,9 @@ class xs_module_dms extends \xs\Action\Generic {
         // debug_r ( $this->lut_relative ) ;
         
         // loop through all found relative paths to documents
-        if ( is_array ( $this->lut_relative ) )
-            foreach ( $this->lut_relative as $topic_id => $item ) {
+        if ( is_array ( $incoming ) )
+            
+            foreach ( $incoming as $topic_id => $item ) {
             
             // split path apart to create facets
             $facets = explode ( '/', $item['value'] ) ;
@@ -2285,7 +2296,9 @@ class xs_module_dms extends \xs\Action\Generic {
                 $index = recurse_array ( $facets, $index ) ;
                 
                 $test = substr ( $item['value'], 0, strrpos ( $item['value'], '/' ) ) ;
-            
+                
+                // echo "[".$item['value']."]_[$test]-[$current_path]=".(trim ( $test ) == trim ( $current_path ))."<br /> " ;
+                
                 if ( trim ( $test ) == trim ( $current_path ) )
                     $ids[$topic_id] = $topic_id ;
                 
@@ -2310,33 +2323,85 @@ class xs_module_dms extends \xs\Action\Generic {
             }
         }
         
-        $documents = $this->glob->tm->query ( array ( 'id' => $ids ) ) ;
-        // print_r ( $documents ) ;
+        return array ( 
+            'ids' => $ids,
+            'subs' => $subs,
+            'index' => $index
+        ) ;
+    }
+
+    function create_tree ( $current_path, $last = '' ) {
         
+        // a few data points we need
+        $this->_preamble_browse () ;
+        
+        $props = array () ;
+        $p = $this->glob->tm->get_all_prop_for_topic_type ( $this->_type->doc_draft, 'relative_path' ) ;
+        foreach ( $p as $a => $b ) {
+            $props[$b['parent']]['id'] = $b['id'] ;
+            $props[$b['parent']]['value'] = $b['value'] ;
+        }
+        
+        // arrays to fill with joy!
+        $docs = array () ;
+        $drafts = array () ;
+        
+        $from_docs = $this->create_tree_list ( $this->lut_relative, $current_path, $last ) ;
+        $from_drafts = $this->create_tree_list ( $props, $current_path, $last ) ;
+        
+        
+        // debug_r ( $from_drafts) ;
+        
+        
+        $documents = $this->glob->tm->query ( array ( 'id' => $from_docs['ids'] ) ) ;
+
         foreach ( $documents as $topic_id => $document ) {
             $uid = trim ( substr ( $document['name'], 9 ) ) ;
             $docs[$uid]['id'] = $document['id'] ;
             $docs[$uid]['uid'] = $uid ;
             $docs[$uid]['label'] = $document['label'] ;
             $docs[$uid]['controlled'] = isset ( $document['controlled'] ) ? $document['controlled'] : 'false'  ;
+            $docs[$uid]['source'] = isset ( $document['source'] ) ? $document['source'] : ''  ;
             $ext = isset ( $document['extension'] ) ? $document['extension'] : 'doc'  ;
             $docs[$uid]['extension'] = '' ;
             if ( isset ( $this->glob->config['dms'][$ext.'.icon'] ) )
                 $docs[$uid]['extension'] = $this->glob->config['dms'][$ext.'.icon'] ;
         }
         
-        if ( $this->glob->request->_debug == 'true' ) {
-            debug_r ( $subs, 'sub-directories' ) ;
-            debug_r ( $ids, 'document ids' ) ;
-            debug_r ( $docs, 'documents' ) ;
-        }
         natsort2d ( $docs, 'label' ) ;
-        natsort ( $subs ) ;
+        natsort ( $from_docs['subs'] ) ;
         
-        
-        $this->glob->stack->add ( 'xs_tree', $index ) ;
-        $this->glob->stack->add ( 'xs_current_folders', $subs ) ;
+        $this->glob->stack->add ( 'xs_tree', $from_docs['index'] ) ;
+        $this->glob->stack->add ( 'xs_current_folders', $from_docs['subs'] ) ;
         $this->glob->stack->add ( 'xs_tree_docs', $docs ) ;
+        
+        
+        
+        $documents = $this->glob->tm->query ( array ( 'id' => $from_drafts['ids'] ) ) ;
+
+        foreach ( $documents as $topic_id => $document ) {
+            $uid = trim ( substr ( $document['name'], 9 ) ) ;
+            $drafts[$uid]['id'] = $document['id'] ;
+            $drafts[$uid]['uid'] = $uid ;
+            $drafts[$uid]['label'] = $document['label'] ;
+            $drafts[$uid]['controlled'] = isset ( $document['controlled'] ) ? $document['controlled'] : 'false'  ;
+            $drafts[$uid]['source'] = isset ( $document['source'] ) ? $document['source'] : ''  ;
+            $ext = isset ( $document['extension'] ) ? $document['extension'] : 'doc'  ;
+            $drafts[$uid]['extension'] = '' ;
+            if ( isset ( $this->glob->config['dms'][$ext.'.icon'] ) )
+                $drafts[$uid]['extension'] = $this->glob->config['dms'][$ext.'.icon'] ;
+        }
+        
+        natsort2d ( $drafts, 'label' ) ;
+        natsort ( $from_drafts['subs'] ) ;
+        
+        $this->glob->stack->add ( 'xs_tree_drafts', $from_drafts['index'] ) ;
+        $this->glob->stack->add ( 'xs_current_folders_drafts', $from_drafts['subs'] ) ;
+        $this->glob->stack->add ( 'xs_tree_docs_drafts', $drafts ) ;
+        
+        // TODO : bug in the future; the tree structures (folders only) for docs and drafts 
+        // should probably be merged at some point so you can browse the whole 
+        // structure without getting confused
         
     }
     
@@ -2346,7 +2411,20 @@ class xs_module_dms extends \xs\Action\Generic {
         
         $count_dir = count ( explode ( '/', $dir ) ) ;
         
-        // echo "<pre>".print_r($this->lut_relative,true)."</pre>" ;
+        $rel = array () ;
+        foreach ( $this->lut_relative as $tid => $item ) {
+            $bits = explode ( '/', $item['value'] ) ;
+            $count_path = count ( $bits ) ;
+            $f = $bits[$count_path - 1] ;
+            unset ( $bits[$count_path - 1] ) ;
+            $p = implode ('/', $bits) ;
+            $rel[$p][$f] = $tid ;
+            
+        }
+            // $rel[$item['value']] = $tid ;
+        return $rel ;
+        
+        echo "<pre>".print_r($rel,true)."</pre>" ;
         
         $paths = array () ;
         
@@ -2360,9 +2438,9 @@ class xs_module_dms extends \xs\Action\Generic {
             $count_path = count ( $bits ) ;
 
             if ( $count_dir == $count_path ) {
-
-                echo "<pre>($count_dir)($dir)</pre>" ;
-                echo "<pre>($count_path)[$path]</pre><hr/>" ;
+                // echo "<pre>($count_dir)($dir)</pre>" ;
+                // debug_r ( $item ) ;
+                // echo "<pre>($count_path)[$path]</pre><hr/>" ;
 
             }
         
@@ -2391,12 +2469,13 @@ class xs_module_dms extends \xs\Action\Generic {
     
     function archive_copy_file ( $doc, $force = false ) {
   
-        // $doc = $this->spidered_documents_objects[$idx] ;
-        
         if ( ! $force && $doc->controlled == 'true' ) {
             echo "<li>File is controlled. No copying as it's handled manually.</li> " ;
             return ;
         }
+        
+        //debug_r ( $doc, $doc->file_dest ) ;
+        $dest = $doc->file_dest ;
         
         // make sure we've got the directories we need; if not, create them
         $this->check_directories ( $doc->uid ) ;
@@ -2421,16 +2500,21 @@ class xs_module_dms extends \xs\Action\Generic {
             // how many versions?
             $version = count ( $matches ) ;
             
-            // what would a new version path look like?
-            $newversion = $this->lib_files->version_full_path ( $doc, $version ) ;
-            
-            // ok, make a versioned copy
-            // echo "<li>version copy [{$doc->final_file}] (of total [{$version}]) to [<i style='background-color:#dde;'>{$newversion}</i>]</li>" ;
-            $doc->action['copy']['dest_copy_version'] .= 'Copied new version. ' ;
-            
-            if ( ! $this->safe_mode )
-                stream_copy ( $doc->file_dest, $newversion ) ;
-            
+            // only if there's any other versions there
+            if ( $version != 0 ) {
+                
+                // what would a new version path look like?
+                $newversion = $this->lib_files->version_full_path ( $doc, $version ) ;
+
+                // ok, make a versioned copy
+                echo "<li>version copy [{$doc->final_file}] (of total [{$version}]) to [<i style='background-color:#dde;'>{$newversion}</i>]</li>" ;
+
+                $doc->action['copy']['dest_copy_version'] .= 'Copied new version. ' ;
+
+                if ( ! $this->safe_mode )
+                    stream_copy ( $dest, $newversion ) ;
+
+            }
         }
         
         $absolute = $doc->file_original ;
@@ -2446,33 +2530,99 @@ class xs_module_dms extends \xs\Action\Generic {
         }
         // echo "copy [{$doc->absolute_path}] to [$final] \n<br/><hr/>" ;
         // make a generic copy
-        // echo "<li>copy [<i style='background-color:#dde;'>{$absolute}</i>] to [<i style='background-color:#dde;'>{$doc->final_file}</i>] </li>" ;
+        echo "<li>copy [<i style='background-color:#dde;'>{$absolute}</i>] to [<i style='background-color:#dde;'>{$dest}</i>] </li>" ;
         
+        // debug_r ( $doc, $dest ) ;
         
-        $doc->action['copy']['source_to_dest'] .= "Copy <span class='hider' onclick='hider(this)'>original >></span><span class='hidden'>[$absolute]</span> to <span class='hider' onclick='hider(this)'>destination >></span><span class='hidden'>[$doc->file_dest]</span>. " ;
+        $doc->action['copy']['source_to_dest'] .= "Copy <span class='hider' onclick='hider(this)'>original >></span><span class='hidden'>[{$absolute}]</span> to <span class='hider' onclick='hider(this)'>destination >></span><span class='hidden'>[{$dest}] !! </span>. " ;
         
         if ( ! $this->safe_mode ) {
-            if ( (int) stream_copy ( $absolute, $doc->file_dest ) == 0 )
+            if ( (int) stream_copy ( $absolute, $dest ) == 0 )
                 $doc->action['copy']['source_to_dest'] .= 'Fail. ' ;
         } else {
             $doc->action['copy']['source_to_dest'] .= 'Safe-mode; no copying. ' ;
         }
         $this->doc_get_state ( $doc ) ;
+        // debug_r ( $doc->action ) ;
     }
   
+    function draft_to_version_copy_file ( $doc, $draft = null ) {
+        
+        // if ( ! $doc->path_dest ) 
+        //     $doc->path_dest = $this->lib_files->get_dir_structure ( $doc->uid, null, true ) ;
+        
+        // if ( ! $doc->file_dest ) 
+        //     $doc->file_dest = $doc->path_dest . '/' . $doc->uid . '.' . $doc->extension ;
+        
+        // are we to archive and version old files?
+
+        // find other versions
+        // $matches = $this->lib_files->get_versions ( $doc ) ;
+        
+        // which version?
+        $version = (int) $this->lib_files->find_last_version ( $this->lib_files->get_versions ( $doc ) ) ;
+        
+        $old_file = null ;
+        $new_file = null ;
+        $draft_file = null ;
+        $version_file = null ;
+        
+        if ( $version == null || $version == 0 ) { 
+            
+            // meaning; no version yet; this is an incoming draft that will 
+            // become the first draft
+
+            $version = 1 ;
+            
+            $new_file = $this->lib_files->version_full_path ( $doc, $version ) ;
+            
+        } else {
+            
+            // Normal copying of versions
+            $new_file = $this->lib_files->version_full_path ( $doc, $version + 1 ) ;
+            
+        }
+
+        // what is the incoming draft path?
+        $draft_file = $this->lib_files->draft_full_path ( $doc, $version, $draft ) ;
+        
+        // find all drafts of last version
+        // $drafts = $this->lib_files->get_drafts ( $doc, $version ) ;
+        // debug_r ( $drafts, 'get_drafts' ) ;
+        // $draft = (int) $this->lib_files->find_last_draft ( $drafts ) ;
+
+        // $drafts_count = count ( $drafts ) ;
+        
+
+        $version_file = $this->lib_files->full_path ( $doc ) ;
+        
+        // $absolute = $doc->file_original ;
+        
+        // debug_r ( array ( 'old' => $old_file, 'new' => $new_file, 'draft' => $draft_file, 'version' => $version_file ) ) ;
+        
+        // echo "<li>copy [{$old_file}] to new version [<i style='background-color:#dde;'>{$new_file}</i>]</li>" ;
+        // echo "<li>copy from draft [{$draft_file}] to new version [<i style='background-color:#dde;'>{$new_file}</i>]</li>" ;
+        // echo "<li>copy from draft [{$draft_file}] to normal [<i style='background-color:#dde;'>{$version_file}</i>]</li>" ;
+        
+        // if ( $old_file && file_exists ( $old_file ) ) { }
+        
+        if ( ! $this->safe_mode ) stream_copy ( $draft_file, $new_file ) ;
+        if ( ! $this->safe_mode ) stream_copy ( $draft_file, $version_file ) ;
+        
+    }
     
     function draft_copy_file ( $doc, $force = false ) {
   
         // $doc = $this->spidered_documents_objects[$idx] ;
         
-        if ( ! $force && $doc->controlled == 'true' ) {
-            echo "<li>File is controlled. No copying as it's handled manually.</li> " ;
-            return ;
-        }
+        // if ( ! $force && $doc->controlled == 'true' ) {
+        //     echo "<li>File is controlled. No copying as it's handled manually.</li> " ;
+        //     return ;
+        // }
         
         // what's our destination?
         if ( ! $doc->path_dest ) 
-            $doc->path_dest = $this->hlp->lib_files->get_dir_structure ( $doc->uid, null, true ) ;
+            $doc->path_dest = $this->lib_files->get_dir_structure ( $doc->uid, null, true ) ;
         
         if ( ! $doc->file_dest ) 
             $doc->file_dest = $doc->path_dest . '/' . $doc->uid . '.' . $doc->extension ;
@@ -2480,19 +2630,37 @@ class xs_module_dms extends \xs\Action\Generic {
         // are we to archive and version old files?
 
         // find other versions
-        $matches = $this->hlp->lib_files->get_versions ( $doc ) ;
-        $version = (int) 1 + (int) $this->lib_files->find_last_version ( $matches ) ;
+        $matches = $this->lib_files->get_versions ( $doc ) ;
+        // debug_r ( $matches, 'get_versions' ) ;
+        $version = $this->lib_files->find_last_version ( $matches ) ;
         
-        // find all drafts of last version
-        $drafts = $this->hlp->lib_files->get_drafts ( $doc, $version ) ;
-        $draft = (int) $this->lib_files->find_last_draft ( $drafts ) ;
+        
+        if ( $version == null || $version == 0 ) { 
+            
+            // meaning; no version yet; this is an incoming draft that will 
+            // become the first draft
+
+            $version = 1 ;
+
+        } else {
+            $version++ ;
+        }
+
+
+        
+        
+        
+        // find all drafts of the next version
+        $drafts = $this->lib_files->get_drafts ( $doc, $version ) ;
+        // debug_r ( $drafts, 'get_drafts' ) ;
+        $draft = $this->lib_files->find_last_draft ( $drafts ) ;
 
         $drafts_count = count ( $drafts ) ;
         
         // what is the new draft path?
         $newdraft = $this->lib_files->draft_full_path ( $doc, $version, $draft + 1 ) ;
 
-        $absolute = $doc->absolute_path ;
+        $absolute = $doc->file_original ;
         
         if ( $this->alternative_absolute_path != null )
             $absolute = $this->alternative_absolute_path ;
@@ -2500,7 +2668,7 @@ class xs_module_dms extends \xs\Action\Generic {
         if ( $doc->original_copy_at != null )
             $absolute = $doc->original_copy_at . '/' . $doc->relative_path . '.' . $doc->extension ;
         
-        echo "<li>draft copy [{$absolute}] (of total [{$drafts_count}]) to [<i style='background-color:#dde;'>{$newdraft}</i>]</li>" ;
+        // echo "<li>draft copy [{$absolute}] (of total [{$drafts_count}]) to [<i style='background-color:#dde;'>{$newdraft}</i>]</li>" ;
         if ( ! $this->safe_mode )
             stream_copy ( $absolute, $newdraft ) ;
     }
@@ -2654,8 +2822,20 @@ class xs_module_dms extends \xs\Action\Generic {
         return $this->lib_files->find_last_draft ( $versions ) ;
     }
     
-    function draft_full_path ( $a, $b, $c, $d ) {
-        $this->lib_files->draft_full_path ( $a, $b, $c, $d ) ;
+    function next_draft ( $draft ) {
+        return $this->lib_files->next_draft ( $draft ) ;
+    }
+    
+    function draft_full_path ( $a, $b = 0, $c = 0, $d = false ) {
+        return $this->lib_files->draft_full_path ( $a, $b, $c, $d ) ;
+    }
+    
+    function draft_filename ( $a, $b = 0, $c = 0 ) {
+        return $this->lib_files->draft_filename ( $a, $b, $c ) ;
+    }
+
+    function version_filename ( $a, $b = 0 ) {
+        return $this->lib_files->version_filename ( $a, $b ) ;
     }
 
     function get_relative_lut () {
@@ -2665,4 +2845,21 @@ class xs_module_dms extends \xs\Action\Generic {
     function version_full_path ( $doc, $version ) {
         return $this->lib_files->version_full_path ( $doc, $version ) ;
     }
+    
+    function full_path ( $doc ) {
+        return $this->lib_files->full_path ( $doc ) ;
+    }
+    
+    function find_db_properties ( $type, $property ) {
+        return $this->lib_db->find_db_properties ( $type, $property ) ;
+    }
+    function filename_pick_version ( $match ) {
+        return $this->lib_files->filename_pick_version ( $match ) ;
+    }
+
+    function filename_pick_draft ( $match ) {
+        return $this->lib_files->filename_pick_draft ( $match ) ;
+    }
+  
+    
 }

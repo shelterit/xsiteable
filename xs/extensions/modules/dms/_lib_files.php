@@ -165,13 +165,35 @@ class dms_lib_files {
     
     function get_versions ( $doc ) {
         // debug ( $doc ) ;
-        $test = $this->process_dir_versions ( $doc->path_dest, 
-                $doc->uid.'.*.'. $doc->extension ) ;
-        // debug_r ( $doc->uid.'.*.'. $doc->extension, $doc->final_path ) ;
-        if ( ! is_array ( $test ) ) 
+        $p1 = $doc->uid.'.*.'. $doc->extension ;
+        $p2 = $doc->uid.'.'. $doc->extension .'.'. $doc->extension ;
+        
+        $test1 = $this->process_dir_versions ( $doc->path_dest, $p1 ) ;
+        $test2 = $this->process_dir_versions ( $doc->path_dest, $p2 ) ;
+        
+        $fin1 = array () ;
+        $fin2 = array () ;
+        
+        foreach ( $test1 as $t )
+            $fin1[$t] = $t ;
+        
+        foreach ( $test2 as $t )
+            $fin2[$t] = $t ;
+        
+        if ( count ( $fin2 ) > 0 ) {
+            
+            foreach ( $fin2 as $f ) {
+                if ( isset ( $fin1[$f] ) )
+                    unset ( $fin1[$f] ) ;
+            }
+        }
+        // debug_r ( $fin1, $p1 ) ;
+        // debug_r ( $fin2, $p2 ) ;
+        if ( ! is_array ( $fin1 ) ) 
             return array () ;
-        rsort ( $test ) ;
-        return $test ;
+        // natsort ( $test ) ;
+        // $test = array_reverse ( $test ) ;
+        return $fin1 ;
     }
     
     function get_drafts ( $doc, $version ) {
@@ -179,22 +201,57 @@ class dms_lib_files {
         $test = $this->process_dir_versions ( $doc->path_dest, $draft_pattern ) ;
         if ( ! is_array ( $test ) ) 
             return array () ;
-        rsort ( $test ) ;
+        // natsort ( $test ) ;
+        // $test = array_reverse ( $test ) ;
         return $test ;
     }
       
-  function version_full_path ( $doc, $version = 0, $web_link = false ) {
-      $s = $doc->final_path ;
+  function filename ( $doc ) {
+      return sprintf ( "%s.%s", (string) $doc->uid, (string) $doc->extension ) ;
+  }
+
+  function full_path ( $doc, $web_link = false ) {
+      $s = $doc->path_dest ;
       if ( $web_link !== false ) 
           $s = $web_link ;
-      return sprintf ( "%s/%s.%05d.%s", $s, $doc->uid, $version, $doc->extension ) ;
+      // return sprintf ( "%s/%s.%05d.%s", $s, $doc->uid, $version, $doc->extension ) ;
+      return $s . '/' . $this->filename ( $doc ) ;
+  }
+  
+  function version_filename ( $doc, $version = 0 ) {
+      return sprintf ( "%s.%05d.%s", (string) $doc->uid, (int) $version, (string) $doc->extension ) ;
+  }
+
+  function version_full_path ( $doc, $version = 0, $web_link = false ) {
+      $s = $doc->path_dest ;
+      if ( $web_link !== false ) 
+          $s = $web_link ;
+      // return sprintf ( "%s/%s.%05d.%s", $s, $doc->uid, $version, $doc->extension ) ;
+      return $s . '/' . $this->version_filename ( $doc, $version ) ;
+  }
+  
+  function filename_pick_version ( $match ) {
+      return (int) substr ( $match, strpos ( $match, '.' )+1, 5 ) ;
+  }
+  
+  function filename_pick_draft ( $match ) {
+      return (int) substr ( $match, strrpos ( $match, '-' ) + 1, 4 ) ;
+  }
+  
+  function draft_filename ( $doc, $version = 0, $draft = 0 ) {
+      return sprintf ( "%s-draft.%05d-%04s.%s", (string) $doc->uid, (int) $version, (string) $draft, (string) $doc->extension ) ;
+  }
+  
+  function next_draft ( $draft ) {
+      $find = substr ( $draft, strpos ( $draft, '.' ) ) ; // , strlen ( $draft ) - strrpos ( $draft, '.' ) ) ;
+      return $find ;
   }
 
   function draft_full_path ( $doc, $version = 0, $draft = 0, $web_link = false ) {
-      $s = $doc->final_path ;
+      $s = $doc->path_dest ;
       if ( $web_link !== false ) 
           $s = $web_link ;
-      return sprintf ( "%s/%s-draft.%05d-%04s.%s", $s, $doc->uid, $version, $draft, $doc->extension ) ;
+      return $s . '/' . $this->draft_filename ( $doc, $version, $draft ) ;
   }
 
   function process_dir_versions ( $dir, $pattern ) {
@@ -217,7 +274,7 @@ class dms_lib_files {
                     // $basename = $f['basename'] ;
                     // $pattern = $f['filename'] . '.*.' . $f['extension'] ;
                     
-                    if ( fnmatch ( $pattern, $file ) )
+                    if ( fnmatch ( $pattern, $file, FNM_PERIOD ) )
                         $matches[] = $file ;
 
                 }
