@@ -20,6 +20,11 @@ class xs_action_instance extends \xs\Action\Webpage {
         $dms = $this->_get_module ( 'dms' ) ;
         
 
+        if ( $this->glob->request->_refresh == 'true' ) {
+            $dms->_clear_cache () ;
+            $this->alert ( 'notice', 'Refresh!', 'Folder caches have been emptied.' ) ;
+        }
+        
         // start with a fresh set
         $documents = $versions = $drafts = array () ;
         
