@@ -93,6 +93,8 @@
                                         $this->glob->data->reset ( 'forum-top-20' ) ;
 
                                         $this->alert ( 'notice', 'Good news!', 'You have created a forum item successfully.' ) ;
+                                        
+                                        $tmp = $this->_fire_event ( 'on_forum_created', $fields ) ;
 
                                         @$this->log ( 'CREATE', '('.print_r ( $w, true ).': '.$fields['label'].')' ) ;
 
@@ -157,6 +159,7 @@
                                     $w = $this->db->update ( $item[$id] ) ;
                                     $this->glob->data->reset ( 'forum-top-20' ) ;
                                     
+                                    $tmp = $this->_fire_event ( 'on_news_created', $item ) ;
                                     // $this->glob->logger->logInfo ( '['.$this->glob->user->username.'] {forum} UPDATED "'.$title.'" ('.$id.')' ) ;
                                     $this->log ( "UPDATE", "[$id]" ) ;
                                     $this->alert ( 'notice', 'Okay', 'You successfully updated the forum item.' ) ;
