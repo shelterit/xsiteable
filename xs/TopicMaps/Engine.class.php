@@ -10,6 +10,8 @@
 class Engine extends \xs\Events\Plugin {
 
     private $pdo = false ;
+    private $resolve = null ;
+    
 
     public $page_start  = 0 ;
     public $page_offset = 20 ;
@@ -51,6 +53,23 @@ class Engine extends \xs\Events\Plugin {
     function __construct ( ) {
         parent::__construct();
     }
+    
+    function resolve_topic ( $type ) {
+        if ( ! $this->resolve ) {
+            $this->resolve = $this->glob->config->parse_section ( 'resolve' ) ;
+        }
+        $res = $this->resolve ;
+        $n = $this->lookup_topics ( array ( $type => $type ) ) ;
+        if ( isset ( $n[$type] ) ) {
+            // yes, found the type
+            $t = $n[$type]['name'] ;
+            if ( isset ( $res[$t] ) ) {
+                return $res[$t][0]['@label'] ;
+            }
+        }
+        return null ;
+    }
+    
     
     function add_topic_to_cache ( $topic ) {
         
