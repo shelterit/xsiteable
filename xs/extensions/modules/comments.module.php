@@ -118,11 +118,18 @@
                 die() ;
             }
             
+            $quick = $this->glob->tm->lookup_topics ( array ( $topic => $topic ) ) ;
+            $quick = reset ( $quick ) ;
+            $test = $this->glob->tm->resolve_topic ( $quick['type1'] ) ;
+            
+            // debug_r ( $quick, $topic ) ; debug_r ( $test, $topic ) ; die () ;
+            
             $fields = array (
                 'type1' => $this->_type->_comment,
                 'parent' => $topic,
                 'who' => $user_id,
                 'value' => trim ( str_replace( array("\r\n", "\n", "\r"), '<br />', $comment ) ),
+                'parent_path' => $test
             ) ;
             
             // missing comment content?
@@ -136,7 +143,10 @@
             
             $w = $this->glob->tm->create ( $fields ) ;
             
-            $tmp = $this->_fire_event ( 'on_comment_new', $fields ) ;
+            if ( $test !== null && trim ( $test ) !== '' )
+                $tmp = $this->_fire_event ( 'on_comment_new_'.$test, $fields ) ;
+            else
+                $tmp = $this->_fire_event ( 'on_comment_new', $fields ) ;
 
             $this->alert ( 'notice', 'Goodie!', 'You successfully added a comment.' ) ;
             $this->redirect ( $this->glob->request->_redirect . '?_comment=true#comment-' . $w ) ;
