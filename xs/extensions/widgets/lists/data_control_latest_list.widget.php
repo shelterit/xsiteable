@@ -103,7 +103,7 @@ class xs_widget_data_control_latest_list extends \xs\Action\WidgetController {
             
             // debug ( $thing_name ) ;
             
-            $test = $this->resolve_topic ( $thing_name ) ;
+            $test = $this->glob->tm->resolve_topic ( $thing_name ) ;
             $final = $thing_name ;
             
             if ( $test !== null )
@@ -128,8 +128,7 @@ class xs_widget_data_control_latest_list extends \xs\Action\WidgetController {
                 }
             }
             
-            if ( $final == 'page' )
-                $final = '_page' ;
+            // if ( $final == 'page' ) $final = '_page' ;
             
             /*
             debug ( $final ) ;
@@ -194,19 +193,4 @@ class xs_widget_data_control_latest_list extends \xs\Action\WidgetController {
         return $this->prepare ( $z ) ; 
     }
 
-    function resolve_topic ( $type ) {
-        if ( ! $this->resolve ) {
-            $this->resolve = $this->glob->config->parse_section ( 'resolve' ) ;
-        }
-        $res = $this->resolve ;
-        $n = $this->glob->tm->lookup_topics ( array ( $type => $type ) ) ;
-        if ( isset ( $n[$type] ) ) {
-            // yes, found the type
-            $t = $n[$type]['name'] ;
-            if ( isset ( $res[$t] ) ) {
-                return $res[$t][0]['@label'] ;
-            }
-        }
-        return null ;
-    }
 }
