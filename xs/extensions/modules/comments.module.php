@@ -136,6 +136,8 @@
             
             $w = $this->glob->tm->create ( $fields ) ;
             
+            $tmp = $this->_fire_event ( 'on_comment_new', $fields ) ;
+
             $this->alert ( 'notice', 'Goodie!', 'You successfully added a comment.' ) ;
             $this->redirect ( $this->glob->request->_redirect . '?_comment=true#comment-' . $w ) ;
             // $this->log ( 'CREATE', "New comment on document [$topic]" ) ;
