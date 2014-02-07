@@ -21,8 +21,9 @@
             
             $this->config = $this->glob->config['emailer'] ;
             
-            foreach ( $this->config as $event => $item ) 
-                $this->_register_event_listener ( XS_MODULE, $event, 'send_email' ) ;
+            if ( is_array ( $this->config ) )
+                foreach ( $this->config as $event => $item ) 
+                    $this->_register_event_listener ( XS_MODULE, $event, 'send_email' ) ;
             
         }
         
