@@ -32,6 +32,7 @@
                         
                         <nut:if allowed="document:control_tab" default="deny">
                             <button id="add-new" type="button">Add new document</button>
+                            <button id="refresh" type="button">Refresh folder</button>
                             <button id="tools" type="button">Tools</button>
                             <hr />
                         </nut:if>
@@ -295,6 +296,10 @@
         
         $('#tools').button().click(function(event) {
             window.location.href = xs_dir.home + '/documents/_tools';
+        }) ;
+        
+        $('#refresh').button().click(function(event) {
+            window.location.href = xs_dir._this + '?_refresh=true';
         }) ;
         
         $('#new-form').dialog({
