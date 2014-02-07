@@ -49,6 +49,8 @@ class xs_action_instance extends \xs\Action\Generic {
             
             $count = $appendix->delete_by_uids ( $uids ) ;
             
+            $tmp = $this->_fire_event ( 'on_documents_deleted', $uids ) ;
+            
             $appendix->save_index() ;
             
             // die() ;
