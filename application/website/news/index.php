@@ -94,7 +94,7 @@
 
                                         $this->alert ( 'notice', 'Good news!', 'You have created a news item successfully.' ) ;
 
-                                        $tmp = $this->_fire_event ( 'on_news_created', $fields ) ;
+                                        $tmp = $this->_fire_event ( 'on_news_new', $fields ) ;
                                         
                                         @$this->log ( 'CREATE', '('.print_r ( $w, true ).': '.$fields['label'].')' ) ;
 
@@ -159,7 +159,7 @@
                                     $w = $this->db->update ( $item[$id] ) ;
                                     $this->glob->data->reset ( 'news-top-20' ) ;
                                     
-                                    $tmp = $this->_fire_event ( 'on_news_updated', $item ) ;
+                                    $tmp = $this->_fire_event ( 'on_news_update', $item ) ;
                                         
                                     // $this->glob->logger->logInfo ( '['.$this->glob->user->username.'] {news} UPDATED "'.$title.'" ('.$id.')' ) ;
                                     $this->log ( "UPDATE", "[$id]" ) ;
