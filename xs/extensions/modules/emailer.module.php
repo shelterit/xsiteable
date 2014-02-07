@@ -129,7 +129,10 @@
                         if ( isset ( $user['email'] ) && trim ( $user['email'] ) !== '' ) 
                             $email = $user['email'] ;
                         
-                        $test = mail ( $email, $temp['label'], $content ) ;
+                        $headers  = 'MIME-Version: 1.0' . "\r\n";
+                        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+
+                        $test = mail ( $email, $temp['label'], $content, $headers ) ;
                         // debug_r ( $content, 'email : '.$email ) ;
                         // debug_r ( $test, 'email sender' ) ;
                     }
