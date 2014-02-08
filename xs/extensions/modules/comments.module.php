@@ -34,14 +34,18 @@
         
         function get_for_topic ( $id ) {
             
-            // Get a forum item of that id
-            $comments = new \xs\TopicMaps\Collection (
-                $this->glob->tm->query ( array ( 
+            if ( (int) $id < 1 )
+                return null ;
+            
+            $topics = $this->glob->tm->query ( array ( 
                     'parent' => $id, 
                     'type1' => $this->_type->_comment 
-                ), false )
-            ) ;
+                ), false ) ;
+            
+            // Get a forum item of that id
+            $comments = new \xs\TopicMaps\Collection ( $topics ) ;
 
+            // debug_r ( $topics, $this->_type->_comment  ) ;
             $comments->resolve_topics ( \xs\TopicMaps\Engine::$resolve_author ) ;
             
             return $comments ;
