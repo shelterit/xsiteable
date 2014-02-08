@@ -125,12 +125,13 @@ class xs_action_instance extends \xs\Action\Webpage {
         // debug_r($this->glob->user);
         $this->glob->stack->add ( 'xs_facets', $facets ) ;
         
-        
-        // comments?
-        $comments = $this->_get_module ( 'comments' ) ;
-        $this->glob->stack->add ( 'xs_comments', $comments->get_for_topic ( $id ) ) ;
-        
-        
+        if ( (int) $id > 0 ) {
+
+            // comments?
+            $comments = $this->_get_module ( 'comments' ) ;
+            $this->glob->stack->add ( 'xs_comments', $comments->get_for_topic ( $id ) ) ;
+
+        }
         
     }
 
