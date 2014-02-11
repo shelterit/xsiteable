@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<nut:template
+    xmlns:nut="http://schema.shelter.nu/nut"
+    xmlns:form="http://schema.shelter.nu/nut-form"
+    xmlns:tm="http://schema.shelter.nu/tm"
+>
+
+       <nut:import template="global/breadcrumbs" />
+
+	<div id="container">
+
+		<div id="content" style='text-align:center;'>
+                    
+                    <h1>The document was not found.</h1>
+                    <p>The document you tried to reach could not be found. If you think this is an error, please contact your support staff.</p>
+
+                </div>
+
+	</div> 
+    
+</nut:template>
