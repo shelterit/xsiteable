@@ -8,6 +8,15 @@ class xs_action_instance extends \xs\Action\Webpage {
 
     function ___action () {
         
+        $url = trim ( strtolower ( $this->glob->request->__fetch ( 'searchquery', '' ) ) ) ;
+        
+        if ( is_numeric ( $url ) ) {
+            
+            header ( "Location: " . $this->glob->dir->home . '/documents/' . $url ) ;
+            
+        }
+
+        
         $dms = $this->_get_module ( 'dms' ) ;
         $dms->_preamble_search () ;
         
