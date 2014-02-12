@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 class xs_action_instance extends \xs\Action\Webpage {
 
