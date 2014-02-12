@@ -706,7 +706,7 @@
         var tabs = $('#content-pdf').tabs();
         var meta = $('#content-meta').tabs();
         
-        if ( autotab != 0 ) { tabs.tabs('select', autotab ) ; }
+        if ( autotab != 0 ) { tabs.tabs( "option", "active", autotab ) ; }
 
         var bar = $('.bar');
         var percent = $('.percent');
