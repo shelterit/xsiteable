@@ -38,6 +38,9 @@
             // debug_r ( $topic, 'send_email' ) ;
             // debug_r ( $this->config ) ;
             
+            $this->glob->logger->logInfo ( "SendEmail :: Caught event [$event] against topic [{$topic['id']}]" ) ;
+
+            
             if ( isset ( $this->config[$event] ) ) {
                 
                 $config = $this->config[$event] ;
