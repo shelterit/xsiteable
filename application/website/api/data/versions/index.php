@@ -220,6 +220,9 @@ class xs_action_instance extends \xs\Action\Generic {
                 $topic['next_review_date'] = $next_review_date ;
 
                 $topic['_event'] = 'on_document_published' ;
+                
+                $this->dms->_clear_cache () ;
+                
                 $tmp = $this->_fire_event ( 'on_document_published', $topic ) ;
                 
                 // break ;
