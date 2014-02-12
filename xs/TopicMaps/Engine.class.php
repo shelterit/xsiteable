@@ -54,19 +54,38 @@ class Engine extends \xs\Events\Plugin {
         parent::__construct();
     }
     
-    function resolve_topic ( $type ) {
+    function resolve_topic ( $type_name ) {
+        
         if ( ! $this->resolve ) {
-            $this->resolve = $this->glob->config->parse_section ( 'resolve' ) ;
+            // $this->resolve = $this->glob->config->parse_section ( 'resolve' ) ;
+            $this->resolve = $this->glob->config['resolve'] ;
         }
-        $res = $this->resolve ;
+        
+        // debug_r ( $type_name ) ;
+        
+        if ( isset ( $this->resolve[$type_name] ) )
+            return $this->resolve[$type_name] ;
+        
+        $type = null ;
+        
+        if ( ! is_numeric ( $type ) ) {
+            $type = $this->_type->$type_name ;
+        }
+        
+        if ( $type == null )
+            return null ;
+        
         $n = $this->lookup_topics ( array ( $type => $type ) ) ;
+        
         if ( isset ( $n[$type] ) ) {
+            
             // yes, found the type
             $t = $n[$type]['name'] ;
-            if ( isset ( $res[$t] ) ) {
-                return $res[$t][0]['@label'] ;
-            }
+            
+            if ( isset ( $this->resolve[$t] ) )
+                return $this->resolve[$t] ;
         }
+        
         return null ;
     }
     
@@ -1323,6 +1342,7 @@ group by
             if ( $this->debug ) echo "No 'where' clauses, exiting.</div>" ;
             return ;
         }
+        // debug_r ( $in, $sql ) ;
 
         $res = $this->fetchAll ( $sql ) ;
         
