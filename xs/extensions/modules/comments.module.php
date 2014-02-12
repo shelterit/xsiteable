@@ -162,9 +162,10 @@
             $tmp = $this->_fire_event ( $event, $topic ) ;
             // debug_r ( $tmp, $event ) ; die();
             
+            $this->glob->logger->logInfo ( "Thrown event [$event] against topic [$topic_id]" ) ;
             $this->alert ( 'notice', 'Goodie!', 'You successfully added a comment.' ) ;
+            
             $this->redirect ( $this->glob->request->_redirect . '?_comment=true#comment-' . $w ) ;
-            // $this->log ( 'CREATE', "New comment on document [$topic]" ) ;
 
         }
     }
