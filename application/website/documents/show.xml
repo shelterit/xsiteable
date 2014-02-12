@@ -574,7 +574,7 @@
     <nut:if value-of="$request/_comment" like="'true'">
         <js>autotab = 1 ; </js>
     </nut:if>
-    
+    <js>var document_state = {$doc/type1} ; </js>
     
     <js>
         
@@ -665,7 +665,8 @@
                         draft_version: draft_version, draft: draft,
                         next_review_date: $('#xs-next-review-date-submit').val() },
                     success: function( response ) { 
-                        // if ( location.reload ( true ); 
+                        if ( document_state != 61 )
+                            location.reload ( true ); 
                         $('#publish-submit').html ( response ) ;
                     },
                     fail: function ( response ) { alert ( 'Hmm. Something went wrong.' ) ; }
