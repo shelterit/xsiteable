@@ -74,6 +74,11 @@ db_data:
          - [ 213, security_model_has_function, "has function" , 6]
          - [ 214, security_model_belongs_to, "belongs to" , 6]
          - [ 215, has_access, "has access to" , 6]
+         # system users
+         - [ 300, user:system, "System" , 41]
+         - [ 301, user:system_janitor, "System Janitor" , 41]
+         - [ 302, user:system_controller, "System Access Controller" , 41]
+         - [ 303, user:system_mailman, "System Mailman" , 41]
          # super-admin user
          - [ 998, super-admin, "Super-admin!" , 41]
          # all data specific topics after this marker
