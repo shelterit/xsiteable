@@ -320,7 +320,8 @@ body,img,p { font-size:0.9em; }
 /* Colors */
 .color-yellow {background:#f2bc00;}
 .color-red    {background:#dd0000;}
-.color-blue   {background:#5c9ccc;}
+.color-blue   {background:#77c;color:#fff !important;}
+.color-blue h3 { color:#eee; }
 .color-white  {background:#dfdfdf;}
 .color-orange {background:#f66e00;}
 .color-green  {background:#8dc100;}
@@ -341,7 +342,6 @@ body,img,p { font-size:0.9em; }
 	{color:#000;}
 .color-red h3,
 .color-burgundy h3,
-.color-blue h3,
 .color-grey h3,
 .color-orange h3
 	{color:#FFF;}
