@@ -35,7 +35,7 @@
             $tm = $this->_get_module ( 'topic_maps' ) ;
             
             $event = isset ( $topic['_event'] ) ? $topic['_event'] : '' ;
-            // debug_r ( $topic ) ;
+            // debug_r ( $topic, 'send_email' ) ;
             // debug_r ( $this->config ) ;
             
             if ( isset ( $this->config[$event] ) ) {
