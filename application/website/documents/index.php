@@ -51,13 +51,13 @@ class xs_action_instance extends \xs\Action\Webpage {
                 // make list of one into one
                 $document = reset ( $documents ) ;
                 
-                if ( $document['type1'] !== $this->_type->doc || $document['type1'] !== $this->_type->doc_draft )
-                    $mode = 'not_found' ;
+                // if ( $document['type1'] !== $this->_type->doc || $document['type1'] !== $this->_type->doc_draft )
+                //     $mode = 'not_found' ;
                 
                 $uid = substr ( $document['name'], strpos ( $document['name'], ':' ) + 1 ) ;
                 // debug ( $uid ) ;
             } else {
-                $mode = 'not_found' ;
+                // $mode = 'not_found' ;
             }
             
         }
@@ -84,8 +84,8 @@ class xs_action_instance extends \xs\Action\Webpage {
                 
                 
                 
-                if ( $document['type1'] !== $this->_type->doc || $document['type1'] !== $this->_type->doc_draft )
-                    $mode = 'not_found' ;
+                // if ( $document['type1'] !== $this->_type->doc || $document['type1'] !== $this->_type->doc_draft )
+                //     $mode = 'not_found' ;
                 
                 $version = trim ( $f->__fetch ( 'f2', '' ) ) ;
                 
@@ -94,12 +94,21 @@ class xs_action_instance extends \xs\Action\Webpage {
                 }
                 
             } else {
-                $mode = 'not_found' ;
+                // $mode = 'not_found' ;
             }
         }
         
-        if ( $document['type1'] == null )
-            $mode = 'not_found' ;
+        if ( $mode == 'document' ) {
+            if ( ! isset ( $document['id'] ) ) {
+                $mode = 'not_found' ;
+            } elseif ( $document['type1'] != $this->_type->doc &&
+                       $document['type1'] != $this->_type->doc_draft ) {
+                $mode = 'not_found' ;
+            }
+            // debug_r ( $document ) ;
+        }
+        // if ( $document['type1'] == null )
+        //     $mode = 'not_found' ;
         
         // Pull out all facets (well, first 9) from the request URI
         for ( $n=1; $n < 10; $n++) {
