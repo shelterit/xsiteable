@@ -121,8 +121,11 @@
                         $res[$href] = htmlentities($topic['label']) ;
                 }
             }
-            if ( $this->glob->request->_debug == 'true' )
-                debug_r ( $res ) ;
+            if ( $this->glob->request->_debug == 'true' ) {
+                debug_r ( $this->_type->_page, 'type' ) ;
+                debug_r ( $data, 'data' ) ;
+                debug_r ( $res, 'result' ) ;
+            }
             
             if ( count ( $res ) > 0 )
                 $this->found_sub = $res ;
