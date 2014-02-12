@@ -106,11 +106,11 @@
             
             // make a comment on a topic
             
-            $topic   = $this->glob->request->topic ;
-            $user_id = $this->glob->request->user_id ;
-            $comment = $this->glob->request->comment ;
+            $topic_id = $this->glob->request->topic ;
+            $user_id  = $this->glob->request->user_id ;
+            $comment  = $this->glob->request->comment ;
             
-            if ( (int) $topic < 1 ) {
+            if ( (int) $topic_id < 1 ) {
                 $this->alert ( 'notice', 'Oops!', 'Don\'t know what topic this comment was meant for?' ) ;
                 $this->redirect ( $this->glob->request->_redirect ) ;
                 die() ;
@@ -122,15 +122,20 @@
                 die() ;
             }
             
-            $quick = $this->glob->tm->lookup_topics ( array ( $topic => $topic ) ) ;
-            $quick = reset ( $quick ) ;
-            $test = $this->glob->tm->resolve_topic ( $quick['type1'] ) ;
+            $topic = $this->glob->tm->query ( array ( 'id' => $topic_id ) ) ;
+            $topic = reset ( $topic ) ;
             
-            // debug_r ( $quick, $topic ) ; debug_r ( $test, $topic ) ; die () ;
+            $type_id = $topic['type1'] ;
+            $type = $this->glob->tm->query ( array ( 'id' => $type_id ) ) ;
+            $type = reset ( $type ) ;
+            
+            $test = $this->glob->tm->resolve_topic ( $type['name'] ) ;
+            
+            // debug_r ( $topic, $topic_id ) ; debug_r ( $type, $type_id ) ; die () ;
             
             $fields = array (
                 'type1' => $this->_type->_comment,
-                'parent' => $topic,
+                'parent' => $topic_id,
                 'who' => $user_id,
                 'value' => trim ( str_replace( array("\r\n", "\n", "\r"), '<br />', $comment ) ),
                 'parent_path' => $test
@@ -146,12 +151,17 @@
             // debug_r ( $fields ) ; die () ;
             
             $w = $this->glob->tm->create ( $fields ) ;
+            $event = 'on_comment_new' ;
             
-            if ( $test !== null && trim ( $test ) !== '' )
-                $tmp = $this->_fire_event ( 'on_comment_new_'.$test, $fields ) ;
-            else
-                $tmp = $this->_fire_event ( 'on_comment_new', $fields ) ;
-
+            if ( trim ( $type['name'] ) !== '' )
+                $event = 'on_comment_new_'.$type['name'] ;
+            
+            $topic['_event'] = $event ;
+            // debug ( $test, 'test' ) ;
+            
+            $tmp = $this->_fire_event ( $event, $topic ) ;
+            // debug_r ( $tmp, $event ) ; die();
+            
             $this->alert ( 'notice', 'Goodie!', 'You successfully added a comment.' ) ;
             $this->redirect ( $this->glob->request->_redirect . '?_comment=true#comment-' . $w ) ;
             // $this->log ( 'CREATE', "New comment on document [$topic]" ) ;
