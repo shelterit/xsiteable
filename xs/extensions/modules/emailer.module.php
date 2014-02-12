@@ -60,11 +60,13 @@
                         
                         case 'user' :
                             if ( isset ( $token[1] ) ) {
-                                if (is_numeric ( $token[1] ) )
-                                    $users[$token[1]] = 'user:'.$token[1] ;
-                                else {
+                                if (is_numeric ( $token[1] ) ) {
+                                    $users[$token[1]] = $users[$token[1]] ;
+                                } else {
                                     if ( isset ( $topic[$token[1]] ) )
-                                        $users[$topic[$token[1]]] = 'user:'.$topic[$token[1]] ;
+                                        $users[$topic[$token[1]]] = $topic[$token[1]] ;
+                                    else
+                                        $users[$token[1]] = 'user:'.$topic[$token[1]] ;
                                 }
                             } else
                                 $users[$this->glob->user->id] = 'user:'.$this->glob->user->id ;
@@ -115,9 +117,23 @@
                 }
                 
                 // debug_r ( $users, 'users' ) ;
-                $user_topics = $this->glob->tm->query ( array ( 'name' => $users ) ) ;
-                // debug_r ( $user_topics, 'users' ) ;
+                $names = array () ;
+                $ids = array () ;
                 
+                foreach ( $users as $idx => $val ) {
+                    if ( is_numeric ( $idx ) ) 
+                        $ids[$idx] = $val ;
+                    else
+                        $names[$idx] = $val ;
+                }
+                $user_topics_names = $this->glob->tm->query ( array ( 'name' => $names ) ) ;
+                $user_topics_ids = $this->glob->tm->query ( array ( 'id' => $ids ) ) ;
+                
+                // debug_r ( $user_topics_names, 'users names' ) ;
+                // debug_r ( $user_topics_ids, 'users ids' ) ;
+                
+                $user_topics = array_merge ( $user_topics_names, $user_topics_ids ) ;
+                // debug_r ( $user_topics, 'users' ) ;
                 
                 foreach ( $user_topics as $user ) {
                     if ( isset ( $temp['pub_full'] ) ) {
@@ -138,8 +154,8 @@
                         $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 
                         $test = mail ( $email, $temp['label'], $content, $headers ) ;
-                        // debug_r ( $content, 'email : '.$email ) ;
-                        // debug_r ( $test, 'email sender' ) ;
+                        debug_r ( $content, 'email : '.$email ) ;
+                        debug_r ( $test, 'email sender' ) ;
                     }
                 }
             }
