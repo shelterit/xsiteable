@@ -59,9 +59,14 @@
                     switch ( $token[0] ) {
                         
                         case 'user' :
-                            if ( isset ( $token[1] ) ) 
-                                $users[$token[1]] = 'user:'.$token[1] ;
-                            else
+                            if ( isset ( $token[1] ) ) {
+                                if (is_numeric ( $token[1] ) )
+                                    $users[$token[1]] = 'user:'.$token[1] ;
+                                else {
+                                    if ( isset ( $topic[$token[1]] ) )
+                                        $users[$topic[$token[1]]] = 'user:'.$topic[$token[1]] ;
+                                }
+                            } else
                                 $users[$this->glob->user->id] = 'user:'.$this->glob->user->id ;
                             break ;
                             
