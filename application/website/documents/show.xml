@@ -665,12 +665,13 @@
                         draft_version: draft_version, draft: draft,
                         next_review_date: $('#xs-next-review-date-submit').val() },
                     success: function( response ) { 
-                        location.reload ( true ); 
+                        // if ( location.reload ( true ); 
                         $('#publish-submit').html ( response ) ;
                     },
                     fail: function ( response ) { alert ( 'Hmm. Something went wrong.' ) ; }
                 } );                                                    
-                // $( "#draft-publish-confirm" ).dialog('close');
+                $( "#draft-publish-confirm" ).dialog('close');
+                redraw_versions () ;
             } );
             $( "#draft-publish-confirm" ).dialog({
                 resizable: false,
