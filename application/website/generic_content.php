@@ -100,7 +100,7 @@
             $this_topic = $this->_topic ;
             $data = $this->glob->tm->query ( array (
                 'select' => 'id,name,label',
-                'type' => $this->_type->_page,
+                'type' => $this->_type->page,
                 'return' => 'topics',
                 'name:like' => $this_topic['name'] . '%'
             ) ) ;
@@ -122,7 +122,7 @@
                 }
             }
             if ( $this->glob->request->_debug == 'true' ) {
-                debug_r ( $this->_type->_page, 'type' ) ;
+                debug_r ( $this->_type->page, 'type' ) ;
                 debug_r ( $data, 'data' ) ;
                 debug_r ( $res, 'result' ) ;
             }
