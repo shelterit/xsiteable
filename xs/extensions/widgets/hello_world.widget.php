@@ -22,14 +22,9 @@ class xs_widget_hello_world extends \xs\Action\WidgetController {
         'message' => 'Hello, world!'
     ) ;
 
-    // private $widget_uri = '_api/widgets/bookmark' ;
-
     function __construct () {
         // Always use parent constructor to set things up
         parent::__construct();
-
-        // Register a resource for this widget to respond to
-        // $this->_register_resource ( XS_WIDGET, $this->widget_uri ) ;
     }
 
     function GET_content ( $args = null, $name = null ) {
