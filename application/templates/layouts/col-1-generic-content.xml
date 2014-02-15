@@ -33,7 +33,7 @@
                 
                 <nut:import template="snippets/tags/generic_tag_control" />
                 
-                <nut:if allowed="document:control_tab" default="deny">
+                <nut:if allowed="admin:bar" default="deny">
                     
                     <h3>Technical</h3>
                     <div>
