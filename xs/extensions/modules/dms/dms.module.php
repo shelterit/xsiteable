@@ -231,10 +231,16 @@ class xs_module_dms extends \xs\Action\Generic {
         $this->document_objects = $this->objectify_topics ( $this->spidered_documents ) ;
         
         $test = array () ;
-        foreach ( $this->lut_ctrl as $idx => $v )
-            if ( trim($v) !== 'false' )
-                $test[$idx] = $v ;
-            
+        // foreach ( $this->lut_ctrl as $idx => $v )
+        //     if ( trim($v['controlled']) !== 'false' )
+        //         $test[$idx] = $v ;
+         
+        $c = 0 ;
+        foreach ( $this->lut_ctrl as $idx => $v ) {
+            var_dump ( $v ) ;
+            if ( $c++ > 5 ) die() ;
+        }
+        
         $howmany0 = count ( $this->spidered_documents ) ;
         $howmany1 = count ( $this->document_objects ) ;
         $howmany2 = count ( $this->lut_db ) ;
