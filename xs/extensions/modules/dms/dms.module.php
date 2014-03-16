@@ -239,6 +239,7 @@ class xs_module_dms extends \xs\Action\Generic {
         $howmany1 = count ( $this->document_objects ) ;
         $howmany2 = count ( $this->lut_db ) ;
         $howmany3 = count ( $this->lut_ctrl ) ;
+        $howmany3b = count ( $test ) ;
         $howmany4 = count ( $this->lut_timestamp ) ;
         $howmany5 = count ( $this->lut_document_id ) ;
              
@@ -250,7 +251,7 @@ class xs_module_dms extends \xs\Action\Generic {
         echo "<li>Found <b>{$howmany1}</b> object representations of spidered files.</li>" ;
         echo "<li>Found <b>{$howmany2}</b> document representations in the database.</li>" ;
         echo "<li>Found <b>{$howmany3}</b> controlled properties in the database.</li>" ;
-        echo "<li>   of which <b>{$test}</b> are true (ie. actually controlled).</li>" ;
+        echo "<li>   of which <b>{$howmany3b}</b> are true (ie. actually controlled).</li>" ;
         echo "<li>Found <b>{$howmany4}</b> timestamped items in the database.</li>" ;
         echo "<li>Found <b>{$howmany5}</b> items in the database with unique document id.</li>" ;
         
