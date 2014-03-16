@@ -230,6 +230,11 @@ class xs_module_dms extends \xs\Action\Generic {
         // create objects from those spidered paths
         $this->document_objects = $this->objectify_topics ( $this->spidered_documents ) ;
         
+        $test = array () ;
+        foreach ( $this->lut_ctrl as $idx => $v )
+            if ( trim($v) !== 'false' )
+                $test[$idx] = $v ;
+            
         $howmany0 = count ( $this->spidered_documents ) ;
         $howmany1 = count ( $this->document_objects ) ;
         $howmany2 = count ( $this->lut_db ) ;
@@ -244,7 +249,8 @@ class xs_module_dms extends \xs\Action\Generic {
         }
         echo "<li>Found <b>{$howmany1}</b> object representations of spidered files.</li>" ;
         echo "<li>Found <b>{$howmany2}</b> document representations in the database.</li>" ;
-        echo "<li>Found <b>{$howmany3}</b> controlled documents in the database.</li>" ;
+        echo "<li>Found <b>{$howmany3}</b> controlled properties in the database.</li>" ;
+        echo "<li>   of which <b>{$test}</b> are true (ie. actually controlled).</li>" ;
         echo "<li>Found <b>{$howmany4}</b> timestamped items in the database.</li>" ;
         echo "<li>Found <b>{$howmany5}</b> items in the database with unique document id.</li>" ;
         
@@ -1077,16 +1083,19 @@ class xs_module_dms extends \xs\Action\Generic {
                         // is our document controlled?
                         $test = isset ( $this->lut_ctrl[$doc->db_id] ) ;
                         
+                        $ctrl = '' ;
+                        
                         if ( $test ) {
                             // echo "<li><b>Controlled</b>, so setting up.</li>" ;
                             $doc->inject ( array ( 'controlled' =>  'true' ) ) ;
+                            $ctrl = '!';
                         // } else { $doc->inject ( array ( 'spidered' =>  'true' ) ) ;
                         }
                         
                         // update the index
                         $this->idx_spidered_topic_id[$doc->db_id] = $counter ;
                         
-                        echo "[<span style='color:green'>$identity</span>] " ;
+                        echo "[<span style='color:green'>$identity</span>".$ctrl."] " ;
                 
                         // echo "<b>Synched</b> with <i style='background-color:yellow;'>topic {$identity}</i>. " ;
                         // print_r ( $topic ) ;
