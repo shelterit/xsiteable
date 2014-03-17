@@ -281,10 +281,12 @@ class Engine extends \xs\Events\Plugin {
         return $this->fetchAll ( $sql ) ;
     }
     
-    function get_all_prop_for_topic_type ( $topic_type, $name ) {
+    function get_all_prop_for_topic_type ( $topic_type, $name, $like = null) {
         // $sql = "SELECT id,parent,value FROM xs_property WHERE type_name = '$name'" ; 
         // debug_r ( $this->fetchAll ( $sql ), $sql ) ;
         $sql = "SELECT p.id,p.parent,p.value FROM xs_property AS p, xs_topic AS t WHERE t.type1 = {$topic_type} AND p.parent=t.id AND p.type_name = '{$name}'" ; 
+        if ( $like !== null )
+            $sql .= " AND p.value = '{$like}'" ;
         // debug_r ( $this->fetchAll ( $sql ), $sql ) ;
         return $this->fetchAll ( $sql ) ;
     }
