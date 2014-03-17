@@ -1209,12 +1209,13 @@ class xs_module_dms extends \xs\Action\Generic {
                     $uid = substr ( $this->all_documents[$topic_id]['name'], 9 ) ;
                     $this->controlled_documents[$topic_id] = $this->all_documents[$topic_id] ;
                 }
-                // else echo "# " ;
+                
+                echo "# " ;
                 $all_documents[$topic_id] = array (
                     'controlled' => 'true',
                     'uid' => $uid
                 ) ;
-            }
+            }//
 
             $e = 0 ;
             foreach ( $this->idx_spidered_topic_id as $topic_id => $item ) {
@@ -1227,6 +1228,7 @@ class xs_module_dms extends \xs\Action\Generic {
             }
             krsort ( $all_documents ) ;
 
+            // debug_r ( $all_documents ) ;
 
             // ok, got all documents, and hopefully their UIDs.
             
@@ -1291,8 +1293,9 @@ class xs_module_dms extends \xs\Action\Generic {
                     
                 } else {
                     $not_found[$topic_id] = $item ;
-                    if ( isset ( $this->lut_document_id[$topic_id] ) )
+                    if ( isset ( $this->lut_document_id[$topic_id] ) ) {
                         unset ( $this->spidered_documents_objects[$this->idx_spidered_topic_id[$topic_id]] ) ;
+                    }
                 }
             }
             
@@ -2261,7 +2264,7 @@ class xs_module_dms extends \xs\Action\Generic {
         
         // check the database for all controlled documents
         if ( ! $this->lut_ctrl  || count ( $this->lut_ctrl ) == 0 )
-            $this->lut_ctrl = $this->lib_db->find_db_properties ( DOCUMENT, 'controlled' ) ;
+            $this->lut_ctrl = $this->lib_db->find_db_properties ( DOCUMENT, 'controlled', 'true' ) ;
         // echo "<p>Found <b>[".count($this->lut_ctrl)."]</b> controlled items in the database.</p>" ;
         // echo "<pre>".print_r($this->lut_ctrl,true)."</pre>" ;
         
