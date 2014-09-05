@@ -207,7 +207,7 @@
                     array ( 'time' => $this->query[$token]['timer'], 'cache_dir' => $this->glob->config['framework']['cache_directory'] ),
                     $this->glob
                 ) ;
-                
+
                 if ( $this->debug ) {
                     $s = print_r ( $sql, true ) ;
 
@@ -289,23 +289,36 @@
 
                 if ( $this->debug ) $this->glob->seclog->logInfo ( '['.$this->glob->user->username."] dataManager->get ( $token ) found item."  ) ;
 
+                // Are we caching?
+                if ( $item['timer'] !== null ) {
+                
 
-                // Check if it is cached
-                if ( ! $cached = $item['cache']->get() ) {
+                    // Check if it is cached
+                    if ( ! $cached = $item['cache']->get() ) {
 
-                   if ( $this->debug ) $this->glob->seclog->logInfo ( '['.$this->glob->user->username."] dataManager->get ( $token ) not cached."  ) ;
+                        if ( $this->debug ) $this->glob->seclog->logInfo ( '['.$this->glob->user->username."] dataManager->get ( $token ) not cached."  ) ;
 
 
-                   // Not cached? Go fetch it!
-                   $cached = $item['cache']->put ( $this->query ( $token, $params ) ) ;
-                   $this->register_action ( 'get', array ( 'db'=>$item['db'], 'token'=>$token, 'msg'=>'CREATED' ), debug_backtrace() ) ;
+                        // Not cached? Go fetch it!
+                        $cached = $item['cache']->put ( $this->query ( $token, $params ) ) ;
+                        $this->register_action ( 'get', array ( 'db'=>$item['db'], 'token'=>$token, 'msg'=>'CREATED' ), debug_backtrace() ) ;
 
+                    } else {
+                        if ( $this->debug ) $this->glob->seclog->logInfo ( '['.$this->glob->user->username."] dataManager->get ( $token ) found CACHED item."  ) ;
+                        $this->register_action ( 'get', array ( 'db'=>$item['db'], 'token'=>$token, 'msg'=>'CACHED' ), debug_backtrace() ) ;
+                    }
+
+                    return $cached ;
+                    
                 } else {
-                   if ( $this->debug ) $this->glob->seclog->logInfo ( '['.$this->glob->user->username."] dataManager->get ( $token ) found CACHED item."  ) ;
-                   $this->register_action ( 'get', array ( 'db'=>$item['db'], 'token'=>$token, 'msg'=>'CACHED' ), debug_backtrace() ) ;
+                    
+                    if ( isset ( $_SESSION[$token] ) )
+                        return $_SESSION[$token] ;
+                    
+                    return null ;
+                    echo "non-cached session data here!" ;
+                    
                 }
-
-                return $cached ;
 
             } else {
 
