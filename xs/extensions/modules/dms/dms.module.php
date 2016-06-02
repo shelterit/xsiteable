@@ -1450,7 +1450,7 @@ class xs_module_dms extends \xs\Action\Generic {
     
     function tm ( $t ) { return date ( $this->glob->config['framework']['date_format'], $t ) ; }
     
-    
+     
     
     function _action_touch_original ( $topics ) {
         
@@ -2087,9 +2087,13 @@ class xs_module_dms extends \xs\Action\Generic {
 
                     // echo " <div>Original file not found at original path. " ;
 
+                    $arr = $this->alt_source_paths ;
+                    if ( ! is_array ( $this->alt_source_paths ) )
+                        $arr = array ( $this->alt_source_paths ) ;
+                    
                     $test = array_keyify ( array_merge ( 
                         array ( $this->source_path ), 
-                        $this->alt_source_paths
+                        $arr
                     ) ) ;
 
                     $file_found = null ;

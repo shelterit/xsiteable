@@ -304,14 +304,17 @@
                             </div>
                             <js>var docid = '{$doc/id}' ; </js>
                             <js>
-                                var original = ifrm.location.href ;
-                                function do_this ( do_this ) {
-                                    var w = ifrm.location.href ;
-                                    var f = xs_dir.home + '/_api/module/docs/action?id='+docid+'&amp;' + do_this ;
+                                var ifrm = document.getElementById('ifrm') ;
+                                var original = ifrm.src ;
+                                function do_this ( do_it ) {
+                                
+                                    var w = ifrm.src ;
+                                    var f = xs_dir.home + '/_api/module/docs/action?id='+docid+'&amp;' + do_it ;
+                                    //alert(f);
                                     if ( w == f )
-                                        ifrm.location.reload(true) ;
+                                        ifrm.reload(true) ;
                                     else
-                                        ifrm.location.href = f ;
+                                        ifrm.src = f ;
                                 }
                                 $('#touch-original-button').button().click(function(event) {
                                     do_this ( 'action=touch-original') ;

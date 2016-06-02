@@ -143,12 +143,14 @@ class dms_lib_files {
 
     function find_last_version ( $matches ) {
         $min = 0 ;
-        if ( isset ( $matches ) && is_array ( $matches ) && count ( $matches ) > 0 )
+        if ( isset ( $matches ) && is_array ( $matches ) && count ( $matches ) > 0 ) {
             foreach ( $matches as $match ) {
                 $tversion = (int) substr ( $match, strpos ( $match, '.' )+1, 5 ) ;
-                if ( $tversion > $min )
+                if ( $tversion > $min ) {
                     $min = $tversion ;
+                }
             }
+        }
         return $min ;
     }
     
