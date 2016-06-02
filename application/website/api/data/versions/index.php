@@ -13,13 +13,12 @@ class xs_action_instance extends \xs\Action\Generic {
         
         $path = $this->dms->get_dir_structure ( $uid, null ) ;
         
-        // debug ( $path ) ;
-        
         $matches = $this->dms->process_dir_versions ( $path, $pattern ) ;
         
-        if ( is_array ( $matches ) )
+        if ( is_array ( $matches ) ) {
             rsort ( $matches ) ;
-
+        }
+        
         return $matches ;
     }
 
@@ -122,17 +121,10 @@ class xs_action_instance extends \xs\Action\Generic {
         
         // echo "<div>version=[$version] draft=[$draft] draft_version=[$draft_version] last_draft=[$last_draft] mode=[$mode]</div>" ;
         
-        $deployment_state = '' ;
-        $deployment_state_value = '' ;
+        // $deployment_state       = isset ( $topic['deployment_state'] )       ? $topic['deployment_state']       : '' ;
+        // $deployment_state_value = isset ( $topic['deployment_state_value'] ) ? $topic['deployment_state_value'] : '' ;
         
-        if ( isset ( $topic['deployment_state'] ) ) 
-            $deployment_state = $topic['deployment_state'] ;
-        
-        if ( isset ( $topic['deployment_state_value'] ) ) 
-            $deployment_state_value = $topic['deployment_state_value'] ;
-        
-        // echo "deploy_state=[{$deployment_state}] deploy_state_value=[{$deployment_state_value}] " ;
-        
+
         switch ( $mode ) {
             
             case 'promote' :
@@ -206,6 +198,8 @@ class xs_action_instance extends \xs\Action\Generic {
                 
                 $doc->history->save() ;
                 
+                // debug_r ( $doc->history ) ;
+                
                 $uid = '' ;
                 
                 if ( substr ( $topic['name'], 0, 6 ) == 'draft:' ) {
@@ -247,7 +241,7 @@ class xs_action_instance extends \xs\Action\Generic {
         
         // print_r ( $doc ) ;
         // die();
-        
+            
         
         
         
@@ -998,9 +992,9 @@ class xs_action_instance extends \xs\Action\Generic {
                 // Use a regular expression to trim everything before final dot
                 var extension = filename.replace(/^.*\./, '');
 
-                // Iff there is no dot anywhere in filename, we would have extension == filename,
+                // If there is no dot anywhere in filename, we would have extension == filename,
                 // so we account for this possibility now
-                if (extension == filename) {
+                if (extension === filename) {
                     extension = '';
                 } else {
                     // if there is an extension, we convert to lower case
@@ -1057,17 +1051,19 @@ class xs_action_instance extends \xs\Action\Generic {
                             bar.width(percentVal);
                             percent.html(percentVal);
                             
-            var $out = $('#uploadOutput');
-            $out.html('Form success handler received: <strong>' + typeof data + '</strong>');
-            if (typeof data == 'object' && data.nodeType)
-                data = elementToString(data.documentElement, true);
-            else if (typeof data == 'object')
-                data = objToString(data);
-            $out.append('<div><pre>'+ data +'</pre></div>');
+                            var $out = $('#uploadOutput');
+                            $out.html('Form success handler received: <strong>' + typeof data + '</strong>');
+                            if (typeof data == 'object' && data.nodeType) {
+                                data = elementToString(data.documentElement, true);
+                            } else if (typeof data == 'object') {
+                                data = objToString(data);
+                            }
+                            $out.append('<div><pre>'+ data +'</pre></div>');
         
                         },
                         complete: function(xhr) {
                                 status.html(xhr.responseText);
+                    redraw_versions();
                         }
                     }).submit(); 
 
